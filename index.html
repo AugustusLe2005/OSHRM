@@ -1,282 +1,148 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSHRM Enterprise Management System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --sidebar-bg: #0f172a; --sidebar-hover: #1e293b; }
-        body { background-color: #f1f5f9; font-family: 'Segoe UI', system-ui, sans-serif; }
-        .sidebar { background-color: var(--sidebar-bg); min-height: 100vh; color: #fff; }
-        .sidebar-brand { font-size: 1.2rem; font-weight: 700; color: #38bdf8; }
-        .sidebar a { color: #94a3b8; text-decoration: none; padding: 14px 20px; display: flex; align-items: center; gap: 10px; font-weight: 500; }
-        .sidebar a:hover, .sidebar a.active { background-color: var(--sidebar-hover); color: #38bdf8; border-left: 4px solid #38bdf8; }
-        .stat-card { border: none; border-radius: 12px; }
-        .table-card { border: none; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .avatar-circle { width: 36px; height: 36px; background-color: #e0f2fe; color: #0369a1; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
-        
-        /* Modal Overlay Styling */
-        .custom-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 9999;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OSHRM Enterprise - Quản lý Nhân sự</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .sidebar { min-height: 100vh; background-color: #1e293b; color: #fff; }
+    .sidebar a { color: #94a3b8; text-decoration: none; padding: 12px 20px; display: block; border-radius: 8px; margin-bottom: 4px; font-weight: 500; }
+    .sidebar a:hover, .sidebar a.active { background-color: #0f172a; color: #38bdf8; }
+    .sidebar a i { width: 24px; }
+  </style>
 </head>
 <body>
-    <div class="container-fluid p-0">
-        <div class="row g-0">
-            <!-- Sidebar Navigation -->
-            <div class="col-md-2 sidebar d-flex flex-column justify-content-between p-0">
-                <div>
-                    <div class="sidebar-brand py-4 px-3 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-building-user text-info"></i> OSHRM ENTERPRISE
-                    </div>
-                    <div class="mt-3">
-                        <a href="index.html" class="active"><i class="fa-solid fa-users-gear"></i> Hồ Sơ Nhân Viên</a>
-                        <a href="department.html"><i class="fa-solid fa-sitemap"></i> Cơ Cấu Doanh Nghiệp</a>
-                        <a href="recruitment.html"><i class="fa-solid fa-user-plus"></i> Quản Lý Tuyển Dụng</a>
-                        <a href="benefits.html"><i class="fa-solid fa-gift"></i> Chế Độ Đãi Ngộ</a>
-                        <a href="report.html"><i class="fa-solid fa-chart-line"></i> Báo Cáo Thống Kê</a>
-                    </div>
-                </div>
-                <div class="p-3 border-top border-secondary border-opacity-25 text-center text-muted small">
-                    <i class="fa-solid fa-shield-halved text-success me-1"></i> OSHRM Corporate v2.4
-                </div>
-            </div>
-
-            <!-- Workspace -->
-            <div class="col-md-10 p-4">
-                <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-                    <div>
-                        <h3 class="fw-bold text-dark mb-1">Hệ Thống Quản Trị Nhân Sự Doanh Nghiệp</h3>
-                        <p class="text-muted small mb-0">Quản lý toàn bộ thông tin nhân viên, phòng ban và chức danh công ty</p>
-                    </div>
-                    <div class="d-flex align-items-center gap-3">
-                        <span class="badge bg-white text-dark border px-3 py-2 shadow-sm"><i class="fa-solid fa-circle text-success me-1"></i> System Online</span>
-                        <button class="btn btn-primary px-3 shadow-sm fw-semibold" onclick="toggleModal('addModal', true)">
-                            <i class="fa-solid fa-user-plus"></i> Thêm Nhân Viên Mới
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Thống kê Dashboard -->
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <div class="card stat-card bg-primary text-white p-3 shadow-sm">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="text-white-50 fw-medium small">TỔNG SỐ NHÂN VIÊN</span>
-                                    <h2 class="fw-bold mb-0 mt-1" id="statTotal">3</h2>
-                                </div>
-                                <i class="fa-solid fa-users fs-2 opacity-50"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card stat-card bg-success text-white p-3 shadow-sm">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="text-white-50 fw-medium small">NHÂN VIÊN CHÍNH THỨC</span>
-                                    <h2 class="fw-bold mb-0 mt-1" id="statOfficial">3</h2>
-                                </div>
-                                <i class="fa-solid fa-user-check fs-2 opacity-50"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card stat-card bg-info text-white p-3 shadow-sm">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="text-white-50 fw-medium small">PHÒNG BAN CÔNG TY</span>
-                                    <h2 class="fw-bold mb-0 mt-1" id="statDepts">3</h2>
-                                </div>
-                                <i class="fa-solid fa-building-shield fs-2 opacity-50"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bảng Danh Sách -->
-                <div class="card table-card p-3">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="fw-bold text-dark mb-0"><i class="fa-solid fa-list text-primary me-2"></i>Danh Sách Nhân Viên Công Ty</h5>
-                        <div class="w-25">
-                            <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Tìm tên, mã NV..." onkeyup="filterTable()">
-                        </div>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Mã NV</th>
-                                    <th>Họ và Tên</th>
-                                    <th>Phòng Ban</th>
-                                    <th>Chức Danh</th>
-                                    <th>Trình Độ</th>
-                                    <th>Trạng Thái</th>
-                                    <th class="text-center">Thao Tác</th>
-                                </tr>
-                            </thead>
-                            <tbody id="empTable">
-                                <!-- Render tự động -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<div class="container-fluid p-0">
+  <div class="row g-0">
+    <!-- Sidebar -->
+    <div class="col-md-2 sidebar p-3 d-flex flex-column justify-content-between">
+      <div>
+        <div class="d-flex align-items-center mb-4 px-2">
+          <i class="fa-solid fa-sitemap fs-3 text-info me-2"></i>
+          <span class="fs-5 fw-bold text-white">OSHRM Enterprise</span>
         </div>
+        <div class="nav flex-column">
+          <a href="index.html" class="active"><i class="fa-solid fa-users"></i> Nhân sự</a>
+          <a href="department.html"><i class="fa-solid fa-sitemap"></i> Phòng ban</a>
+          <a href="recruitment.html"><i class="fa-solid fa-user-plus"></i> Tuyển dụng</a>
+          <a href="benefits.html"><i class="fa-solid fa-gift"></i> Phúc lợi & Lương</a>
+          <a href="report.html"><i class="fa-solid fa-chart-line"></i> Báo cáo</a>
+        </div>
+      </div>
+      <div class="p-2 border-top border-secondary border-opacity-25 text-muted small">
+        <i class="fa-solid fa-shield-halved text-success me-1"></i> Luxious Team © 2026
+      </div>
     </div>
 
-    <!-- Modal Form Thêm / Sửa -->
-    <div id="addModal" class="custom-modal-overlay align-items-center justify-content-center">
-        <div class="card p-4 shadow-lg border-0" style="width: 450px; border-radius:16px;">
-            <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-                <h5 class="fw-bold m-0 text-dark" id="modalHeaderTitle">Thêm Nhân Viên Mới</h5>
-                <button class="btn-close" onclick="toggleModal('addModal', false)"></button>
-            </div>
-            
-            <!-- Cảnh báo thiếu thông tin -->
-            <div id="formErrorAlert" class="alert alert-danger py-2 small fw-semibold border-0 mb-3" style="display:none;">
-                <i class="fa-solid fa-circle-exclamation me-1"></i> Vui lòng nhập đầy đủ Mã và Họ tên nhân viên!
-            </div>
-
-            <form id="empForm">
-                <input type="hidden" id="editIndex" value="-1">
-                <div class="mb-2"><label class="small fw-bold">Mã NV (*)</label><input type="text" id="maNV" class="form-control" placeholder="NV001" required></div>
-                <div class="mb-2"><label class="small fw-bold">Họ & Tên (*)</label><input type="text" id="tenNV" class="form-control" placeholder="Nguyễn Văn A" required></div>
-                <div class="mb-2"><label class="small fw-bold">Phòng Ban</label><input type="text" id="phongBan" class="form-control" value="Phòng Công Nghệ (IT)"></div>
-                <div class="mb-2"><label class="small fw-bold">Chức Danh</label><input type="text" id="chucVu" class="form-control" value="Senior Engineer"></div>
-                <div class="mb-3"><label class="small fw-bold">Trình Độ</label><input type="text" id="trinhDo" class="form-control" value="Kỹ sư / Cử nhân"></div>
-                <button type="button" class="btn btn-primary w-100 fw-bold py-2 shadow-sm" onclick="saveEmployee()">Lưu Hồ Sơ</button>
-            </form>
+    <!-- Main Workspace -->
+    <div class="col-md-10 p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h3 class="fw-bold text-dark mb-1">Quản Lý Hồ Sơ Nhân Sự</h3>
+          <p class="text-muted small mb-0">Tổng hợp thông tin danh sách nhân sự & Chấm công nghỉ phép</p>
         </div>
-    </div>
+        <button class="btn btn-primary shadow-sm fw-semibold"><i class="fa-solid fa-user-plus me-2"></i>Thêm Nhân Viên Mới</button>
+      </div>
 
-    <!-- Modal Cảnh Báo Xóa -->
-    <div id="deleteModal" class="custom-modal-overlay align-items-center justify-content-center">
-        <div class="card p-4 shadow-lg border-0 text-center" style="width: 380px; border-radius:16px;">
-            <div class="text-danger mb-3">
-                <i class="fa-solid fa-triangle-exclamation display-3"></i>
-            </div>
-            <h5 class="fw-bold text-dark mb-2">Xác Nhận Xóa?</h5>
-            <p class="text-muted small mb-4" id="deleteConfirmText">Bạn có chắc chắn muốn xóa nhân viên này khỏi hệ thống?</p>
-            <div class="d-flex gap-2">
-                <button class="btn btn-light w-50 fw-semibold" onclick="toggleModal('deleteModal', false)">Hủy Bỏ</button>
-                <button class="btn btn-danger w-50 fw-semibold shadow-sm" id="btnConfirmDelete">Xác Nhận Xóa</button>
-            </div>
+      <!-- Widget Duyệt Nghỉ Phép Mới -->
+      <div class="card border-0 shadow-sm rounded-3 mb-4">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+          <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-calendar-check text-primary me-2"></i>Đơn Xin Nghỉ Phép Cần Duyệt (Realtime)</h6>
+          <span class="badge bg-danger-subtle text-danger fw-semibold">2 Đơn mới</span>
         </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Nhân viên</th>
+                  <th>Loại nghỉ</th>
+                  <th>Thời gian</th>
+                  <th>Lý do</th>
+                  <th>Trạng thái</th>
+                  <th class="text-end px-3">Xử lý</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fw-semibold">Nguyễn Văn An (HR-001)</td>
+                  <td><span class="badge bg-info-subtle text-info">Phép năm</span></td>
+                  <td>02/10 - 04/10/2026</td>
+                  <td class="small text-muted">Nghỉ gia đình</td>
+                  <td><span class="badge bg-warning text-dark status-badge">Chờ duyệt</span></td>
+                  <td class="text-end px-3">
+                    <button class="btn btn-sm btn-success me-1" onclick="approveLeave(this)"><i class="fa-solid fa-check me-1"></i>Duyệt</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove()"><i class="fa-solid fa-xmark"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="fw-semibold">Trần Thị Bích (IT-004)</td>
+                  <td><span class="badge bg-warning-subtle text-warning">Nghỉ bệnh</span></td>
+                  <td>01/10/2026</td>
+                  <td class="small text-muted">Sốt cá nhân</td>
+                  <td><span class="badge bg-warning text-dark status-badge">Chờ duyệt</span></td>
+                  <td class="text-end px-3">
+                    <button class="btn btn-sm btn-success me-1" onclick="approveLeave(this)"><i class="fa-solid fa-check me-1"></i>Duyệt</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove()"><i class="fa-solid fa-xmark"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Danh sách Nhân viên chính -->
+      <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-header bg-white py-3">
+          <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-users-gear text-info me-2"></i>Danh Sách Nhân Sự Hiện Tại</h6>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Mã NV</th>
+                  <th>Họ và Tên</th>
+                  <th>Chức danh</th>
+                  <th>Phòng ban</th>
+                  <th>Trạng thái</th>
+                  <th class="text-end px-3">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>HR-001</strong></td>
+                  <td class="fw-semibold">Nguyễn Văn An</td>
+                  <td>Trưởng phòng HR</td>
+                  <td>Hành chính Nhân sự</td>
+                  <td><span class="badge bg-success-subtle text-success">Đang làm việc</span></td>
+                  <td class="text-end px-3">
+                    <button class="btn btn-sm btn-light border"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn btn-sm btn-light border text-danger"><i class="fa-solid fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <script>
-        let employees = [
-            { ma: "NV001", ten: "Nguyễn Văn Nam", pb: "Phòng Công Nghệ (IT)", cv: "Senior Systems Admin", td: "Kỹ sư CNTT" },
-            { ma: "NV002", ten: "Trần Thị Thảo", pb: "Phòng Nhân Sự (HR)", cv: "HR Manager", td: "Cử nhân Quản trị" },
-            { ma: "NV003", ten: "Lê Duy Phong", pb: "Phòng Kinh Doanh (Sales)", cv: "Solution Consultant", td: "Cử nhân Kinh tế" }
-        ];
-
-        let deleteTargetIndex = -1;
-
-        window.onload = function() { renderTable(); };
-
-        function toggleModal(id, show) {
-            let el = document.getElementById(id);
-            el.style.display = show ? 'flex' : 'none';
-            document.getElementById('formErrorAlert').style.display = 'none';
-            
-            if(show && id === 'addModal' && document.getElementById('editIndex').value === "-1") {
-                document.getElementById('empForm').reset();
-                document.getElementById('modalHeaderTitle').innerText = "Thêm Nhân Viên Mới";
-            }
-        }
-
-        function renderTable() {
-            let tbody = document.getElementById('empTable');
-            tbody.innerHTML = '';
-            employees.forEach((emp, index) => {
-                let row = `<tr>
-                    <td><span class="badge bg-light text-dark border">${emp.ma}</span></td>
-                    <td><div class="d-flex align-items-center gap-2"><div class="avatar-circle">${emp.ten.substring(0,2).toUpperCase()}</div><span class="fw-bold">${emp.ten}</span></div></td>
-                    <td>${emp.pb}</td>
-                    <td>${emp.cv}</td>
-                    <td>${emp.td}</td>
-                    <td><span class="badge bg-success-subtle text-success border border-success-subtle">Chính thức</span></td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-outline-primary me-1" onclick="openEditModal(${index})"><i class="fa-solid fa-pen-to-square"></i> Sửa</button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="promptDelete(${index})"><i class="fa-solid fa-trash-can"></i> Xóa</button>
-                    </td>
-                </tr>`;
-                tbody.innerHTML += row;
-            });
-            document.getElementById('statTotal').innerText = employees.length;
-            document.getElementById('statOfficial').innerText = employees.length;
-            document.getElementById('statDepts').innerText = new Set(employees.map(e => e.pb.trim())).size;
-        }
-
-        function openEditModal(index) {
-            let emp = employees[index];
-            document.getElementById('editIndex').value = index;
-            document.getElementById('maNV').value = emp.ma;
-            document.getElementById('tenNV').value = emp.ten;
-            document.getElementById('phongBan').value = emp.pb;
-            document.getElementById('chucVu').value = emp.cv;
-            document.getElementById('trinhDo').value = emp.td;
-            document.getElementById('modalHeaderTitle').innerText = "Chỉnh Sửa Nhân Viên";
-            toggleModal('addModal', true);
-        }
-
-        function saveEmployee() {
-            let ma = document.getElementById('maNV').value.trim();
-            let ten = document.getElementById('tenNV').value.trim();
-            let pb = document.getElementById('phongBan').value.trim() || "Phòng Công Nghệ (IT)";
-            let cv = document.getElementById('chucVu').value.trim() || "Chuyên viên";
-            let td = document.getElementById('trinhDo').value.trim() || "Cử nhân";
-            let editIdx = parseInt(document.getElementById('editIndex').value);
-
-            if(!ma || !ten) {
-                document.getElementById('formErrorAlert').style.display = 'block';
-                return;
-            }
-
-            if(editIdx === -1) {
-                employees.push({ ma, ten, pb, cv, td });
-            } else {
-                employees[editIdx] = { ma, ten, pb, cv, td };
-            }
-            toggleModal('addModal', false);
-            document.getElementById('editIndex').value = "-1";
-            renderTable();
-        }
-
-        function promptDelete(index) {
-            deleteTargetIndex = index;
-            document.getElementById('deleteConfirmText').innerText = `Xác nhận xóa hồ sơ nhân viên "${employees[index].ten}" khỏi CSDL?`;
-            toggleModal('deleteModal', true);
-        }
-
-        document.getElementById('btnConfirmDelete').onclick = function() {
-            if(deleteTargetIndex !== -1) {
-                employees.splice(deleteTargetIndex, 1);
-                deleteTargetIndex = -1;
-                toggleModal('deleteModal', false);
-                renderTable();
-            }
-        };
-
-        function filterTable() {
-            let input = document.getElementById("searchInput").value.toLowerCase();
-            let rows = document.querySelectorAll("#empTable tr");
-            rows.forEach(row => {
-                row.style.display = row.innerText.toLowerCase().includes(input) ? "" : "none";
-            });
-        }
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function approveLeave(btn) {
+  const row = btn.closest('tr');
+  const badge = row.querySelector('.status-badge');
+  badge.className = 'badge bg-success';
+  badge.innerText = 'Đã duyệt';
+  btn.remove();
+}
+</script>
 </body>
 </html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSHRM - Cơ Cấu Doanh Nghiệp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --sidebar-bg: #0f172a; --sidebar-hover: #1e293b; }
+        body { background-color: #f1f5f9; font-family: 'Segoe UI', system-ui, sans-serif; }
+        .sidebar { background-color: var(--sidebar-bg); min-height: 100vh; color: #fff; }
+        .sidebar-brand { font-size: 1.2rem; font-weight: 700; color: #38bdf8; }
+        .sidebar a { color: #94a3b8; text-decoration: none; padding: 14px 20px; display: flex; align-items: center; gap: 10px; font-weight: 500; }
+        .sidebar a:hover, .sidebar a.active { background-color: var(--sidebar-hover); color: #38bdf8; border-left: 4px solid #38bdf8; }
+        .dept-card { border: none; border-radius: 12px; transition: transform 0.2s; }
+        .dept-card:hover { transform: translateY(-3px); }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar d-flex flex-column justify-content-between p-0">
+                <div>
+                    <div class="sidebar-brand py-4 px-3 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-building-user text-info"></i> OSHRM ENTERPRISE
+                    </div>
+                    <div class="mt-3">
+                        <a href="index.html"><i class="fa-solid fa-users-gear"></i> Hồ Sơ Nhân Viên</a>
+                        <a href="department.html" class="active"><i class="fa-solid fa-sitemap"></i> Cơ Cấu Doanh Nghiệp</a>
+                        <a href="recruitment.html"><i class="fa-solid fa-user-plus"></i> Quản Lý Tuyển Dụng</a>
+                        <a href="benefits.html"><i class="fa-solid fa-gift"></i> Chế Độ Đãi Ngộ</a>
+                        <a href="report.html"><i class="fa-solid fa-chart-line"></i> Báo Cáo Thống Kê</a>
+                    </div>
+                </div>
+                <div class="p-3 border-top border-secondary border-opacity-25 text-center text-muted small">
+                    <i class="fa-solid fa-shield-halved text-success me-1"></i> OSHRM Corporate v2.4
+                </div>
+            </div>
+
+            <!-- Workspace -->
+            <div class="col-md-10 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                    <div>
+                        <h3 class="fw-bold text-dark mb-1">Cơ Cấu Tổ Chức & Phòng Ban</h3>
+                        <p class="text-muted small mb-0">Sơ đồ bộ máy vận hành và phân bổ nhân sự doanh nghiệp</p>
+                    </div>
+                    <button class="btn btn-primary shadow-sm fw-semibold" onclick="alert('Đã thêm phòng ban mới!')">
+                        <i class="fa-solid fa-plus me-1"></i> Thêm Phòng Ban Mới
+                    </button>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="card dept-card p-4 bg-white shadow-sm border-start border-4 border-primary">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold text-dark m-0">Phòng Công Nghệ (IT)</h5>
+                                <span class="badge bg-primary-subtle text-primary border">Mã: IT-DEPT</span>
+                            </div>
+                            <p class="text-muted small mb-3">Phát triển hệ thống phần mềm, quản trị hạ tầng server và bảo mật doanh nghiệp.</p>
+                            <div class="d-flex justify-content-between align-items-center small text-muted border-top pt-3">
+                                <span><i class="fa-solid fa-user-tie me-1"></i> Trưởng phòng: Nguyễn Văn Nam</span>
+                                <span class="fw-bold text-dark"><i class="fa-solid fa-users me-1"></i> 12 Nhân sự</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card dept-card p-4 bg-white shadow-sm border-start border-4 border-success">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold text-dark m-0">Phòng Nhân Sự (HR)</h5>
+                                <span class="badge bg-success-subtle text-success border">Mã: HR-DEPT</span>
+                            </div>
+                            <p class="text-muted small mb-3">Tuyển dụng, đào tạo, quản lý hồ sơ nhân sự, tính lương và chế độ đãi ngộ.</p>
+                            <div class="d-flex justify-content-between align-items-center small text-muted border-top pt-3">
+                                <span><i class="fa-solid fa-user-tie me-1"></i> Trưởng phòng: Trần Thị Thảo</span>
+                                <span class="fw-bold text-dark"><i class="fa-solid fa-users me-1"></i> 6 Nhân sự</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card dept-card p-4 bg-white shadow-sm border-start border-4 border-info">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold text-dark m-0">Phòng Kinh Doanh (Sales)</h5>
+                                <span class="badge bg-info-subtle text-info border">Mã: SL-DEPT</span>
+                            </div>
+                            <p class="text-muted small mb-3">Tư vấn giải pháp, tìm kiếm khách hàng doanh nghiệp và phát triển thị trường.</p>
+                            <div class="d-flex justify-content-between align-items-center small text-muted border-top pt-3">
+                                <span><i class="fa-solid fa-user-tie me-1"></i> Trưởng phòng: Lê Duy Phong</span>
+                                <span class="fw-bold text-dark"><i class="fa-solid fa-users me-1"></i> 18 Nhân sự</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSHRM - Quản Lý Tuyển Dụng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --sidebar-bg: #0f172a; --sidebar-hover: #1e293b; }
+        body { background-color: #f1f5f9; font-family: 'Segoe UI', system-ui, sans-serif; }
+        .sidebar { background-color: var(--sidebar-bg); min-height: 100vh; color: #fff; }
+        .sidebar-brand { font-size: 1.2rem; font-weight: 700; color: #38bdf8; }
+        .sidebar a { color: #94a3b8; text-decoration: none; padding: 14px 20px; display: flex; align-items: center; gap: 10px; font-weight: 500; }
+        .sidebar a:hover, .sidebar a.active { background-color: var(--sidebar-hover); color: #38bdf8; border-left: 4px solid #38bdf8; }
+        .job-card { border: none; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar d-flex flex-column justify-content-between p-0">
+                <div>
+                    <div class="sidebar-brand py-4 px-3 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-building-user text-info"></i> OSHRM ENTERPRISE
+                    </div>
+                    <div class="mt-3">
+                        <a href="index.html"><i class="fa-solid fa-users-gear"></i> Hồ Sơ Nhân Viên</a>
+                        <a href="department.html"><i class="fa-solid fa-sitemap"></i> Cơ Cấu Doanh Nghiệp</a>
+                        <a href="recruitment.html" class="active"><i class="fa-solid fa-user-plus"></i> Quản Lý Tuyển Dụng</a>
+                        <a href="benefits.html"><i class="fa-solid fa-gift"></i> Chế Độ Đãi Ngộ</a>
+                        <a href="report.html"><i class="fa-solid fa-chart-line"></i> Báo Cáo Thống Kê</a>
+                    </div>
+                </div>
+                <div class="p-3 border-top border-secondary border-opacity-25 text-center text-muted small">
+                    <i class="fa-solid fa-shield-halved text-success me-1"></i> OSHRM Corporate v2.4
+                </div>
+            </div>
+
+            <!-- Workspace -->
+            <div class="col-md-10 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                    <div>
+                        <h3 class="fw-bold text-dark mb-1">Quản Lý Quy Trình Tuyển Dụng</h3>
+                        <p class="text-muted small mb-0">Theo dõi các vị trí đang mở tuyển và danh sách hồ sơ ứng viên (Pipeline)</p>
+                    </div>
+                    <button class="btn btn-primary shadow-sm fw-semibold" onclick="alert('Đã mở form tạo vị trí tuyển dụng mới!')">
+                        <i class="fa-solid fa-plus me-1"></i> Tạo Vị Trí Tuyển Dụng
+                    </button>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card job-card p-3 bg-white">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="fw-bold text-dark m-0">DevOps / Sysadmin</h5>
+                                <span class="badge bg-danger-subtle text-danger border">Gấp</span>
+                            </div>
+                            <p class="text-muted small mb-2">Phòng Công Nghệ (IT) • Lương: $1,200 - $1,800</p>
+                            <div class="progress mb-3" style="height: 6px;">
+                                <div class="progress-bar bg-primary" style="width: 70%"></div>
+                            </div>
+                            <div class="d-flex justify-content-between text-muted small border-top pt-2">
+                                <span><i class="fa-solid fa-file-lines me-1"></i> 14 CV đã nộp</span>
+                                <span class="text-success font-monospace fw-bold">Đang Phỏng Vấn</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card job-card p-3 bg-white">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="fw-bold text-dark m-0">HR Executive</h5>
+                                <span class="badge bg-primary-subtle text-primary border">Tiêu chuẩn</span>
+                            </div>
+                            <p class="text-muted small mb-2">Phòng Nhân Sự (HR) • Lương: 12M - 18M VNĐ</p>
+                            <div class="progress mb-3" style="height: 6px;">
+                                <div class="progress-bar bg-success" style="width: 40%"></div>
+                            </div>
+                            <div class="d-flex justify-content-between text-muted small border-top pt-2">
+                                <span><i class="fa-solid fa-file-lines me-1"></i> 8 CV đã nộp</span>
+                                <span class="text-primary font-monospace fw-bold">Đang Sàng Lọc</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card job-card p-3 bg-white">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="fw-bold text-dark m-0">Account Manager</h5>
+                                <span class="badge bg-warning-subtle text-warning border">Hot</span>
+                            </div>
+                            <p class="text-muted small mb-2">Phòng Kinh Doanh • Lương: 15M VNĐ + Hoa hồng</p>
+                            <div class="progress mb-3" style="height: 6px;">
+                                <div class="progress-bar bg-info" style="width: 90%"></div>
+                            </div>
+                            <div class="d-flex justify-content-between text-muted small border-top pt-2">
+                                <span><i class="fa-solid fa-file-lines me-1"></i> 22 CV đã nộp</span>
+                                <span class="text-info font-monospace fw-bold">Duyệt Offer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+@OSHRM.API_HostAddress = http://localhost:5281
+
+GET {{OSHRM.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

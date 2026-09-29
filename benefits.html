@@ -42,7 +42,7 @@
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
           <h3 class="fw-bold text-dark mb-1">Chế Độ Phúc Lợi & Lương Thưởng (C&B)</h3>
-          <p class="text-muted small mb-0">Quản lý các chính sách bảo hiểm, phụ cấp và công cụ tính lương</p>
+          <p class="text-muted small mb-0">Quản lý các chính sách bảo hiểm, phụ cấp và bảng lương tổng hợp</p>
         </div>
         <button class="btn btn-primary shadow-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#payrollModal">
           <i class="fa-solid fa-calculator me-2"></i>Công Cụ Tính Lương (Payroll Calculator)
@@ -88,6 +88,60 @@
             </div>
             <p class="small text-muted mb-2">Chương trình nghỉ dưỡng 4 ngày 3 đêm tại Phú Quốc cho toàn thể nhân sự Luxious Team.</p>
             <span class="badge bg-info-subtle text-info w-50">Sắp diễn ra</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bảng Lương Tổng Hợp Toàn Công Ty -->
+      <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+          <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-file-invoice-dollar text-success me-2"></i>Bảng Lương Tổng Hợp Tháng 09/2026 (Payroll Master Sheet)</h6>
+          <div>
+            <button class="btn btn-sm btn-outline-success me-2"><i class="fa-solid fa-file-excel me-1"></i>Xuất Excel</button>
+            <button class="btn btn-sm btn-success"><i class="fa-solid fa-check-double me-1"></i>Duyệt Chi Lương</button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Mã NV</th>
+                  <th>Họ và Tên</th>
+                  <th>Chức vụ</th>
+                  <th>Lương CB</th>
+                  <th>Ngày công</th>
+                  <th>Phụ cấp</th>
+                  <th>Khấu trừ BH (10.5%)</th>
+                  <th>Thực Nhận (NET)</th>
+                  <th>Trạng Thái</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>HR-001</strong></td>
+                  <td class="fw-semibold">Nguyễn Văn An</td>
+                  <td>Trưởng phòng HR</td>
+                  <td>18.000.000</td>
+                  <td>22/22</td>
+                  <td>2.000.000</td>
+                  <td>-1.890.000</td>
+                  <td class="fw-bold text-success">18.110.000 VND</td>
+                  <td><span class="badge bg-success-subtle text-success">Đã chuyển khoản</span></td>
+                </tr>
+                <tr>
+                  <td><strong>IT-002</strong></td>
+                  <td class="fw-semibold">Lê Hoàng Nam</td>
+                  <td>Sysadmin / IT Lead</td>
+                  <td>22.000.000</td>
+                  <td>22/22</td>
+                  <td>3.500.000</td>
+                  <td>-2.310.000</td>
+                  <td class="fw-bold text-success">23.190.000 VND</td>
+                  <td><span class="badge bg-success-subtle text-success">Đã chuyển khoản</span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -42,12 +42,12 @@
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
           <h3 class="fw-bold text-dark mb-1">Quản Lý Hồ Sơ Nhân Sự</h3>
-          <p class="text-muted small mb-0">Tổng hợp thông tin danh sách nhân sự & Chấm công nghỉ phép</p>
+          <p class="text-muted small mb-0">Tổng hợp thông tin danh sách nhân sự, hồ sơ nhân thân & Duyệt nghỉ phép</p>
         </div>
         <button class="btn btn-primary shadow-sm fw-semibold"><i class="fa-solid fa-user-plus me-2"></i>Thêm Nhân Viên Mới</button>
       </div>
 
-      <!-- Widget Duyệt Nghỉ Phép Mới -->
+      <!-- Widget Duyệt Nghỉ Phép -->
       <div class="card border-0 shadow-sm rounded-3 mb-4">
         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
           <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-calendar-check text-primary me-2"></i>Đơn Xin Nghỉ Phép Cần Duyệt (Realtime)</h6>
@@ -121,12 +121,71 @@
                   <td>Hành chính Nhân sự</td>
                   <td><span class="badge bg-success-subtle text-success">Đang làm việc</span></td>
                   <td class="text-end px-3">
+                    <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#employeeDetailModal"><i class="fa-solid fa-eye me-1"></i>Xem Hồ Sơ</button>
+                    <button class="btn btn-sm btn-light border"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn btn-sm btn-light border text-danger"><i class="fa-solid fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>IT-002</strong></td>
+                  <td class="fw-semibold">Lê Hoàng Nam</td>
+                  <td>Sysadmin / IT Lead</td>
+                  <td>Công nghệ Thông tin</td>
+                  <td><span class="badge bg-success-subtle text-success">Đang làm việc</span></td>
+                  <td class="text-end px-3">
+                    <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#employeeDetailModal"><i class="fa-solid fa-eye me-1"></i>Xem Hồ Sơ</button>
                     <button class="btn btn-sm btn-light border"><i class="fa-solid fa-pen"></i></button>
                     <button class="btn btn-sm btn-light border text-danger"><i class="fa-solid fa-trash"></i></button>
                   </td>
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Chi Tiết Hồ Sơ Nhân Viên (CCCD, Dân Tộc, Tôn Giáo) -->
+<div class="modal fade" id="employeeDetailModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-id-card me-2"></i>Hồ Sơ Nhân Sự Chi Tiết (Nghiệp Vụ Việt Nam)</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row g-3">
+          <div class="col-md-4 text-center border-end">
+            <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 80px; height: 80px;">
+              <i class="fa-solid fa-user-gear fs-1"></i>
+            </div>
+            <h5 class="fw-bold mb-0">Nguyễn Văn An</h5>
+            <small class="text-muted">Mã NV: HR-001</small>
+            <div class="mt-2">
+              <span class="badge bg-success-subtle text-success">Đang làm việc</span>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="fa-solid fa-circle-info me-1"></i>Thông Tin Hành Chính & Tôn Giáo</h6>
+            <div class="row g-2 small">
+              <div class="col-6"><strong>Chức vụ:</strong> Trưởng phòng HR</div>
+              <div class="col-6"><strong>Cấp bậc:</strong> Level 4 (Manager)</div>
+              <div class="col-6"><strong>Phòng ban:</strong> Hành chính Nhân sự</div>
+              <div class="col-6"><strong>Số CCCD:</strong> 001205012345</div>
+              <div class="col-6"><strong>Dân tộc:</strong> Kinh</div>
+              <div class="col-6"><strong>Tôn giáo:</strong> Không</div>
+              <div class="col-6"><strong>Ngày vào làm:</strong> 15/01/2024</div>
+              <div class="col-6"><strong>Loại HĐ:</strong> Hợp đồng Xác định thời hạn (2 năm)</div>
+            </div>
+            <h6 class="fw-bold text-primary border-bottom pb-2 mt-4 mb-3"><i class="fa-solid fa-money-bill-wave me-1"></i>Chế Độ Lương & Cấp Bậc</h6>
+            <div class="row g-2 small">
+              <div class="col-6"><strong>Lương cơ bản:</strong> 18.000.000 VND</div>
+              <div class="col-6"><strong>Hệ số lương:</strong> 3.5</div>
+              <div class="col-6"><strong>Phụ cấp trách nhiệm:</strong> 2.000.000 VND</div>
+              <div class="col-6"><strong>Mức đóng BHXH:</strong> Full lương thực tế</div>
+            </div>
           </div>
         </div>
       </div>

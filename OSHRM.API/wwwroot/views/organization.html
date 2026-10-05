@@ -1,224 +1,165 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OSHRM Enterprise - Cơ Cấu Tổ Chức</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    .sidebar { min-height: 100vh; background-color: #1e293b; color: #fff; }
-    .sidebar a { color: #94a3b8; text-decoration: none; padding: 12px 20px; display: block; border-radius: 8px; margin-bottom: 4px; font-weight: 500; }
-    .sidebar a:hover, .sidebar a.active { background-color: #0f172a; color: #38bdf8; }
-    .sidebar a i { width: 24px; }
+<style>
+  .org-tree { display: flex; justify-content: center; padding-top: 20px; }
+  .org-tree ul { padding-top: 20px; position: relative; transition: all 0.5s; display: flex; justify-content: center; }
+  .org-tree li { float: left; text-align: center; list-style-type: none; position: relative; padding: 20px 10px 0 10px; transition: all 0.5s; }
+  .org-tree li::before, .org-tree li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #cbd5e1; width: 50%; height: 20px; }
+  .org-tree li::after { right: auto; left: 50%; border-left: 2px solid #cbd5e1; }
+  .org-tree li:only-child::after, .org-tree li:only-child::before { display: none; }
+  .org-tree li:only-child { padding-top: 0; }
+  .org-tree li:first-child::before, .org-tree li:last-child::after { border: 0 none; }
+  .org-tree li:last-child::before { border-right: 2px solid #cbd5e1; border-radius: 0 5px 0 0; }
+  .org-tree li:first-child::after { border-radius: 5px 0 0 0; }
+  .org-tree ul ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #cbd5e1; width: 0; height: 20px; }
+  
+  .node-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 18px;
+    min-width: 200px;
+    display: inline-block;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    transition: all 0.2s ease-in-out;
+  }
+  .node-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: #38bdf8; }
+  .node-executive { border-top: 4px solid #ef4444; }
+  .node-manager { border-top: 4px solid #f59e0b; }
+  .node-staff { border-top: 4px solid #3b82f6; }
+</style>
 
-    .org-tree { display: flex; justify-content: center; padding-top: 20px; }
-    .org-tree ul { padding-top: 20px; position: relative; transition: all 0.5s; display: flex; justify-content: center; }
-    .org-tree li { float: left; text-align: center; list-style-type: none; position: relative; padding: 20px 10px 0 10px; transition: all 0.5s; }
-    .org-tree li::before, .org-tree li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #cbd5e1; width: 50%; height: 20px; }
-    .org-tree li::after { right: auto; left: 50%; border-left: 2px solid #cbd5e1; }
-    .org-tree li:only-child::after, .org-tree li:only-child::before { display: none; }
-    .org-tree li:only-child { padding-top: 0; }
-    .org-tree li:first-child::before, .org-tree li:last-child::after { border: 0 none; }
-    .org-tree li:last-child::before { border-right: 2px solid #cbd5e1; border-radius: 0 5px 0 0; }
-    .org-tree li:first-child::after { border-radius: 5px 0 0 0; }
-    .org-tree ul ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #cbd5e1; width: 0; height: 20px; }
-    
-    .node-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 12px 18px;
-      min-width: 200px;
-      display: inline-block;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-      transition: all 0.2s ease-in-out;
-    }
-    .node-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: #38bdf8; }
-    .node-executive { border-top: 4px solid #ef4444; }
-    .node-manager { border-top: 4px solid #f59e0b; }
-    .node-staff { border-top: 4px solid #3b82f6; }
-  </style>
-</head>
-<body>
-<div class="container-fluid p-0">
-  <div class="row g-0">
-    <div class="col-md-2 sidebar p-3 d-flex flex-column justify-content-between">
-      <div>
-        <div class="d-flex align-items-center mb-4 px-2">
-          <i class="fa-solid fa-sitemap fs-3 text-info me-2"></i>
-          <span class="fs-5 fw-bold text-white company-brand-text">OSHRM Enterprise</span>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h3 class="fw-bold text-dark mb-1">Sơ Đồ Cơ Cấu Tổ Chức (Organizational Structure)</h3>
+    <p class="text-muted small mb-0">Mô hình phân cấp quản lý trực quan theo Khối, Phòng ban và Cấp bậc nhân sự</p>
+  </div>
+  <div>
+    <button class="btn btn-outline-secondary me-2"><i class="fa-solid fa-download me-1"></i>Xuất Sơ Đồ (PDF)</button>
+    <button class="btn btn-primary shadow-sm"><i class="fa-solid fa-plus me-1"></i>Thêm Khối / Bộ Phận</button>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
+      <div class="d-flex align-items-center">
+        <div class="bg-danger-subtle text-danger p-3 rounded-circle me-3"><i class="fa-solid fa-building-columns fs-4"></i></div>
+        <div>
+          <small class="text-muted fw-semibold">Tổng Khối Chức Năng</small>
+          <h4 class="fw-bold text-dark mb-0">3 Khối</h4>
         </div>
-        <div class="nav flex-column">
-          <a href="index.html"><i class="fa-solid fa-chart-pie"></i> Tổng quan</a>
-          <a href="organization.html" class="active"><i class="fa-solid fa-diagram-project"></i> Cơ cấu Tổ chức</a>
-          <a href="department.html"><i class="fa-solid fa-sitemap"></i> Phòng ban & Chức vụ</a>
-          <a href="recruitment.html"><i class="fa-solid fa-user-plus"></i> Tuyển dụng & Phễu</a>
-          <a href="benefits.html"><i class="fa-solid fa-gift"></i> Phúc lợi & Lương</a>
-          <a href="report.html"><i class="fa-solid fa-chart-line"></i> Báo cáo & KPI</a>
-        </div>
-      </div>
-      <div class="p-2 border-top border-secondary border-opacity-25 text-muted small">
-        <i class="fa-solid fa-shield-halved text-success me-1"></i> Luxious Team © 2026
       </div>
     </div>
-
-    <div class="col-md-10 p-4">
-      <div class="d-flex justify-content-between align-items-center mb-4">
+  </div>
+  <div class="col-md-3">
+    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
+      <div class="d-flex align-items-center">
+        <div class="bg-warning-subtle text-warning p-3 rounded-circle me-3"><i class="fa-solid fa-sitemap fs-4"></i></div>
         <div>
-          <h3 class="fw-bold text-dark mb-1">Sơ Đồ Cơ Cấu Tổ Chức (Organizational Structure)</h3>
-          <p class="text-muted small mb-0">Mô hình phân cấp quản lý trực quan theo Khối, Phòng ban và Cấp bậc nhân sự</p>
+          <small class="text-muted fw-semibold">Phòng Ban Trực Thuộc</small>
+          <h4 class="fw-bold text-dark mb-0">8 Phòng Ban</h4>
         </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
+      <div class="d-flex align-items-center">
+        <div class="bg-primary-subtle text-primary p-3 rounded-circle me-3"><i class="fa-solid fa-user-tie fs-4"></i></div>
         <div>
-          <button class="btn btn-outline-secondary me-2"><i class="fa-solid fa-download me-1"></i>Xuất Sơ Đồ (PDF)</button>
-          <button class="btn btn-primary shadow-sm"><i class="fa-solid fa-plus me-1"></i>Thêm Khối / Bộ Phận</button>
+          <small class="text-muted fw-semibold">Cấp Quản Lý (Manager+)</small>
+          <h4 class="fw-bold text-dark mb-0">12 Nhân Sự</h4>
         </div>
       </div>
-
-      <div class="row g-3 mb-4">
-        <div class="col-md-3">
-          <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-            <div class="d-flex align-items-center">
-              <div class="bg-danger-subtle text-danger p-3 rounded-circle me-3"><i class="fa-solid fa-building-columns fs-4"></i></div>
-              <div>
-                <small class="text-muted fw-semibold">Tổng Khối Chức Năng</small>
-                <h4 class="fw-bold text-dark mb-0">3 Khối</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-            <div class="d-flex align-items-center">
-              <div class="bg-warning-subtle text-warning p-3 rounded-circle me-3"><i class="fa-solid fa-sitemap fs-4"></i></div>
-              <div>
-                <small class="text-muted fw-semibold">Phòng Ban Trực Thuộc</small>
-                <h4 class="fw-bold text-dark mb-0">8 Phòng Ban</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-            <div class="d-flex align-items-center">
-              <div class="bg-primary-subtle text-primary p-3 rounded-circle me-3"><i class="fa-solid fa-user-tie fs-4"></i></div>
-              <div>
-                <small class="text-muted fw-semibold">Cấp Quản Lý (Manager+)</small>
-                <h4 class="fw-bold text-dark mb-0">12 Nhân Sự</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-            <div class="d-flex align-items-center">
-              <div class="bg-success-subtle text-success p-3 rounded-circle me-3"><i class="fa-solid fa-users fs-4"></i></div>
-              <div>
-                <small class="text-muted fw-semibold">Tổng Quy Mô Công Ty</small>
-                <h4 class="fw-bold text-dark mb-0">168 Nhân Sự</h4>
-              </div>
-            </div>
-          </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
+      <div class="d-flex align-items-center">
+        <div class="bg-success-subtle text-success p-3 rounded-circle me-3"><i class="fa-solid fa-users fs-4"></i></div>
+        <div>
+          <small class="text-muted fw-semibold">Tổng Quy Mô Công Ty</small>
+          <h4 class="fw-bold text-dark mb-0">168 Nhân Sự</h4>
         </div>
       </div>
-
-      <div class="card border-0 shadow-sm rounded-3 mb-4">
-        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-          <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-diagram-project text-primary me-2"></i>Sơ Đồ Phân Cấp Ban Giám Đốc & Các Khối (Org Chart Tree)</h6>
-          <span class="badge bg-primary-subtle text-primary">Cập nhật Realtime</span>
-        </div>
-        <div class="card-body overflow-auto p-4 text-center">
-          <div class="org-tree">
-            <ul>
-              <li>
-                <div class="node-card node-executive">
-                  <div class="fw-bold text-dark">Ban Giám Đốc</div>
-                  <small class="text-danger fw-semibold">Tổng Giám Đốc (CEO)</small>
-                  <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Nguyên Văn A</div>
-                </div>
-                <ul>
-                  <li>
-                    <div class="node-card node-manager">
-                      <div class="fw-bold text-dark">Khối Công Nghệ</div>
-                      <small class="text-warning fw-semibold">CTO / Director</small>
-                      <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Lê Hoàng Nam</div>
-                    </div>
-                    <ul>
-                      <li>
-                        <div class="node-card node-staff">
-                          <div class="fw-bold text-dark">Phòng System & Infrastructure</div>
-                          <small class="text-primary">12 Nhân sự</small>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="node-card node-staff">
-                          <div class="fw-bold text-dark">Phòng Software Development</div>
-                          <small class="text-primary">28 Nhân sự</small>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <li>
-                    <div class="node-card node-manager">
-                      <div class="fw-bold text-dark">Khối Vận Hành & HR</div>
-                      <small class="text-warning fw-semibold">CHRO / Director</small>
-                      <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Nguyễn Văn An</div>
-                    </div>
-                    <ul>
-                      <li>
-                        <div class="node-card node-staff">
-                          <div class="fw-bold text-dark">Phòng Hành Chính Nhân Sự</div>
-                          <small class="text-primary">6 Nhân sự</small>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="node-card node-staff">
-                          <div class="fw-bold text-dark">Phòng C&B & Pháp Chế</div>
-                          <small class="text-primary">4 Nhân sự</small>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <li>
-                    <div class="node-card node-manager">
-                      <div class="fw-bold text-dark">Khối Kinh Doanh (Sales)</div>
-                      <small class="text-warning fw-semibold">CCO / Director</small>
-                      <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Trần Thị B</div>
-                    </div>
-                    <ul>
-                      <li>
-                        <div class="node-card node-staff">
-                          <div class="fw-bold text-dark">Phòng Marketing & Growth</div>
-                          <small class="text-primary">15 Nhân sự</small>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  function applyCompanyName() {
-    const savedName = localStorage.getItem("OSHRM_CompanyName") || "OSHRM Enterprise";
-    document.querySelectorAll(".company-brand-text, .sidebar .fs-5").forEach(el => el.innerText = savedName);
-  }
-  document.addEventListener("DOMContentLoaded", applyCompanyName);
-  window.addEventListener("pageshow", applyCompanyName);
-  window.addEventListener("storage", function (e) {
-    if (e.key === "OSHRM_CompanyName") applyCompanyName();
-  });
-</script>
-</body>
-</html>
+<div class="card border-0 shadow-sm rounded-3 mb-4">
+  <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-diagram-project text-primary me-2"></i>Sơ Đồ Phân Cấp Ban Giám Đốc & Các Khối (Org Chart Tree)</h6>
+    <span class="badge bg-primary-subtle text-primary">Cập nhật Realtime</span>
+  </div>
+  <div class="card-body overflow-auto p-4 text-center">
+    <div class="org-tree">
+      <ul>
+        <li>
+          <div class="node-card node-executive">
+            <div class="fw-bold text-dark">Ban Giám Đốc</div>
+            <small class="text-danger fw-semibold">Tổng Giám Đốc (CEO)</small>
+            <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Nguyên Văn A</div>
+          </div>
+          <ul>
+            <li>
+              <div class="node-card node-manager">
+                <div class="fw-bold text-dark">Khối Công Nghệ</div>
+                <small class="text-warning fw-semibold">CTO / Director</small>
+                <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Lê Hoàng Nam</div>
+              </div>
+              <ul>
+                <li>
+                  <div class="node-card node-staff">
+                    <div class="fw-bold text-dark">Phòng System & Infrastructure</div>
+                    <small class="text-primary">12 Nhân sự</small>
+                  </div>
+                </li>
+                <li>
+                  <div class="node-card node-staff">
+                    <div class="fw-bold text-dark">Phòng Software Development</div>
+                    <small class="text-primary">28 Nhân sự</small>
+                  </div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class="node-card node-manager">
+                <div class="fw-bold text-dark">Khối Vận Hành & HR</div>
+                <small class="text-warning fw-semibold">CHRO / Director</small>
+                <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Nguyễn Văn An</div>
+              </div>
+              <ul>
+                <li>
+                  <div class="node-card node-staff">
+                    <div class="fw-bold text-dark">Phòng Hành Chính Nhân Sự</div>
+                    <small class="text-primary">6 Nhân sự</small>
+                  </div>
+                </li>
+                <li>
+                  <div class="node-card node-staff">
+                    <div class="fw-bold text-dark">Phòng C&B & Pháp Chế</div>
+                    <small class="text-primary">4 Nhân sự</small>
+                  </div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class="node-card node-manager">
+                <div class="fw-bold text-dark">Khối Kinh Doanh (Sales)</div>
+                <small class="text-warning fw-semibold">CCO / Director</small>
+                <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Trần Thị B</div>
+              </div>
+              <ul>
+                <li>
+                  <div class="node-card node-staff">
+                    <div class="fw-bold text-dark">Phòng Marketing & Growth</div>
+                    <small class="text-primary">15 Nhân sự</small>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

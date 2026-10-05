@@ -18,7 +18,7 @@
 <body>
 <div class="container-fluid p-0">
   <div class="row g-0">
-    <!-- Sidebar Menu SPA Chuẩn -->
+    <!-- Sidebar Menu SPA Duy Nhất -->
     <div class="col-md-2 sidebar p-3 d-flex flex-column justify-content-between">
       <div>
         <div class="d-flex align-items-center mb-4 px-2">
@@ -41,12 +41,12 @@
 
     <!-- Main Dynamic Workspace -->
     <div class="col-md-10 p-4" id="app-workspace">
-      <!-- Content loads dynamically here -->
+      <!-- Dynamic View Component Content -->
     </div>
   </div>
 </div>
 
-<!-- Modal Đổi Tên Doanh Nghiệp -->
+<!-- Modal Cấu Hình Doanh Nghiệp Toàn Cục -->
 <div class="modal fade" id="companySettingsModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow">
@@ -83,7 +83,6 @@
     const hash = location.hash.replace('#', '') || 'overview';
     const viewUrl = routes[hash] || routes['overview'];
 
-    // Cập nhật trạng thái Active trên Sidebar
     document.querySelectorAll('#main-nav a').forEach(link => {
       if (link.getAttribute('data-page') === hash) {
         link.classList.add('active');

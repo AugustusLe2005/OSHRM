@@ -1,0 +1,97 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h3 class="fw-bold text-dark mb-1">Tổng Quan & Quản Lý Nhân Sự</h3>
+    <p class="text-muted small mb-0">Hệ thống quản trị hồ sơ nhân thân, phê duyệt nghỉ phép và theo dõi biến động nhân sự</p>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn btn-outline-secondary shadow-sm fw-semibold bg-white" data-bs-toggle="modal" data-bs-target="#companySettingsModal">
+      <i class="fa-solid fa-building-gear me-1"></i>Đổi Tên Công Ty
+    </button>
+    <button class="btn btn-primary shadow-sm fw-semibold"><i class="fa-solid fa-user-plus me-2"></i>Thêm Nhân Viên Mới</button>
+  </div>
+</div>
+
+<!-- Thẻ Thống Kê Tổng Quan -->
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
+      <div class="d-flex align-items-center">
+        <div class="bg-primary-subtle text-primary p-3 rounded-circle me-3"><i class="fa-solid fa-users fs-4"></i></div>
+        <div>
+          <small class="text-muted fw-semibold">Tổng Nhân Sự</small>
+          <h4 class="fw-bold text-dark mb-0">168 Nhân sự</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
+      <div class="d-flex align-items-center">
+        <div class="bg-warning-subtle text-warning p-3 rounded-circle me-3"><i class="fa-solid fa-calendar-minus fs-4"></i></div>
+        <div>
+          <small class="text-muted fw-semibold">Đơn Nghỉ Chờ Duyệt</small>
+          <h4 class="fw-bold text-dark mb-0">2 Đơn mới</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
+      <div class="d-flex align-items-center">
+        <div class="bg-info-subtle text-info p-3 rounded-circle me-3"><i class="fa-solid fa-user-check fs-4"></i></div>
+        <div>
+          <small class="text-muted fw-semibold">Ứng Viên Phỏng Vấn</small>
+          <h4 class="fw-bold text-dark mb-0">5 Ứng viên</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
+      <div class="d-flex align-items-center">
+        <div class="bg-success-subtle text-success p-3 rounded-circle me-3"><i class="fa-solid fa-wallet fs-4"></i></div>
+        <div>
+          <small class="text-muted fw-semibold">Quỹ Lương Tháng 9</small>
+          <h4 class="fw-bold text-dark mb-0">2.85 Tỷ VND</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Widget Duyệt Nghỉ Phép -->
+<div class="card border-0 shadow-sm rounded-3 mb-4">
+  <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-calendar-check text-primary me-2"></i>Đơn Xin Nghỉ Phép Cần Duyệt (Realtime API)</h6>
+    <span class="badge bg-danger-subtle text-danger fw-semibold">2 Đơn chờ</span>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Nhân viên</th>
+            <th>Loại nghỉ</th>
+            <th>Thời gian</th>
+            <th>Lý do</th>
+            <th>Trạng thái</th>
+            <th class="text-end px-3">Xử lý</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="fw-semibold">Nguyễn Văn An (HR-001)</td>
+            <td><span class="badge bg-info-subtle text-info">Phép năm</span></td>
+            <td>02/10 - 04/10/2026</td>
+            <td class="small text-muted">Nghỉ gia đình</td>
+            <td><span class="badge bg-warning text-dark status-badge">Chờ duyệt</span></td>
+            <td class="text-end px-3">
+              <button class="btn btn-sm btn-success me-1" onclick="approveLeave(this)"><i class="fa-solid fa-check me-1"></i>Duyệt</button>
+              <button class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove()"><i class="fa-solid fa-xmark"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

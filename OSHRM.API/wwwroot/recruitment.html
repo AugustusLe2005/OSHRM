@@ -20,12 +20,11 @@
 <body>
 <div class="container-fluid p-0">
   <div class="row g-0">
-    <!-- Sidebar Menu Doanh Nghiệp -->
     <div class="col-md-2 sidebar p-3 d-flex flex-column justify-content-between">
       <div>
         <div class="d-flex align-items-center mb-4 px-2">
           <i class="fa-solid fa-sitemap fs-3 text-info me-2"></i>
-          <span class="fs-5 fw-bold text-white">OSHRM Enterprise</span>
+          <span class="fs-5 fw-bold text-white company-brand-text">OSHRM Enterprise</span>
         </div>
         <div class="nav flex-column">
           <a href="index.html"><i class="fa-solid fa-chart-pie"></i> Tổng quan</a>
@@ -41,7 +40,6 @@
       </div>
     </div>
 
-    <!-- Main Workspace -->
     <div class="col-md-10 p-4">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -51,7 +49,6 @@
         <button class="btn btn-primary shadow-sm fw-semibold"><i class="fa-solid fa-plus me-2"></i>Tạo Đề Xuất Tuyển Dụng</button>
       </div>
 
-      <!-- Metric Cards Tuyển Dụng -->
       <div class="row g-3 mb-4">
         <div class="col-md-3">
           <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
@@ -79,9 +76,7 @@
         </div>
       </div>
 
-      <!-- Phễu Tuyển Dụng Dạng Cột (Recruitment Board) -->
       <div class="row g-3">
-        <!-- Cột 1: Đã Tiếp Nhận Hồ Sơ -->
         <div class="col-md-3">
           <div class="kanban-col">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -97,7 +92,6 @@
           </div>
         </div>
 
-        <!-- Cột 2: Đang Lọc & Đánh Giá -->
         <div class="col-md-3">
           <div class="kanban-col">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -113,7 +107,6 @@
           </div>
         </div>
 
-        <!-- Cột 3: Phỏng Vấn (Interview) -->
         <div class="col-md-3">
           <div class="kanban-col">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -129,7 +122,6 @@
           </div>
         </div>
 
-        <!-- Cột 4: Nhận Việc (Offer Sent) -->
         <div class="col-md-3">
           <div class="kanban-col">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -150,5 +142,16 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function applyCompanyName() {
+    const savedName = localStorage.getItem("OSHRM_CompanyName") || "OSHRM Enterprise";
+    document.querySelectorAll(".company-brand-text, .sidebar .fs-5").forEach(el => el.innerText = savedName);
+  }
+  document.addEventListener("DOMContentLoaded", applyCompanyName);
+  window.addEventListener("pageshow", applyCompanyName);
+  window.addEventListener("storage", function (e) {
+    if (e.key === "OSHRM_CompanyName") applyCompanyName();
+  });
+</script>
 </body>
 </html>

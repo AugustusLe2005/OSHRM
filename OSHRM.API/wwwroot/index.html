@@ -22,7 +22,7 @@
       <div>
         <div class="d-flex align-items-center mb-4 px-2">
           <i class="fa-solid fa-sitemap fs-3 text-info me-2"></i>
-          <span class="fs-5 fw-bold text-white">OSHRM Enterprise</span>
+          <span class="fs-5 fw-bold text-white company-brand-text">OSHRM Enterprise</span>
         </div>
         <div class="nav flex-column">
           <a href="index.html" class="active"><i class="fa-solid fa-chart-pie"></i> Tổng quan</a>
@@ -45,7 +45,15 @@
           <h3 class="fw-bold text-dark mb-1">Tổng Quan & Quản Lý Nhân Sự</h3>
           <p class="text-muted small mb-0">Hệ thống quản trị hồ sơ nhân thân, phê duyệt nghỉ phép và theo dõi biến động nhân sự</p>
         </div>
-        <button class="btn btn-primary shadow-sm fw-semibold"><i class="fa-solid fa-user-plus me-2"></i>Thêm Nhân Viên Mới</button>
+        <!-- Cụm nút Header bao gồm Đổi Tên Công Ty & Thêm Nhân Viên -->
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary shadow-sm fw-semibold bg-white" data-bs-toggle="modal" data-bs-target="#companySettingsModal">
+            <i class="fa-solid fa-building-gear me-1"></i>Đổi Tên Công Ty
+          </button>
+          <button class="btn btn-primary shadow-sm fw-semibold">
+            <i class="fa-solid fa-user-plus me-2"></i>Thêm Nhân Viên Mới
+          </button>
+        </div>
       </div>
 
       <!-- Metric Cards / Thẻ Thống Kê Tổng Quan -->
@@ -196,6 +204,28 @@
   </div>
 </div>
 
+<!-- Modal Đổi Tên Doanh Nghiệp -->
+<div class="modal fade" id="companySettingsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-building me-2"></i>Cấu Hình Tên Doanh Nghiệp</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Tên Công Ty / Tập Đoàn Mới</label>
+          <input type="text" id="companyNameInput" class="form-control" placeholder="Nhập tên công ty (VD: Luxious Group)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary" onclick="saveCompanyName()"><i class="fa-solid fa-floppy-disk me-1"></i>Lưu Thay Đổi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Modal Chi Tiết Hồ Sơ Nhân Viên -->
 <div class="modal fade" id="employeeDetailModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -244,6 +274,31 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+    loadCompanyName();
+});
+
+function loadCompanyName() {
+    const savedName = localStorage.getItem("OSHRM_CompanyName") || "OSHRM Enterprise";
+    const brandElems = document.querySelectorAll(".company-brand-text");
+    brandElems.forEach(elem => elem.innerText = savedName);
+    
+    const inputElem = document.getElementById("companyNameInput");
+    if (inputElem) inputElem.value = savedName;
+}
+
+function saveCompanyName() {
+    const newName = document.getElementById("companyNameInput").value.trim();
+    if (newName) {
+        localStorage.setItem("OSHRM_CompanyName", newName);
+        loadCompanyName();
+        
+        const modalElem = document.getElementById('companySettingsModal');
+        const modal = bootstrap.Modal.getInstance(modalElem);
+        modal.hide();
+    }
+}
+
 function approveLeave(btn) {
   const row = btn.closest('tr');
   const badge = row.querySelector('.status-badge');

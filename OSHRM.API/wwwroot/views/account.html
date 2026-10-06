@@ -9,7 +9,7 @@
 </div>
 
 <div class="row g-4">
-  <!-- Card Cột Tóm Tắt Profile -->
+  <!-- Card Cột Tóm Tắt Profile Dynamic -->
   <div class="col-md-4">
     <div class="card border-0 shadow-sm rounded-3 p-4 bg-white text-center">
       <div class="position-relative d-inline-block mx-auto mb-3">
@@ -20,7 +20,7 @@
           <i class="fa-solid fa-camera small"></i>
         </button>
       </div>
-      <h5 class="fw-bold text-dark mb-1">Lê Hoàng Nam</h5>
+      <h5 class="fw-bold text-dark mb-1 user-dynamic-name">Lê Hải Nam</h5>
       <p class="text-muted small mb-2">Mã NV: <strong>IT-002</strong> | Khối Công Nghệ</p>
       <div class="d-flex justify-content-center gap-1 mb-3">
         <span class="badge bg-success-subtle text-success">Đang làm việc</span>
@@ -28,8 +28,8 @@
       </div>
       <hr>
       <div class="text-start small text-muted">
-        <p class="mb-2"><i class="fa-solid fa-envelope me-2 text-primary"></i>nam.lh@luxious.vn</p>
-        <p class="mb-2"><i class="fa-solid fa-phone me-2 text-primary"></i>+84 987 654 321</p>
+        <p class="mb-2"><i class="fa-solid fa-envelope me-2 text-primary"></i><span class="user-dynamic-email">nam.lh@luxious.vn</span></p>
+        <p class="mb-2"><i class="fa-solid fa-phone me-2 text-primary"></i><span class="user-dynamic-phone">0987654321</span></p>
         <p class="mb-2"><i class="fa-solid fa-building-user me-2 text-primary"></i>Phòng System & Infrastructure</p>
         <p class="mb-0"><i class="fa-solid fa-calendar-check me-2 text-primary"></i>Ngày tham gia: 15/01/2024</p>
       </div>
@@ -38,22 +38,21 @@
 
   <!-- Form Chi Tiết Cập Nhật -->
   <div class="col-md-8">
-    <!-- Card Thông Tin Cá Nhân -->
     <div class="card border-0 shadow-sm rounded-3 p-4 bg-white mb-4">
       <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-id-card text-primary me-2"></i>Thông Tin Tài Khoản & Lý Lịch</h6>
-      <form id="profileForm" onsubmit="saveProfile(event)">
+      <form id="profileForm" onsubmit="saveUserProfile(event)">
         <div class="row g-3">
           <div class="col-md-6">
             <label class="form-label fw-semibold small">Họ và Tên</label>
-            <input type="text" class="form-control" value="Lê Hoàng Nam" id="accFullName">
+            <input type="text" class="form-control" id="accFullName" required>
           </div>
           <div class="col-md-6">
             <label class="form-label fw-semibold small">Email Doanh Nghiệp</label>
-            <input type="email" class="form-control" value="nam.lh@luxious.vn" id="accEmail">
+            <input type="email" class="form-control" id="accEmail" required>
           </div>
           <div class="col-md-6">
             <label class="form-label fw-semibold small">Số Điện Thoại</label>
-            <input type="text" class="form-control" value="0987654321" id="accPhone">
+            <input type="text" class="form-control" id="accPhone" required>
           </div>
           <div class="col-md-6">
             <label class="form-label fw-semibold small">Chức Danh Hợp Đồng</label>
@@ -61,7 +60,7 @@
           </div>
           <div class="col-md-12">
             <label class="form-label fw-semibold small">Địa Chỉ Thường Trú</label>
-            <input type="text" class="form-control" value="Cầu Giấy, Hà Nội, Việt Nam" id="accAddress">
+            <input type="text" class="form-control" id="accAddress">
           </div>
         </div>
         <div class="mt-4 text-end">
@@ -72,22 +71,22 @@
       </form>
     </div>
 
-    <!-- Card Đổi Mật Khẩu Bảo Mật -->
+    <!-- Card Đổi Mật Khẩu -->
     <div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
       <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-lock text-warning me-2"></i>Đổi Mật Khẩu Bảo Mật</h6>
       <form id="passwordForm" onsubmit="changePassword(event)">
         <div class="row g-3">
           <div class="col-md-4">
             <label class="form-label fw-semibold small">Mật Khẩu Hiện Tại</label>
-            <input type="password" class="form-control" placeholder="••••••••" id="oldPassword" required>
+            <input type="password" class="form-control" placeholder="••••••••" required>
           </div>
           <div class="col-md-4">
             <label class="form-label fw-semibold small">Mật Khẩu Mới</label>
-            <input type="password" class="form-control" placeholder="Tối thiểu 8 ký tự" id="newPassword" required>
+            <input type="password" class="form-control" id="newPassword" placeholder="Tối thiểu 8 ký tự" required>
           </div>
           <div class="col-md-4">
-            <label class="form-label fw-semibold small">Xác Nhận Mật Khẩu Mới</label>
-            <input type="password" class="form-control" placeholder="Nhập lại mật khẩu mới" id="confirmPassword" required>
+            <label class="form-label fw-semibold small">Xác Nhận Mật Khẩu</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Nhập lại mật khẩu" required>
           </div>
         </div>
         <div class="mt-4 text-end">
@@ -101,9 +100,42 @@
 </div>
 
 <script>
-  function saveProfile(e) {
+  // Hàm Load dữ liệu từ LocalStorage lên UI
+  function loadUserProfile() {
+    const name = localStorage.getItem("OSHRM_UserName") || "Lê Hải Nam";
+    const email = localStorage.getItem("OSHRM_UserEmail") || "nam.lh@luxious.vn";
+    const phone = localStorage.getItem("OSHRM_UserPhone") || "0987654321";
+    const address = localStorage.getItem("OSHRM_UserAddress") || "Cầu Giấy, Hà Nội, Việt Nam";
+
+    // Cập nhật Text
+    document.querySelectorAll(".user-dynamic-name").forEach(el => el.innerText = name);
+    document.querySelectorAll(".user-dynamic-email").forEach(el => el.innerText = email);
+    document.querySelectorAll(".user-dynamic-phone").forEach(el => el.innerText = phone);
+
+    // Cập nhật Input Form
+    if (document.getElementById("accFullName")) document.getElementById("accFullName").value = name;
+    if (document.getElementById("accEmail")) document.getElementById("accEmail").value = email;
+    if (document.getElementById("accPhone")) document.getElementById("accPhone").value = phone;
+    if (document.getElementById("accAddress")) document.getElementById("accAddress").value = address;
+  }
+
+  // Hàm Lưu dữ liệu động khi người dùng sửa form
+  function saveUserProfile(e) {
     e.preventDefault();
-    alert("Đã lưu cập nhật thông tin tài khoản thành công!");
+    const newName = document.getElementById("accFullName").value.trim();
+    const newEmail = document.getElementById("accEmail").value.trim();
+    const newPhone = document.getElementById("accPhone").value.trim();
+    const newAddress = document.getElementById("accAddress").value.trim();
+
+    if (newName) {
+      localStorage.setItem("OSHRM_UserName", newName);
+      localStorage.setItem("OSHRM_UserEmail", newEmail);
+      localStorage.setItem("OSHRM_UserPhone", newPhone);
+      localStorage.setItem("OSHRM_UserAddress", newAddress);
+
+      loadUserProfile();
+      alert(" Đã cập nhật hồ sơ cá nhân thành công!");
+    }
   }
 
   function changePassword(e) {
@@ -115,7 +147,10 @@
       alert("Mật khẩu xác nhận không khớp! Vui lòng kiểm tra lại.");
       return;
     }
-    alert("Đổi mật khẩu thành công! Hãy dùng mật khẩu mới cho lần đăng nhập sau.");
+    alert(" Đổi mật khẩu thành công!");
     document.getElementById('passwordForm').reset();
   }
+
+  // Chạy nạp dữ liệu ngay khi View nạp xong
+  loadUserProfile();
 </script>

@@ -168,10 +168,10 @@ D:\OSHRM\OSHRM.API\bin\Debug\net10.0\OSHRM.API.staticwebassets.runtime.json
 D:\OSHRM\OSHRM.API\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\OSHRM\OSHRM.API\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\OSHRM\OSHRM.API\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\7x83rs4q2j-{0}-vzkt58l3st-vzkt58l3st.gz
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\am8orz4pic-{0}-fe5tevvre6-fe5tevvre6.gz
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\0qt5sc7r49-{0}-yt6nrr9jx0-yt6nrr9jx0.gz
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\8immqbhtwo-{0}-dhcfmdu62y-dhcfmdu62y.gz
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\xc615jya42-{0}-cb1ktw17gq-cb1ktw17gq.gz
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\nem8ih1fyk-{0}-a7w2w1wfka-a7w2w1wfka.gz
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\4loibi573b-{0}-5qwgqwnn4g-5qwgqwnn4g.gz
+D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\7x83rs4q2j-{0}-jvnthk7l7p-jvnthk7l7p.gz

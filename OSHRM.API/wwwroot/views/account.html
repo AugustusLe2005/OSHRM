@@ -1,0 +1,121 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h3 class="fw-bold text-dark mb-1">Quản Lý Tài Khoản & Thiết Lập Cá Nhân</h3>
+    <p class="text-muted small mb-0">Cập nhật thông tin hồ sơ, mật khẩu và quản lý quyền truy cập hệ thống OSHRM</p>
+  </div>
+  <span class="badge bg-primary-subtle text-primary px-3 py-2 fw-bold fs-6">
+    <i class="fa-solid fa-shield-halved me-1"></i> Role: Sysadmin / IT Lead
+  </span>
+</div>
+
+<div class="row g-4">
+  <!-- Card Cột Tóm Tắt Profile -->
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm rounded-3 p-4 bg-white text-center">
+      <div class="position-relative d-inline-block mx-auto mb-3">
+        <div class="bg-dark text-info rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 100px; height: 100px; font-size: 2.5rem; border: 3px solid #38bdf8;">
+          <i class="fa-solid fa-user-astronaut"></i>
+        </div>
+        <button class="btn btn-sm btn-primary rounded-circle position-absolute bottom-0 end-0 p-1" style="width: 30px; height: 30px;" title="Đổi ảnh đại diện">
+          <i class="fa-solid fa-camera small"></i>
+        </button>
+      </div>
+      <h5 class="fw-bold text-dark mb-1">Lê Hoàng Nam</h5>
+      <p class="text-muted small mb-2">Mã NV: <strong>IT-002</strong> | Khối Công Nghệ</p>
+      <div class="d-flex justify-content-center gap-1 mb-3">
+        <span class="badge bg-success-subtle text-success">Đang làm việc</span>
+        <span class="badge bg-info-subtle text-info">Level 4 (Manager)</span>
+      </div>
+      <hr>
+      <div class="text-start small text-muted">
+        <p class="mb-2"><i class="fa-solid fa-envelope me-2 text-primary"></i>nam.lh@luxious.vn</p>
+        <p class="mb-2"><i class="fa-solid fa-phone me-2 text-primary"></i>+84 987 654 321</p>
+        <p class="mb-2"><i class="fa-solid fa-building-user me-2 text-primary"></i>Phòng System & Infrastructure</p>
+        <p class="mb-0"><i class="fa-solid fa-calendar-check me-2 text-primary"></i>Ngày tham gia: 15/01/2024</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Chi Tiết Cập Nhật -->
+  <div class="col-md-8">
+    <!-- Card Thông Tin Cá Nhân -->
+    <div class="card border-0 shadow-sm rounded-3 p-4 bg-white mb-4">
+      <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-id-card text-primary me-2"></i>Thông Tin Tài Khoản & Lý Lịch</h6>
+      <form id="profileForm" onsubmit="saveProfile(event)">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold small">Họ và Tên</label>
+            <input type="text" class="form-control" value="Lê Hoàng Nam" id="accFullName">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold small">Email Doanh Nghiệp</label>
+            <input type="email" class="form-control" value="nam.lh@luxious.vn" id="accEmail">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold small">Số Điện Thoại</label>
+            <input type="text" class="form-control" value="0987654321" id="accPhone">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold small">Chức Danh Hợp Đồng</label>
+            <input type="text" class="form-control bg-light" value="Sysadmin / IT Lead" readonly>
+          </div>
+          <div class="col-md-12">
+            <label class="form-label fw-semibold small">Địa Chỉ Thường Trú</label>
+            <input type="text" class="form-control" value="Cầu Giấy, Hà Nội, Việt Nam" id="accAddress">
+          </div>
+        </div>
+        <div class="mt-4 text-end">
+          <button type="submit" class="btn btn-primary fw-semibold shadow-sm">
+            <i class="fa-solid fa-floppy-disk me-1"></i>Lưu Thay Đổi Thông Tin
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Card Đổi Mật Khẩu Bảo Mật -->
+    <div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
+      <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-lock text-warning me-2"></i>Đổi Mật Khẩu Bảo Mật</h6>
+      <form id="passwordForm" onsubmit="changePassword(event)">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label fw-semibold small">Mật Khẩu Hiện Tại</label>
+            <input type="password" class="form-control" placeholder="••••••••" id="oldPassword" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold small">Mật Khẩu Mới</label>
+            <input type="password" class="form-control" placeholder="Tối thiểu 8 ký tự" id="newPassword" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold small">Xác Nhận Mật Khẩu Mới</label>
+            <input type="password" class="form-control" placeholder="Nhập lại mật khẩu mới" id="confirmPassword" required>
+          </div>
+        </div>
+        <div class="mt-4 text-end">
+          <button type="submit" class="btn btn-warning text-dark fw-semibold shadow-sm">
+            <i class="fa-solid fa-key me-1"></i>Cập Nhật Mật Khẩu
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function saveProfile(e) {
+    e.preventDefault();
+    alert("Đã lưu cập nhật thông tin tài khoản thành công!");
+  }
+
+  function changePassword(e) {
+    e.preventDefault();
+    const newPass = document.getElementById('newPassword').value;
+    const confirmPass = document.getElementById('confirmPassword').value;
+
+    if (newPass !== confirmPass) {
+      alert("Mật khẩu xác nhận không khớp! Vui lòng kiểm tra lại.");
+      return;
+    }
+    alert("Đổi mật khẩu thành công! Hãy dùng mật khẩu mới cho lần đăng nhập sau.");
+    document.getElementById('passwordForm').reset();
+  }
+</script>

@@ -1,120 +1,179 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
-    <h3 class="fw-bold text-dark mb-1">Chấm Công & Bảng Công Tháng (Timekeeping & Timesheet)</h3>
-    <p class="text-muted small mb-0">Theo dõi lịch sử Check-in/Check-out, ca làm việc, thời gian OT và tổng hợp ngày công</p>
+    <h3 class="fw-bold text-dark mb-1">Chấm Công & Quản Lý Ca Làm Việc (Timesheet Matrix)</h3>
+    <p class="text-muted small mb-0">Bảng tổng hợp công tháng, đăng ký tăng ca (OT), điểm danh và giải trình đi muộn</p>
   </div>
   <div class="d-flex gap-2">
-    <button class="btn btn-outline-secondary shadow-sm fw-semibold bg-white"><i class="fa-solid fa-file-excel me-1"></i>Xuất File Timesheet</button>
-    <button class="btn btn-success shadow-sm fw-semibold" onclick="quickCheckIn()"><i class="fa-solid fa-fingerprint me-2"></i>Check-in Nhanh Hôm Nay</button>
+    <button class="btn btn-outline-primary fw-semibold bg-white shadow-sm" data-bs-toggle="modal" data-bs-target="#otModal">
+      <i class="fa-solid fa-clock-plus me-1"></i>Đăng Ký OT / Đi Muộn
+    </button>
+    <button class="btn btn-success shadow-sm fw-semibold" onclick="quickCheckIn()">
+      <i class="fa-solid fa-fingerprint me-2"></i>Check-in Hôm Nay
+    </button>
   </div>
 </div>
 
-<!-- Cards Thống kê Chấm công -->
+<!-- Cards Thống Kê Nhanh -->
 <div class="row g-3 mb-4">
   <div class="col-md-3">
     <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-      <div class="d-flex align-items-center">
-        <div class="bg-primary-subtle text-primary p-3 rounded-circle me-3"><i class="fa-solid fa-user-check fs-4"></i></div>
-        <div>
-          <small class="text-muted fw-semibold">Đã Check-in Hôm Nay</small>
-          <h4 class="fw-bold text-dark mb-0">162 / 168</h4>
-        </div>
-      </div>
+      <small class="text-muted fw-semibold">Đã Điểm Danh Hôm Nay</small>
+      <h3 class="fw-bold text-success mb-0">162 / 168</h3>
     </div>
   </div>
   <div class="col-md-3">
     <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-      <div class="d-flex align-items-center">
-        <div class="bg-warning-subtle text-warning p-3 rounded-circle me-3"><i class="fa-solid fa-clock-stopwatch fs-4"></i></div>
-        <div>
-          <small class="text-muted fw-semibold">Đi Muộn / Về Sớm</small>
-          <h4 class="fw-bold text-dark mb-0">4 Lượt</h4>
-        </div>
-      </div>
+      <small class="text-muted fw-semibold">Số Lượt Đi Muộn Tháng 10</small>
+      <h3 class="fw-bold text-warning mb-0">4 Lượt</h3>
     </div>
   </div>
   <div class="col-md-3">
     <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-      <div class="d-flex align-items-center">
-        <div class="bg-info-subtle text-info p-3 rounded-circle me-3"><i class="fa-solid fa-business-time fs-4"></i></div>
-        <div>
-          <small class="text-muted fw-semibold">Tổng Giờ OT Tháng 10</small>
-          <h4 class="fw-bold text-dark mb-0">142 Giờ</h4>
-        </div>
-      </div>
+      <small class="text-muted fw-semibold">Tổng Giờ OT Phê Duyệt</small>
+      <h3 class="fw-bold text-info mb-0">142 Giờ</h3>
     </div>
   </div>
   <div class="col-md-3">
     <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-      <div class="d-flex align-items-center">
-        <div class="bg-danger-subtle text-danger p-3 rounded-circle me-3"><i class="fa-solid fa-user-xmark fs-4"></i></div>
-        <div>
-          <small class="text-muted fw-semibold">Vắng Mặt (Nghỉ phép)</small>
-          <h4 class="fw-bold text-dark mb-0">2 Nhân sự</h4>
-        </div>
-      </div>
+      <small class="text-muted fw-semibold">Đơn Giải Trình Chờ Duyệt</small>
+      <h3 class="fw-bold text-danger mb-0">2 Đơn</h3>
     </div>
   </div>
 </div>
 
-<!-- Lịch Sử Check-in Theo Ngày -->
+<!-- Bảng Ma Trận Công Tháng (Monthly Matrix Timesheet) -->
 <div class="card border-0 shadow-sm rounded-3 mb-4">
   <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-list-check text-primary me-2"></i>Lịch Sử Chấm Công Hôm Nay (06/10/2026)</h6>
-    <span class="badge bg-success-subtle text-success">Realtime System</span>
+    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-calendar-days text-primary me-2"></i>Bảng Ma Trận Chấm Công Chi Tiết (Tháng 10/2026)</h6>
+    <div class="d-flex gap-2">
+      <select class="form-select form-select-sm" style="width: 150px;">
+        <option>Tất cả phòng ban</option>
+        <option>Khối Công nghệ</option>
+        <option>Khối HR</option>
+      </select>
+      <button class="btn btn-sm btn-outline-success"><i class="fa-solid fa-file-excel me-1"></i>Xuất Excel</button>
+    </div>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
+      <table class="table table-bordered table-hover align-middle mb-0 text-center small">
         <thead class="table-light">
           <tr>
-            <th>Mã NV</th>
-            <th>Họ và Tên</th>
-            <th>Phòng Ban</th>
-            <th>Giờ Check-in</th>
-            <th>Giờ Check-out</th>
-            <th>Thiết Bị / Phương Thức</th>
+            <th class="text-start" style="min-width: 180px;">Nhân Viên</th>
+            <th>01</th><th>02</th><th>03</th><th>04</th><th>05</th><th>06</th><th>07</th><th>08</th><th>09</th><th>10</th>
+            <th>Công Chuẩn</th>
+            <th>OT (h)</th>
             <th>Trạng Thái</th>
           </tr>
         </thead>
-        <tbody id="timekeepingLogBody">
+        <tbody>
           <tr>
-            <td><strong>IT-002</strong></td>
-            <td class="fw-semibold">Lê Hoàng Nam</td>
-            <td>Công nghệ Thông tin</td>
-            <td><span class="fw-bold text-success">07:55 AM</span></td>
-            <td><span class="text-muted">--:--</span></td>
-            <td><span class="badge bg-light text-dark border"><i class="fa-solid fa-wifi me-1"></i>WiFi Công ty</span></td>
-            <td><span class="badge bg-success-subtle text-success">Đúng giờ</span></td>
+            <td class="text-start">
+              <div class="fw-bold">Lê Hoàng Nam</div>
+              <small class="text-muted">IT-002 | Sysadmin</small>
+            </td>
+            <td><span class="badge bg-success-subtle text-success">X</span></td>
+            <td><span class="badge bg-success-subtle text-success">X</span></td>
+            <td><span class="badge bg-secondary-subtle text-secondary">T7</span></td>
+            <td><span class="badge bg-secondary-subtle text-secondary">CN</span></td>
+            <td><span class="badge bg-success-subtle text-success">X</span></td>
+            <td><span class="badge bg-primary text-white">X</span></td>
+            <td><span class="text-muted">-</span></td>
+            <td><span class="text-muted">-</span></td>
+            <td><span class="text-muted">-</span></td>
+            <td><span class="text-muted">-</span></td>
+            <td class="fw-bold text-primary">22 / 22</td>
+            <td class="fw-bold text-danger">12.5h</td>
+            <td><span class="badge bg-success-subtle text-success">Đủ Công</span></td>
           </tr>
           <tr>
-            <td><strong>HR-001</strong></td>
-            <td class="fw-semibold">Nguyễn Văn An</td>
-            <td>Hành chính Nhân sự</td>
-            <td><span class="fw-bold text-success">08:02 AM</span></td>
-            <td><span class="text-muted">--:--</span></td>
-            <td><span class="badge bg-light text-dark border"><i class="fa-solid fa-fingerprint me-1"></i>Vân tay (Door 01)</span></td>
-            <td><span class="badge bg-success-subtle text-success">Đúng giờ</span></td>
-          </tr>
-          <tr>
-            <td><strong>IT-004</strong></td>
-            <td class="fw-semibold">Trần Thị Bích</td>
-            <td>Công nghệ Thông tin</td>
-            <td><span class="fw-bold text-warning">08:25 AM</span></td>
-            <td><span class="text-muted">--:--</span></td>
-            <td><span class="badge bg-light text-dark border"><i class="fa-solid fa-mobile-screen me-1"></i>Mobile GPS App</span></td>
-            <td><span class="badge bg-warning-subtle text-warning">Đi muộn 25p</span></td>
+            <td class="text-start">
+              <div class="fw-bold">Nguyễn Văn An</div>
+              <small class="text-muted">HR-001 | HR Lead</small>
+            </td>
+            <td><span class="badge bg-warning-subtle text-warning">P</span></td>
+            <td><span class="badge bg-warning-subtle text-warning">P</span></td>
+            <td><span class="badge bg-secondary-subtle text-secondary">T7</span></td>
+            <td><span class="badge bg-secondary-subtle text-secondary">CN</span></td>
+            <td><span class="badge bg-success-subtle text-success">X</span></td>
+            <td><span class="badge bg-success-subtle text-success">X</span></td>
+            <td><span class="text-muted">-</span></td>
+            <td><span class="text-muted">-</span></td>
+            <td><span class="text-muted">-</span></td>
+            <td><span class="text-muted">-</span></td>
+            <td class="fw-bold text-primary">20 / 22</td>
+            <td class="fw-bold text-secondary">0h</td>
+            <td><span class="badge bg-info-subtle text-info">Phép Năm</span></td>
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+  <div class="card-footer bg-white py-2">
+    <small class="text-muted"><strong>Chú thích:</strong> <span class="badge bg-success-subtle text-success ms-1">X</span> Đủ công | <span class="badge bg-warning-subtle text-warning ms-1">P</span> Nghỉ phép | <span class="badge bg-danger-subtle text-danger ms-1">M</span> Đi muộn | <span class="badge bg-secondary-subtle text-secondary ms-1">T7/CN</span> Nghỉ tuần</small>
+  </div>
+</div>
+
+<!-- Modal Đăng Ký OT & Giải Trình -->
+<div class="modal fade" id="otModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-clock me-2"></i>Đăng Ký Làm Thêm Giờ (OT) / Giải Trình</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="otForm" onsubmit="submitOT(event)">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Loại Yêu Cầu</label>
+            <select class="form-select">
+              <option>Đăng ký Overtime (OT)</option>
+              <option>Giải trình Đi muộn / Về sớm</option>
+              <option>Quên Check-in / Check-out</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Ngày Đăng Ký</label>
+            <input type="date" class="form-control" value="2026-10-06">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label fw-semibold">Số Giờ OT (Dự kiến)</label>
+              <input type="number" class="form-control" value="2.5" step="0.5">
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-semibold">Hệ Số Lương OT</label>
+              <select class="form-select">
+                <option>150% (Ngày thường)</option>
+                <option>200% (Cuối tuần)</option>
+                <option>300% (Ngày Lễ/Tết)</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Lý Do Chi Tiết</label>
+            <textarea class="form-control" rows="2" placeholder="Ví dụ: Đội System triển khai bảo trì Server đêm..."></textarea>
+          </div>
+          <div class="text-end">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary fw-semibold"><i class="fa-solid fa-paper-plane me-1"></i>Gửi Đề Xuất</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
   function quickCheckIn() {
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    alert(`[OSHRM System] Điểm danh thành công lúc ${timeStr}! Dữ liệu đã ghi nhận vào CSDL.`);
+    alert(" [OSHRM Attendance] Check-in thành công lúc " + new Date().toLocaleTimeString() + "! Dữ liệu đã đồng bộ lên CSDL SQL Server.");
+  }
+
+  function submitOT(e) {
+    e.preventDefault();
+    alert(" Đã gửi đơn đăng ký OT/Giải trình tới Quản lý thành công!");
+    const modalElem = document.getElementById('otModal');
+    const modal = bootstrap.Modal.getInstance(modalElem);
+    if (modal) modal.hide();
   }
 </script>

@@ -1,11 +1,17 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
     <h3 class="fw-bold text-dark mb-1">Quản Lý Tài Khoản & Thiết Lập Cá Nhân</h3>
-    <p class="text-muted small mb-0">Cập nhật thông tin hồ sơ, mật khẩu và quản lý quyền truy cập hệ thống OSHRM</p>
+    <p class="text-muted small mb-0">Cập nhật thông tin hồ sơ, mật khẩu và quản lý phiên đăng nhập OSHRM</p>
   </div>
-  <span class="badge bg-primary-subtle text-primary px-3 py-2 fw-bold fs-6">
-    <i class="fa-solid fa-shield-halved me-1"></i> Role: Sysadmin / IT Lead
-  </span>
+  <div class="d-flex align-items-center gap-2">
+    <span class="badge bg-primary-subtle text-primary px-3 py-2 fw-bold fs-6">
+      <i class="fa-solid fa-shield-halved me-1"></i> <span id="authRoleBadge">Role: Sysadmin / IT Lead</span>
+    </span>
+    <!-- Nút Sign In / Sign Out Động -->
+    <button id="btnAuthAction" class="btn btn-outline-danger fw-semibold shadow-sm" onclick="handleAuthAction()">
+      <i class="fa-solid fa-right-from-bracket me-1"></i> Đăng Xuất (Sign Out)
+    </button>
+  </div>
 </div>
 
 <div class="row g-4">
@@ -23,7 +29,7 @@
       <h5 class="fw-bold text-dark mb-1 user-dynamic-name">Lê Hải Nam</h5>
       <p class="text-muted small mb-2">Mã NV: <strong>IT-002</strong> | Khối Công Nghệ</p>
       <div class="d-flex justify-content-center gap-1 mb-3">
-        <span class="badge bg-success-subtle text-success">Đang làm việc</span>
+        <span class="badge bg-success-subtle text-success" id="loginStatusBadge">Đang hoạt động</span>
         <span class="badge bg-info-subtle text-info">Level 4 (Manager)</span>
       </div>
       <hr>
@@ -64,7 +70,7 @@
           </div>
         </div>
         <div class="mt-4 text-end">
-          <button type="submit" class="btn btn-primary fw-semibold shadow-sm">
+          <button type="submit" class="btn btn-primary fw-semibold shadow-sm" id="btnSaveProfile">
             <i class="fa-solid fa-floppy-disk me-1"></i>Lưu Thay Đổi Thông Tin
           </button>
         </div>
@@ -90,7 +96,7 @@
           </div>
         </div>
         <div class="mt-4 text-end">
-          <button type="submit" class="btn btn-warning text-dark fw-semibold shadow-sm">
+          <button type="submit" class="btn btn-warning text-dark fw-semibold shadow-sm" id="btnChangePass">
             <i class="fa-solid fa-key me-1"></i>Cập Nhật Mật Khẩu
           </button>
         </div>
@@ -99,29 +105,131 @@
   </div>
 </div>
 
+<!-- Modal Đăng Nhập (Sign In) -->
+<div class="modal fade" id="signInModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-primary text-white py-3">
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-right-to-bracket me-2"></i>Đăng Nhập OSHRM Enterprise</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="signInForm" onsubmit="processSignIn(event)">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Tài Khoản / Email Doanh Nghiệp</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="fa-solid fa-envelope text-muted"></i></span>
+              <input type="email" id="signInEmail" class="form-control" value="nam.lh@luxious.vn" required placeholder="Nhập email doanh nghiệp">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Mật Khẩu</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="fa-solid fa-lock text-muted"></i></span>
+              <input type="password" id="signInPassword" class="form-control" value="12345678" required placeholder="••••••••">
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="rememberMe" checked>
+              <label class="form-check-label small" for="rememberMe">Ghi nhớ đăng nhập</label>
+            </div>
+            <a href="#" class="small text-decoration-none" onclick="alert('Vui lòng liên hệ Admin IT (IT-002) để cấp lại mật khẩu!')">Quên mật khẩu?</a>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm">
+            <i class="fa-solid fa-right-to-bracket me-2"></i>Đăng Nhập
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-  // Hàm Load dữ liệu từ LocalStorage lên UI
   function loadUserProfile() {
+    const isLoggedIn = localStorage.getItem("OSHRM_IsLoggedIn") !== "false";
     const name = localStorage.getItem("OSHRM_UserName") || "Lê Hải Nam";
     const email = localStorage.getItem("OSHRM_UserEmail") || "nam.lh@luxious.vn";
     const phone = localStorage.getItem("OSHRM_UserPhone") || "0987654321";
     const address = localStorage.getItem("OSHRM_UserAddress") || "Cầu Giấy, Hà Nội, Việt Nam";
 
-    // Cập nhật Text
-    document.querySelectorAll(".user-dynamic-name").forEach(el => el.innerText = name);
-    document.querySelectorAll(".user-dynamic-email").forEach(el => el.innerText = email);
-    document.querySelectorAll(".user-dynamic-phone").forEach(el => el.innerText = phone);
+    // Dynamic Text Update
+    document.querySelectorAll(".user-dynamic-name").forEach(el => el.innerText = isLoggedIn ? name : "Khách (Chưa đăng nhập)");
+    document.querySelectorAll(".user-dynamic-email").forEach(el => el.innerText = isLoggedIn ? email : "N/A");
+    document.querySelectorAll(".user-dynamic-phone").forEach(el => el.innerText = isLoggedIn ? phone : "N/A");
 
-    // Cập nhật Input Form
     if (document.getElementById("accFullName")) document.getElementById("accFullName").value = name;
     if (document.getElementById("accEmail")) document.getElementById("accEmail").value = email;
     if (document.getElementById("accPhone")) document.getElementById("accPhone").value = phone;
     if (document.getElementById("accAddress")) document.getElementById("accAddress").value = address;
+
+    // UI Auth State Update
+    const btnAuth = document.getElementById("btnAuthAction");
+    const loginStatus = document.getElementById("loginStatusBadge");
+    const roleBadge = document.getElementById("authRoleBadge");
+
+    if (isLoggedIn) {
+      if (btnAuth) {
+        btnAuth.className = "btn btn-outline-danger fw-semibold shadow-sm";
+        btnAuth.innerHTML = '<i class="fa-solid fa-right-from-bracket me-1"></i> Đăng Xuất (Sign Out)';
+      }
+      if (loginStatus) {
+        loginStatus.className = "badge bg-success-subtle text-success";
+        loginStatus.innerText = "Đang hoạt động";
+      }
+      if (roleBadge) roleBadge.innerText = "Role: Sysadmin / IT Lead";
+    } else {
+      if (btnAuth) {
+        btnAuth.className = "btn btn-success fw-semibold shadow-sm";
+        btnAuth.innerHTML = '<i class="fa-solid fa-right-to-bracket me-1"></i> Đăng Nhập (Sign In)';
+      }
+      if (loginStatus) {
+        loginStatus.className = "badge bg-secondary-subtle text-secondary";
+        loginStatus.innerText = "Đã đăng xuất";
+      }
+      if (roleBadge) roleBadge.innerText = "Role: Guest";
+    }
   }
 
-  // Hàm Lưu dữ liệu động khi người dùng sửa form
+  function handleAuthAction() {
+    const isLoggedIn = localStorage.getItem("OSHRM_IsLoggedIn") !== "false";
+    if (isLoggedIn) {
+      // Thực hiện Sign Out
+      localStorage.setItem("OSHRM_IsLoggedIn", "false");
+      if (typeof showToast === 'function') {
+        showToast("Đã đăng xuất khỏi tài khoản thành công!", "Đăng Xuất", "warning");
+      }
+      loadUserProfile();
+    } else {
+      // Mở Modal Sign In
+      const modal = new bootstrap.Modal(document.getElementById('signInModal'));
+      modal.show();
+    }
+  }
+
+  function processSignIn(e) {
+    e.preventDefault();
+    const email = document.getElementById("signInEmail").value.trim();
+    localStorage.setItem("OSHRM_IsLoggedIn", "true");
+    if (email) localStorage.setItem("OSHRM_UserEmail", email);
+
+    const modalElem = document.getElementById('signInModal');
+    const modal = bootstrap.Modal.getInstance(modalElem);
+    if (modal) modal.hide();
+
+    if (typeof showToast === 'function') {
+      showToast("Đăng nhập thành công vào OSHRM Enterprise!", "Xin Chào", "success");
+    }
+    loadUserProfile();
+  }
+
   function saveUserProfile(e) {
     e.preventDefault();
+    const isLoggedIn = localStorage.getItem("OSHRM_IsLoggedIn") !== "false";
+    if (!isLoggedIn) {
+      if (typeof showToast === 'function') showToast("Vui lòng Đăng nhập để thực hiện thay đổi!", "Cảnh Báo", "danger");
+      return;
+    }
     const newName = document.getElementById("accFullName").value.trim();
     const newEmail = document.getElementById("accEmail").value.trim();
     const newPhone = document.getElementById("accPhone").value.trim();
@@ -134,23 +242,27 @@
       localStorage.setItem("OSHRM_UserAddress", newAddress);
 
       loadUserProfile();
-      alert(" Đã cập nhật hồ sơ cá nhân thành công!");
+      if (typeof showToast === 'function') showToast("Đã cập nhật hồ sơ cá nhân thành công!", "Cập Nhật Hồ Sơ", "success");
     }
   }
 
   function changePassword(e) {
     e.preventDefault();
+    const isLoggedIn = localStorage.getItem("OSHRM_IsLoggedIn") !== "false";
+    if (!isLoggedIn) {
+      if (typeof showToast === 'function') showToast("Vui lòng Đăng nhập để đổi mật khẩu!", "Cảnh Báo", "danger");
+      return;
+    }
     const newPass = document.getElementById('newPassword').value;
     const confirmPass = document.getElementById('confirmPassword').value;
 
     if (newPass !== confirmPass) {
-      alert("Mật khẩu xác nhận không khớp! Vui lòng kiểm tra lại.");
+      if (typeof showToast === 'function') showToast("Mật khẩu xác nhận không khớp!", "Lỗi Mật Khẩu", "danger");
       return;
     }
-    alert(" Đổi mật khẩu thành công!");
+    if (typeof showToast === 'function') showToast("Cập nhật mật khẩu mới thành công!", "Đổi Mật Khẩu", "success");
     document.getElementById('passwordForm').reset();
   }
 
-  // Chạy nạp dữ liệu ngay khi View nạp xong
   loadUserProfile();
 </script>

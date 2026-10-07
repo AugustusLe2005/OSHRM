@@ -70,6 +70,21 @@
   </div>
 </div>
 
+<!-- Toast Notification UI Enterprise -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1090;">
+  <div id="appToast" class="toast border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header bg-success text-white" id="toastHeader">
+      <i class="fa-solid fa-circle-check me-2" id="toastIcon"></i>
+      <strong class="me-auto" id="toastTitle">Thông Báo Hệ Thống</strong>
+      <small class="text-white-50" id="toastTime">Vừa xong</small>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+    </div>
+    <div class="toast-body bg-white text-dark fw-medium" id="toastBody">
+      <!-- Nội dung thông báo -->
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   const routes = {
@@ -131,7 +146,39 @@
       const modalElem = document.getElementById('companySettingsModal');
       const modal = bootstrap.Modal.getInstance(modalElem);
       if (modal) modal.hide();
+      showToast("Đã lưu cập nhật tên doanh nghiệp thành công!", "Cấu Hình Doanh Nghiệp", "success");
     }
+  }
+
+  // Hàm Toast dùng chung cho toàn bộ SPA
+  function showToast(message, title = "Thông Báo Hệ Thống", type = "success") {
+    const toastElem = document.getElementById('appToast');
+    const toastHeader = document.getElementById('toastHeader');
+    const toastIcon = document.getElementById('toastIcon');
+    const toastTitle = document.getElementById('toastTitle');
+    const toastBody = document.getElementById('toastBody');
+    const toastTime = document.getElementById('toastTime');
+
+    if (type === 'success') {
+      toastHeader.className = 'toast-header bg-success text-white';
+      toastIcon.className = 'fa-solid fa-circle-check me-2';
+    } else if (type === 'warning') {
+      toastHeader.className = 'toast-header bg-warning text-dark';
+      toastIcon.className = 'fa-solid fa-triangle-exclamation me-2';
+    } else if (type === 'danger') {
+      toastHeader.className = 'toast-header bg-danger text-white';
+      toastIcon.className = 'fa-solid fa-circle-xmark me-2';
+    } else {
+      toastHeader.className = 'toast-header bg-primary text-white';
+      toastIcon.className = 'fa-solid fa-bell me-2';
+    }
+
+    toastTitle.innerText = title;
+    toastBody.innerText = message;
+    toastTime.innerText = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+    const bsToast = new bootstrap.Toast(toastElem, { delay: 4000 });
+    bsToast.show();
   }
 
   window.addEventListener('hashchange', loadView);

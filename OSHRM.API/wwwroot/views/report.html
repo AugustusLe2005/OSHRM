@@ -1,11 +1,11 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
-    <h3 class="fw-bold text-dark mb-1">Báo Cáo KPI & Đánh Giá Năng Lực Nhân Sự</h3>
-    <p class="text-muted small mb-0">Bảng xếp hạng hiệu suất Quý 3/2026, đánh giá 360 độ và theo dõi nhiệm vụ trọng tâm toàn công ty</p>
+    <h3 class="fw-bold text-dark mb-1">Báo Cáo KPI & Đánh Giá Hiệu Suất Kỹ Thuật (FPT IS Standard)</h3>
+    <p class="text-muted small mb-0">Quản lý mục tiêu KPI theo Trung tâm Giải pháp & Khối Dự án FPT Information System (FPT IS)</p>
   </div>
   <div class="d-flex gap-2">
-    <button class="btn btn-outline-success fw-semibold shadow-sm bg-white" data-bs-toggle="modal" data-bs-target="#peerReviewModal">
-      <i class="fa-solid fa-comments me-1"></i>Đánh Giá Đa Chiều (360°)
+    <button class="btn btn-outline-primary fw-semibold shadow-sm bg-white" data-bs-toggle="modal" data-bs-target="#buFilterModal">
+      <i class="fa-solid fa-building-flag me-1"></i>Phân Loại Khối FIS
     </button>
     <button class="btn btn-primary shadow-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#kpiModal">
       <i class="fa-solid fa-award me-1"></i>Đánh Giá KPI Mới
@@ -13,111 +13,87 @@
   </div>
 </div>
 
-<!-- TOP BẢNG XẾP HẠNG KPI NHÂN SỰ QUÝ (LEADERBOARD - MỚI BỔ SUNG) -->
+<!-- Thống kê Tỷ lệ Xếp loại Hiệu suất Theo Các Khối FPT IS -->
 <div class="card border-0 shadow-sm rounded-3 mb-4 bg-white">
   <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-trophy text-warning me-2"></i>Bảng Xếp Hạng Top Hiệu Suất Nhân Sự Quý 3/2026 (KPI Leaderboard)</h6>
-    <span class="badge bg-warning-subtle text-warning fw-bold"><i class="fa-solid fa-star me-1"></i>Vinh Danh Quý 3</span>
+    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-chart-pie text-primary me-2"></i>Tỷ Lệ Hoàn Thành KPI Theo Các Trung Tâm Giải Pháp FPT IS (Q3/2026)</h6>
+    <span class="badge bg-primary-subtle text-primary fw-bold"><i class="fa-solid fa-shield-halved me-1"></i>FIS Enterprise Matrix</span>
   </div>
   <div class="card-body">
-    <div class="row g-3">
-      <!-- Hạng 1 (Gold) -->
-      <div class="col-md-4">
-        <div class="p-3 border border-warning border-2 rounded-3 bg-warning-subtle text-center position-relative">
-          <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-warning text-dark px-3 py-1 shadow-sm">
-            <i class="fa-solid fa-crown me-1"></i>QUÁN QUÂN (TOP 1)
-          </span>
-          <div class="mt-2 mb-2">
-            <div class="bg-dark text-warning rounded-circle d-inline-flex align-items-center justify-content-center shadow" style="width: 60px; height: 60px; font-size: 1.5rem; border: 2px solid #f59e0b;">
-              <i class="fa-solid fa-user-astronaut"></i>
-            </div>
-          </div>
-          <h6 class="fw-bold text-dark mb-0 user-dynamic-name">Lê Hải Nam</h6>
-          <small class="text-muted d-block mb-2">IT-002 | Sysadmin & IT Lead</small>
-          <div class="d-flex justify-content-center align-items-center gap-2">
-            <span class="fs-4 fw-bold text-warning">96.5</span>
-            <span class="badge bg-success text-white">Loại A (Xuất Sắc)</span>
-          </div>
-          <small class="text-success fw-semibold mt-1 d-block"><i class="fa-solid fa-gift me-1"></i>Thưởng: +3.500.000 VNĐ</small>
+    <div class="row text-center g-3">
+      <div class="col-md-3">
+        <div class="p-3 border rounded-3 bg-primary-subtle">
+          <small class="text-muted fw-semibold d-block mb-1">Cloud & Infrastructure (FIS Infra)</small>
+          <h2 class="fw-bold text-primary mb-1">99.8%</h2>
+          <span class="small text-primary-emphasis">SLA Uptime & System Availability</span>
         </div>
       </div>
-
-      <!-- Hạng 2 (Silver) -->
-      <div class="col-md-4">
-        <div class="p-3 border border-secondary border-opacity-50 rounded-3 bg-light text-center position-relative">
-          <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-secondary text-white px-3 py-1 shadow-sm">
-            <i class="fa-solid fa-medal me-1"></i>Á QUÂN (TOP 2)
-          </span>
-          <div class="mt-2 mb-2">
-            <div class="bg-secondary text-white rounded-circle d-inline-flex align-items-center justify-content-center shadow" style="width: 60px; height: 60px; font-size: 1.5rem;">
-              <i class="fa-solid fa-user-tie"></i>
-            </div>
-          </div>
-          <h6 class="fw-bold text-dark mb-0">Nguyễn Văn An</h6>
-          <small class="text-muted d-block mb-2">HR-001 | HR Lead</small>
-          <div class="d-flex justify-content-center align-items-center gap-2">
-            <span class="fs-4 fw-bold text-primary">88.0</span>
-            <span class="badge bg-primary-subtle text-primary">Loại B (Tốt)</span>
-          </div>
-          <small class="text-primary fw-semibold mt-1 d-block"><i class="fa-solid fa-gift me-1"></i>Thưởng: +2.000.000 VNĐ</small>
+      <div class="col-md-3">
+        <div class="p-3 border rounded-3 bg-success-subtle">
+          <small class="text-muted fw-semibold d-block mb-1">Software & Enterprise Solutions</small>
+          <h2 class="fw-bold text-success mb-1">95.5%</h2>
+          <span class="small text-success-emphasis">Sprint Delivery & Go-Live Rate</span>
         </div>
       </div>
-
-      <!-- Hạng 3 (Bronze) -->
-      <div class="col-md-4">
-        <div class="p-3 border border-danger border-opacity-25 rounded-3 bg-light text-center position-relative">
-          <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger text-white px-3 py-1 shadow-sm">
-            <i class="fa-solid fa-award me-1"></i>HẠNG BA (TOP 3)
-          </span>
-          <div class="mt-2 mb-2">
-            <div class="bg-dark text-info rounded-circle d-inline-flex align-items-center justify-content-center shadow" style="width: 60px; height: 60px; font-size: 1.5rem;">
-              <i class="fa-solid fa-user-gear"></i>
-            </div>
-          </div>
-          <h6 class="fw-bold text-dark mb-0">Trần Văn Cường</h6>
-          <small class="text-muted d-block mb-2">IT-005 | DevOps Engineer</small>
-          <div class="d-flex justify-content-center align-items-center gap-2">
-            <span class="fs-4 fw-bold text-info">86.5</span>
-            <span class="badge bg-primary-subtle text-primary">Loại B (Tốt)</span>
-          </div>
-          <small class="text-info fw-semibold mt-1 d-block"><i class="fa-solid fa-gift me-1"></i>Thưởng: +1.500.000 VNĐ</small>
+      <div class="col-md-3">
+        <div class="p-3 border rounded-3 bg-warning-subtle">
+          <small class="text-muted fw-semibold d-block mb-1">Digital Security & Managed Services</small>
+          <h2 class="fw-bold text-warning mb-1">100%</h2>
+          <span class="small text-warning-emphasis">Zero SLA Violation</span>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="p-3 border rounded-3 bg-info-subtle">
+          <small class="text-muted fw-semibold d-block mb-1">ERP & Smart Banking Solutions</small>
+          <h2 class="fw-bold text-info mb-1">94.0%</h2>
+          <span class="small text-info-emphasis">Client Satisfaction Index</span>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Bảng Danh Sách Nhiệm Vụ & Tiêu Chí KPI Trong Quý -->
+<!-- Bảng Ma Trận KPI Chuẩn FPT IS -->
 <div class="card border-0 shadow-sm rounded-3 mb-4">
   <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-list-check text-success me-2"></i>Chi Tiết Nhiệm Vụ KPI & Tiêu Chí Trọng Tâm Quý 3/2026</h6>
-    <button class="btn btn-sm btn-primary shadow-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#addTaskModal">
-      <i class="fa-solid fa-plus me-1"></i>Thêm Nhiệm Vụ Mới
-    </button>
+    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-list-check text-success me-2"></i>Bảng Ma Trận Chỉ Số KPI Trọng Tâm (FPT IS KPI Matrix Q3/2026)</h6>
+    <div class="d-flex gap-2">
+      <select class="form-select form-select-sm" style="width: 210px;" onchange="filterBU(this.value)">
+        <option value="all">Tất cả Trung tâm FPT IS</option>
+        <option value="infra">FIS Infrastructure & Cloud</option>
+        <option value="software">FIS Software & Solutions</option>
+        <option value="security">FIS Cyber Security & SOC</option>
+      </select>
+      <button class="btn btn-sm btn-primary shadow-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+        <i class="fa-solid fa-plus me-1"></i>Thêm KPI Dự Án
+      </button>
+    </div>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0 text-center small" id="taskTable">
         <thead class="table-light">
           <tr>
-            <th class="text-start">Mục Tiêu / Nhiệm Vụ Chi Tiết</th>
-            <th>Nhóm Tiêu Chí</th>
+            <th class="text-start">Nhiệm Vụ / Chỉ Số Kỹ Thuật (FIS Metric)</th>
+            <th>Trung Tâm / BU</th>
             <th>Trọng Số</th>
-            <th>Chỉ Số Đo Lường (KPI Metric)</th>
+            <th>Cam Kết SLA / Goal</th>
+            <th>Thực Tế (Actual)</th>
             <th>Tiến Độ Quý</th>
-            <th>Điểm Đánh Giá</th>
-            <th>Trạng Thái</th>
-            <th style="min-width: 100px;">Thao Tác</th>
+            <th>Score</th>
+            <th>Thao Tác</th>
           </tr>
         </thead>
         <tbody>
-          <tr id="task-row-1">
+          <!-- Mảng Infra -->
+          <tr id="task-row-1" data-bu="infra">
             <td class="text-start">
-              <div class="fw-bold text-dark task-title">Triển khai & Tối ưu hóa Hạ tầng Server OSHRM SPA</div>
-              <small class="text-muted task-desc">Đảm bảo Uptime 99.99% và tốc độ nạp View < 50ms</small>
+              <div class="fw-bold text-dark task-title">Quản trị & Triển khai Hạ tầng Server OSHRM SPA</div>
+              <small class="text-muted task-desc">Tối ưu Nginx Proxy, Proxmox Cluster & Docker Microservices</small>
             </td>
-            <td><span class="badge bg-info-subtle text-info task-category">Chất Lượng & Uptime</span></td>
-            <td><span class="badge bg-secondary-subtle text-dark task-weight">40%</span></td>
+            <td><span class="badge bg-dark text-info task-category">FIS Infrastructure</span></td>
+            <td><span class="badge bg-secondary-subtle text-dark task-weight">35%</span></td>
+            <td>≥ 99.90% Uptime</td>
             <td><strong class="text-success task-metric">99.98% Uptime</strong></td>
             <td style="width: 120px;">
               <div class="progress" style="height: 8px;">
@@ -125,38 +101,53 @@
               </div>
             </td>
             <td><span class="fw-bold text-success task-score">100 / 100</span></td>
-            <td><span class="badge bg-success-subtle text-success task-status">Hoàn thành</span></td>
             <td>
-              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa" onclick="openEditTaskModal('1', 'Triển khai & Tối ưu hóa Hạ tầng Server OSHRM SPA', 'Đảm bảo Uptime 99.99% và tốc độ nạp View < 50ms', 'Chất Lượng & Uptime', '40', '99.98% Uptime', '100')">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa" onclick="deleteTask('1')">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
+              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" onclick="openEditTaskModal('1', 'Quản trị Hạ tầng Server OSHRM SPA', 'Tối ưu Nginx & Docker', 'FIS Infrastructure', '35', '99.98% Uptime', '100')"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button class="btn btn-sm btn-outline-danger p-1 px-2" onclick="deleteTask('1')"><i class="fa-solid fa-trash-can"></i></button>
             </td>
           </tr>
-          <tr id="task-row-2">
+
+          <!-- Mảng Software -->
+          <tr id="task-row-2" data-bu="software">
             <td class="text-start">
-              <div class="fw-bold text-dark task-title">Xây dựng Module Chấm Công Matrix & Auth Guard</div>
-              <small class="text-muted task-desc">Hoàn thiện 100% tính năng Bảng công tháng & Router Bảo vệ</small>
+              <div class="fw-bold text-dark task-title">Xây dựng View Component Module Chấm Công & Auth Guard</div>
+              <small class="text-muted task-desc">Phát triển Router Vanilla JS SPA, LocalStorage Binding & Toast UI</small>
             </td>
-            <td><span class="badge bg-primary-subtle text-primary task-category">Khối Lượng & Tiến Độ</span></td>
-            <td><span class="badge bg-secondary-subtle text-dark task-weight">40%</span></td>
-            <td><strong class="text-primary task-metric">8 / 8 Module</strong></td>
+            <td><span class="badge bg-primary-subtle text-primary task-category">FIS Software</span></td>
+            <td><span class="badge bg-secondary-subtle text-dark task-weight">35%</span></td>
+            <td>8 Views SPA</td>
+            <td><strong class="text-primary task-metric">8 / 8 Views</strong></td>
             <td style="width: 120px;">
               <div class="progress" style="height: 8px;">
-                <div class="progress-bar bg-primary task-progress-bar" style="width: 95%"></div>
+                <div class="progress-bar bg-primary task-progress-bar" style="width: 100%"></div>
               </div>
             </td>
-            <td><span class="fw-bold text-primary task-score">95 / 100</span></td>
-            <td><span class="badge bg-primary-subtle text-primary task-status">Đạt mục tiêu</span></td>
+            <td><span class="fw-bold text-primary task-score">96 / 100</span></td>
             <td>
-              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa" onclick="openEditTaskModal('2', 'Xây dựng Module Chấm Công Matrix & Auth Guard', 'Hoàn thiện 100% tính năng Bảng công tháng & Router Bảo vệ', 'Khối Lượng & Tiến Độ', '40', '8 / 8 Module', '95')">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa" onclick="deleteTask('2')">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
+              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" onclick="openEditTaskModal('2', 'Xây dựng Module Chấm Công & Auth Guard', 'Code Vanilla JS Router', 'FIS Software', '35', '8 / 8 Views', '96')"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button class="btn btn-sm btn-outline-danger p-1 px-2" onclick="deleteTask('2')"><i class="fa-solid fa-trash-can"></i></button>
+            </td>
+          </tr>
+
+          <!-- Mảng Security -->
+          <tr id="task-row-3" data-bu="security">
+            <td class="text-start">
+              <div class="fw-bold text-dark task-title">An Toàn Thông Tin System & Phòng Chống Rò Rỉ Dữ Liệu</div>
+              <small class="text-muted task-desc">Kiểm soát truy cập, mã hóa kết nối CSDL SQL Server</small>
+            </td>
+            <td><span class="badge bg-danger-subtle text-danger task-category">FIS Security</span></td>
+            <td><span class="badge bg-secondary-subtle text-dark task-weight">30%</span></td>
+            <td>0 High Bug</td>
+            <td><strong class="text-success task-metric">0 Incident</strong></td>
+            <td style="width: 120px;">
+              <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-danger task-progress-bar" style="width: 100%"></div>
+              </div>
+            </td>
+            <td><span class="fw-bold text-success task-score">98 / 100</span></td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" onclick="openEditTaskModal('3', 'An Toàn Thông Tin System', 'Phòng chống rò rỉ dữ liệu', 'FIS Security', '30', '0 Incident', '98')"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button class="btn btn-sm btn-outline-danger p-1 px-2" onclick="deleteTask('3')"><i class="fa-solid fa-trash-can"></i></button>
             </td>
           </tr>
         </tbody>
@@ -165,235 +156,70 @@
   </div>
 </div>
 
-<!-- Biểu Đồ Thống Kê -->
+<!-- Biểu Đồ Thống Kê Nhân Sự FPT IS -->
 <div class="row g-4 mb-4">
   <div class="col-md-6">
     <div class="card border-0 shadow-sm rounded-3 p-3 bg-white">
-      <h6 class="fw-bold text-dark mb-3">Tỷ Lệ Nhân Sự Theo Phòng Ban</h6>
+      <h6 class="fw-bold text-dark mb-3">Phân Bổ Nhân Sự Theo Trung Tâm FPT IS</h6>
       <canvas id="deptChart"></canvas>
     </div>
   </div>
   <div class="col-md-6">
     <div class="card border-0 shadow-sm rounded-3 p-3 bg-white">
-      <h6 class="fw-bold text-dark mb-3">Tăng Trưởng Nhân Sự Theo Tháng</h6>
+      <h6 class="fw-bold text-dark mb-3">Tăng Trưởng Năng Suất Dự Án FPT IS Qua Các Quý</h6>
       <canvas id="growthChart"></canvas>
     </div>
   </div>
 </div>
 
-<!-- Modal Đánh Giá Năng Lực Đa Chiều 360 Độ (MỚI BỔ SUNG) -->
-<div class="modal fade" id="peerReviewModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content border-0 shadow-lg">
-      <div class="modal-header bg-success text-white py-3">
-        <h5 class="modal-title fw-bold"><i class="fa-solid fa-comments me-2"></i>Đánh Giá Năng Lực & Thái Độ Đa Chiều (360° Review)</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body p-4">
-        <form onsubmit="savePeerReview(event)">
-          <div class="row g-3 mb-3">
-            <div class="col-md-6">
-              <label class="form-label fw-semibold small">Nhân Viên Được Đánh Giá</label>
-              <select class="form-select">
-                <option>Lê Hải Nam (IT-002)</option>
-                <option>Nguyễn Văn An (HR-001)</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label fw-semibold small">Người Đánh Giá</label>
-              <input type="text" class="form-control bg-light" value="Trưởng Bộ Phận (Manager)" readonly>
-            </div>
-          </div>
-
-          <h6 class="fw-bold text-dark mt-3 mb-3">Tiêu Chí Khảo Sát Thái Độ & Kỹ Năng Mềm</h6>
-          
-          <div class="mb-3">
-            <label class="form-label small fw-semibold">1. Khả năng làm việc nhóm & Tương tác (Teamwork)</label>
-            <select class="form-select">
-              <option>5/5 - Xuất sắc, luôn chủ động hỗ trợ đồng nghiệp</option>
-              <option>4/5 - Tốt, hợp tác hiệu quả</option>
-              <option>3/5 - Khá, hoàn thành mức cơ bản</option>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label small fw-semibold">2. Tư duy sáng tạo & Giải quyết vấn đề (Problem Solving)</label>
-            <select class="form-select">
-              <option>5/5 - Cải tiến quy trình vượt trội, đưa ra giải pháp SPA tối ưu</option>
-              <option>4/5 - Giải quyết tốt các sự cố kỹ thuật phát sinh</option>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label small fw-semibold">Nhận Xét & Góp Ý Nhận Thức Định Tính</label>
-            <textarea class="form-control" rows="3" placeholder="Nhập nhận xét chi tiết về ưu điểm và điểm cần cải thiện của nhân sự..."></textarea>
-          </div>
-
-          <div class="text-end mt-4">
-            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Hủy</button>
-            <button type="submit" class="btn btn-success fw-semibold"><i class="fa-solid fa-paper-plane me-1"></i>Gửi Đánh Giá 360°</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Thêm Nhiệm Vụ Mới -->
-<div class="modal fade" id="addTaskModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow-lg">
-      <div class="modal-header bg-primary text-white py-3">
-        <h5 class="modal-title fw-bold"><i class="fa-solid fa-plus-circle me-2"></i>Thêm Nhiệm Vụ KPI Mới</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body p-4">
-        <form id="addTaskForm" onsubmit="saveNewTask(event)">
-          <div class="mb-3">
-            <label class="form-label fw-semibold small">Tên Nhiệm Vụ / Mục Tiêu Chi Tiết</label>
-            <input type="text" id="addTitle" class="form-control" required placeholder="Ví dụ: Tối ưu CSDL SQL Server...">
-          </div>
-          <div class="mb-3">
-            <label class="form-label fw-semibold small">Mô Tả Yêu Cầu</label>
-            <input type="text" id="addDesc" class="form-control" placeholder="Mô tả chỉ số đo lường...">
-          </div>
-          <div class="row g-2 mb-3">
-            <div class="col-6">
-              <label class="form-label fw-semibold small">Nhóm Tiêu Chí</label>
-              <select id="addCategory" class="form-select">
-                <option>Chất Lượng & Uptime</option>
-                <option>Khối Lượng & Tiến Độ</option>
-                <option>Kỷ Luật & Thái Độ</option>
-              </select>
-            </div>
-            <div class="col-6">
-              <label class="form-label fw-semibold small">Trọng Số (%)</label>
-              <input type="number" id="addWeight" class="form-control" value="20" min="5" max="100">
-            </div>
-          </div>
-          <div class="row g-2 mb-3">
-            <div class="col-6">
-              <label class="form-label fw-semibold small">Chỉ Số Đo Lường (Metric)</label>
-              <input type="text" id="addMetric" class="form-control" value="100% Hoàn thành">
-            </div>
-            <div class="col-6">
-              <label class="form-label fw-semibold small">Điểm Mục Tiêu (0 - 100)</label>
-              <input type="number" id="addScore" class="form-control" value="90" min="0" max="100">
-            </div>
-          </div>
-          <div class="text-end mt-4">
-            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Hủy</button>
-            <button type="submit" class="btn btn-primary fw-semibold"><i class="fa-solid fa-floppy-disk me-1"></i>Tạo Nhiệm Vụ</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Sửa Nhiệm Vụ -->
-<div class="modal fade" id="editTaskModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow-lg">
-      <div class="modal-header bg-dark text-white py-3">
-        <h5 class="modal-title fw-bold"><i class="fa-solid fa-pen-to-square me-2"></i>Chỉnh Sửa Nhiệm Vụ KPI</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body p-4">
-        <form id="editTaskForm" onsubmit="saveEditedTask(event)">
-          <input type="hidden" id="editTaskId">
-          <div class="mb-3">
-            <label class="form-label fw-semibold small">Tên Nhiệm Vụ / Mục Tiêu</label>
-            <input type="text" id="editTitle" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label fw-semibold small">Mô Tả Yêu Cầu</label>
-            <input type="text" id="editDesc" class="form-control">
-          </div>
-          <div class="row g-2 mb-3">
-            <div class="col-6">
-              <label class="form-label fw-semibold small">Nhóm Tiêu Chí</label>
-              <select id="editCategory" class="form-select">
-                <option>Chất Lượng & Uptime</option>
-                <option>Khối Lượng & Tiến Độ</option>
-                <option>Kỷ Luật & Thái Độ</option>
-              </select>
-            </div>
-            <div class="col-6">
-              <label class="form-label fw-semibold small">Trọng Số (%)</label>
-              <input type="number" id="editWeight" class="form-control" min="5" max="100">
-            </div>
-          </div>
-          <div class="row g-2 mb-3">
-            <div class="col-6">
-              <label class="form-label fw-semibold small">Chỉ Số Đo Lường</label>
-              <input type="text" id="editMetric" class="form-control">
-            </div>
-            <div class="col-6">
-              <label class="form-label fw-semibold small">Điểm Chấm (0 - 100)</label>
-              <input type="number" id="editScore" class="form-control" min="0" max="100">
-            </div>
-          </div>
-          <div class="text-end mt-4">
-            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Hủy</button>
-            <button type="submit" class="btn btn-primary fw-semibold"><i class="fa-solid fa-floppy-disk me-1"></i>Lưu Thay Đổi</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Đánh Giá KPI Chuẩn Tiêu Chí SMART -->
+<!-- Modal Đánh Giá KPI Kỹ Thuật Chuẩn FPT IS -->
 <div class="modal fade" id="kpiModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg">
       <div class="modal-header bg-dark text-white py-3">
-        <h5 class="modal-title fw-bold"><i class="fa-solid fa-award me-2"></i>Đánh Giá KPI Nhân Viên Theo Tiêu Chí</h5>
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-calculator me-2"></i>Đánh Giá KPI Kỹ Thuật & Hiệu Suất Dự Án FPT IS</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body p-4">
         <form id="kpiForm" oninput="evalKpi()">
           <div class="row g-3 mb-3">
             <div class="col-md-6">
-              <label class="form-label fw-semibold">Nhân Viên Được Đánh Giá</label>
-              <select class="form-select" id="kpiUserSelect">
-                <option value="1">Lê Hải Nam (IT-002)</option>
-                <option value="2">Nguyễn Văn An (HR-001)</option>
+              <label class="form-label fw-semibold">Lập Trình Viên / System Engineer</label>
+              <select class="form-select">
+                <option value="1">Lê Hải Nam (IT-002 - FIS Sysadmin & IT Lead)</option>
+                <option value="2">Nguyễn Văn An (HR-001 - FIS HR Lead)</option>
               </select>
             </div>
             <div class="col-md-6">
               <label class="form-label fw-semibold">Kỳ Đánh Giá KPI</label>
               <select class="form-select">
-                <option>Quý 3/2026 (Tháng 7 - Tháng 9)</option>
-                <option>Quý 4/2026 (Tháng 10 - Tháng 12)</option>
+                <option>Quý 3/2026</option>
+                <option>Quý 4/2026</option>
               </select>
             </div>
           </div>
 
-          <h6 class="fw-bold text-dark mt-4 mb-3"><i class="fa-solid fa-sliders text-primary me-2"></i>Chấm Điểm Theo 3 Nhóm Tiêu Chí Trọng Tâm</h6>
-          
           <div class="p-3 bg-light rounded-3 mb-3 border border-start border-4 border-primary">
-            <strong class="text-dark small d-block mb-2">1. Tiêu chí Tiến độ & Khối lượng công việc (Trọng số 40%)</strong>
+            <strong class="text-dark small d-block mb-1">1. Cam Kết SLA Vận Hành & Server Uptime (Trọng số 35%)</strong>
             <div class="row g-2">
-              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c1Self" value="95" max="100"></div>
-              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c1Mgr" value="98" max="100"></div>
+              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c1Self" value="100"></div>
+              <div class="col-6"><input type="text" class="form-control form-control-sm bg-white fw-bold text-primary" id="c1Score" value="35.0 / 35" readonly></div>
             </div>
           </div>
 
           <div class="p-3 bg-light rounded-3 mb-3 border border-start border-4 border-info">
-            <strong class="text-dark small d-block mb-2">2. Tiêu chí Chất lượng & Độ ổn định hệ thống (Trọng số 40%)</strong>
+            <strong class="text-dark small d-block mb-1">2. Tiến Độ Bàn Giao Code & Go-Live Features (Trọng số 35%)</strong>
             <div class="row g-2">
-              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c2Self" value="92" max="100"></div>
-              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c2Mgr" value="96" max="100"></div>
+              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c2Self" value="96"></div>
+              <div class="col-6"><input type="text" class="form-control form-control-sm bg-white fw-bold text-info" id="c2Score" value="33.6 / 35" readonly></div>
             </div>
           </div>
 
-          <div class="p-3 bg-light rounded-3 mb-3 border border-start border-4 border-warning">
-            <strong class="text-dark small d-block mb-2">3. Tiêu chí Kỷ luật & Ý thức tuân thủ (Trọng số 20%)</strong>
+          <div class="p-3 bg-light rounded-3 mb-3 border border-start border-4 border-danger">
+            <strong class="text-dark small d-block mb-1">3. An Toàn Dữ Liệu & Quy Trình Security (Trọng số 30%)</strong>
             <div class="row g-2">
-              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c3Self" value="90" max="100"></div>
-              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c3Mgr" value="95" max="100"></div>
+              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c3Self" value="98"></div>
+              <div class="col-6"><input type="text" class="form-control form-control-sm bg-white fw-bold text-danger" id="c3Score" value="29.4 / 30" readonly></div>
             </div>
           </div>
 
@@ -401,14 +227,14 @@
           <div class="row g-3 text-center">
             <div class="col-md-6">
               <div class="p-3 bg-white rounded-3 border shadow-sm">
-                <small class="text-muted fw-semibold">ĐIỂM TRUNG BÌNH KPI</small>
-                <h3 class="fw-bold text-dark mb-0" id="avgKpiResult">95.6</h3>
+                <small class="text-muted fw-semibold">TỔNG ĐIỂM KPI TỔNG HỢP</small>
+                <h3 class="fw-bold text-dark mb-0" id="avgKpiResult">98.0 %</h3>
               </div>
             </div>
             <div class="col-md-6">
               <div class="p-3 bg-white rounded-3 border shadow-sm">
-                <small class="text-muted fw-semibold">XẾP LOẠI HIỆU SUẤT</small>
-                <h3 class="fw-bold text-success mb-0" id="gradeKpiResult">Loại A (Xuất Sắc)</h3>
+                <small class="text-muted fw-semibold">XẾP LOẠI HIỆU SUẤT QUÝ</small>
+                <h3 class="fw-bold text-success mb-0" id="gradeKpiResult">Level A (FIS Senior / Lead)</h3>
               </div>
             </div>
           </div>
@@ -416,7 +242,7 @@
       </div>
       <div class="modal-footer bg-light">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary fw-semibold" onclick="saveKpiEvaluation()"><i class="fa-solid fa-floppy-disk me-1"></i>Lưu Đánh Giá</button>
+        <button type="button" class="btn btn-primary fw-semibold" onclick="saveKpiEvaluation()"><i class="fa-solid fa-floppy-disk me-1"></i>Lưu Kết Quả Đánh Giá</button>
       </div>
     </div>
   </div>
@@ -427,8 +253,8 @@
     new Chart(document.getElementById('deptChart'), {
       type: 'doughnut',
       data: {
-        labels: ['IT & Tech', 'Hành chính', 'Marketing', 'Kinh doanh'],
-        datasets: [{ data: [40, 15, 20, 25], backgroundColor: ['#0d6efd', '#20c997', '#ffc107', '#dc3545'] }]
+        labels: ['FIS Infrastructure', 'FIS Software Solutions', 'FIS Cyber Security', 'FIS ERP & Banking'],
+        datasets: [{ data: [35, 40, 15, 10], backgroundColor: ['#0d6efd', '#20c997', '#dc3545', '#ffc107'] }]
       }
     });
   }
@@ -437,149 +263,52 @@
     new Chart(document.getElementById('growthChart'), {
       type: 'line',
       data: {
-        labels: ['T5', 'T6', 'T7', 'T8', 'T9'],
-        datasets: [{ label: 'Tổng nhân sự', data: [120, 132, 145, 150, 168], borderColor: '#0d6efd', fill: true, backgroundColor: 'rgba(13,110,253,0.08)' }]
+        labels: ['Q3/2025', 'Q4/2025', 'Q1/2026', 'Q2/2026', 'Q3/2026'],
+        datasets: [{ label: 'Tỷ lệ hoàn thành KPI FPT IS (%)', data: [89, 92, 94, 96, 98], borderColor: '#0d6efd', fill: true, backgroundColor: 'rgba(13,110,253,0.08)' }]
       }
     });
   }
 
-  function openEditTaskModal(id, title, desc, category, weight, metric, score) {
-    document.getElementById("editTaskId").value = id;
-    document.getElementById("editTitle").value = title;
-    document.getElementById("editDesc").value = desc;
-    document.getElementById("editCategory").value = category;
-    document.getElementById("editWeight").value = weight;
-    document.getElementById("editMetric").value = metric;
-    document.getElementById("editScore").value = score;
-
-    const modal = new bootstrap.Modal(document.getElementById('editTaskModal'));
-    modal.show();
-  }
-
-  function saveEditedTask(e) {
-    e.preventDefault();
-    const id = document.getElementById("editTaskId").value;
-    const title = document.getElementById("editTitle").value;
-    const desc = document.getElementById("editDesc").value;
-    const category = document.getElementById("editCategory").value;
-    const weight = document.getElementById("editWeight").value;
-    const metric = document.getElementById("editMetric").value;
-    const score = document.getElementById("editScore").value;
-
-    const row = document.getElementById(`task-row-${id}`);
-    if (row) {
-      row.querySelector(".task-title").innerText = title;
-      row.querySelector(".task-desc").innerText = desc;
-      row.querySelector(".task-category").innerText = category;
-      row.querySelector(".task-weight").innerText = weight + "%";
-      row.querySelector(".task-metric").innerText = metric;
-      row.querySelector(".task-score").innerText = score + " / 100";
-      row.querySelector(".task-progress-bar").style.width = score + "%";
-    }
-
-    const modalElem = document.getElementById('editTaskModal');
-    const modal = bootstrap.Modal.getInstance(modalElem);
-    if (modal) modal.hide();
-
-    if (typeof showToast === 'function') {
-      showToast('Cập nhật thông tin nhiệm vụ thành công!', 'Sửa Nhiệm Vụ', 'success');
-    }
-  }
-
-  function deleteTask(id) {
-    if (confirm("Bạn có chắc chắn muốn xóa nhiệm vụ KPI này không?")) {
-      const row = document.getElementById(`task-row-${id}`);
-      if (row) row.remove();
-      if (typeof showToast === 'function') {
-        showToast('Đã xóa nhiệm vụ KPI khỏi danh sách!', 'Xóa Nhiệm Vụ', 'warning');
+  function filterBU(buValue) {
+    const rows = document.querySelectorAll("#taskTable tbody tr");
+    rows.forEach(row => {
+      if (buValue === "all" || row.getAttribute("data-bu") === buValue) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
       }
-    }
-  }
-
-  function saveNewTask(e) {
-    e.preventDefault();
-    const title = document.getElementById("addTitle").value;
-    const desc = document.getElementById("addDesc").value;
-    const category = document.getElementById("addCategory").value;
-    const weight = document.getElementById("addWeight").value;
-    const metric = document.getElementById("addMetric").value;
-    const score = document.getElementById("addScore").value;
-
-    const newId = Date.now();
-    const tbody = document.querySelector("#taskTable tbody");
-    const tr = document.createElement("tr");
-    tr.id = `task-row-${newId}`;
-    tr.innerHTML = `
-      <td class="text-start">
-        <div class="fw-bold text-dark task-title">${title}</div>
-        <small class="text-muted task-desc">${desc}</small>
-      </td>
-      <td><span class="badge bg-info-subtle text-info task-category">${category}</span></td>
-      <td><span class="badge bg-secondary-subtle text-dark task-weight">${weight}%</span></td>
-      <td><strong class="text-success task-metric">${metric}</strong></td>
-      <td style="width: 120px;">
-        <div class="progress" style="height: 8px;">
-          <div class="progress-bar bg-success task-progress-bar" style="width: ${score}%"></div>
-        </div>
-      </td>
-      <td><span class="fw-bold text-success task-score">${score} / 100</span></td>
-      <td><span class="badge bg-success-subtle text-success task-status">Mới tạo</span></td>
-      <td>
-        <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa" onclick="openEditTaskModal('${newId}', '${title}', '${desc}', '${category}', '${weight}', '${metric}', '${score}')">
-          <i class="fa-solid fa-pen-to-square"></i>
-        </button>
-        <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa" onclick="deleteTask('${newId}')">
-          <i class="fa-solid fa-trash-can"></i>
-        </button>
-      </td>
-    `;
-    tbody.appendChild(tr);
-
-    document.getElementById("addTaskForm").reset();
-    const modalElem = document.getElementById('addTaskModal');
-    const modal = bootstrap.Modal.getInstance(modalElem);
-    if (modal) modal.hide();
-
+    });
     if (typeof showToast === 'function') {
-      showToast('Đã thêm nhiệm vụ KPI mới thành công!', 'Thêm Mới', 'success');
-    }
-  }
-
-  function savePeerReview(e) {
-    e.preventDefault();
-    const modalElem = document.getElementById('peerReviewModal');
-    const modal = bootstrap.Modal.getInstance(modalElem);
-    if (modal) modal.hide();
-
-    if (typeof showToast === 'function') {
-      showToast('Đã lưu kết quả đánh giá năng lực 360 độ thành công!', 'Đánh Giá Đa Chiều', 'success');
+      showToast(`Đã lọc danh sách KPI theo mảng FPT IS: ${buValue.toUpperCase()}`, 'Bộ Lọc FIS', 'info');
     }
   }
 
   function evalKpi() {
-    const c1Self = parseFloat(document.getElementById('c1Self')?.value) || 0;
-    const c1Mgr = parseFloat(document.getElementById('c1Mgr')?.value) || 0;
-    const c2Self = parseFloat(document.getElementById('c2Self')?.value) || 0;
-    const c2Mgr = parseFloat(document.getElementById('c2Mgr')?.value) || 0;
-    const c3Self = parseFloat(document.getElementById('c3Self')?.value) || 0;
-    const c3Mgr = parseFloat(document.getElementById('c3Mgr')?.value) || 0;
+    const c1 = parseFloat(document.getElementById('c1Self')?.value) || 0;
+    const c2 = parseFloat(document.getElementById('c2Self')?.value) || 0;
+    const c3 = parseFloat(document.getElementById('c3Self')?.value) || 0;
 
-    const finalScore = (((c1Self + c1Mgr) / 2) * 0.4) + (((c2Self + c2Mgr) / 2) * 0.4) + (((c3Self + c3Mgr) / 2) * 0.2);
-    document.getElementById('avgKpiResult').innerText = finalScore.toFixed(1);
-    
+    const s1 = (c1 / 100) * 35;
+    const s2 = (c2 / 100) * 35;
+    const s3 = (c3 / 100) * 30;
+
+    if(document.getElementById('c1Score')) document.getElementById('c1Score').value = s1.toFixed(1) + " / 35";
+    if(document.getElementById('c2Score')) document.getElementById('c2Score').value = s2.toFixed(1) + " / 35";
+    if(document.getElementById('c3Score')) document.getElementById('c3Score').value = s3.toFixed(1) + " / 30";
+
+    const total = s1 + s2 + s3;
+    document.getElementById('avgKpiResult').innerText = total.toFixed(1) + " %";
+
     const gradeElem = document.getElementById('gradeKpiResult');
-    if (finalScore >= 90) {
+    if (total >= 95) {
       gradeElem.className = 'fw-bold text-success mb-0';
-      gradeElem.innerText = 'Loại A (Xuất Sắc)';
-    } else if (finalScore >= 75) {
+      gradeElem.innerText = 'Level A (FIS Senior / Lead)';
+    } else if (total >= 80) {
       gradeElem.className = 'fw-bold text-primary mb-0';
-      gradeElem.innerText = 'Loại B (Tốt)';
-    } else if (finalScore >= 50) {
-      gradeElem.className = 'fw-bold text-warning mb-0';
-      gradeElem.innerText = 'Loại C (Đạt)';
+      gradeElem.innerText = 'Level B (FIS Mid Engineer)';
     } else {
-      gradeElem.className = 'fw-bold text-danger mb-0';
-      gradeElem.innerText = 'Loại D (Cần Cải Thiện)';
+      gradeElem.className = 'fw-bold text-warning mb-0';
+      gradeElem.innerText = 'Level C (FIS Junior Engineer)';
     }
   }
 
@@ -587,9 +316,7 @@
     const modalElem = document.getElementById('kpiModal');
     const modal = bootstrap.Modal.getInstance(modalElem);
     if (modal) modal.hide();
-    if (typeof showToast === 'function') {
-      showToast('Đã lưu kết quả đánh giá KPI theo tiêu chí thành công!', 'Đánh Giá KPI Quý', 'success');
-    }
+    if (typeof showToast === 'function') showToast('Đã lưu đánh giá KPI theo chuẩn FPT IS thành công!', 'Cập Nhật KPI FIS', 'success');
   }
 
   const savedName = localStorage.getItem("OSHRM_UserName") || "Lê Hải Nam";

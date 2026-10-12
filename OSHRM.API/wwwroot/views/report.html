@@ -44,76 +44,101 @@
   </div>
 </div>
 
-<!-- Bảng Danh Sách Nhiệm Vụ & Mục Tiêu KPI Trong Quý (MỚI BỔ SUNG) -->
+<!-- Bảng Danh Sách Nhiệm Vụ & Tiêu Chí KPI Trong Quý (CÓ THÊM SỬA / XÓA) -->
 <div class="card border-0 shadow-sm rounded-3 mb-4">
   <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-list-check text-success me-2"></i>Chi Tiết Nhiệm Vụ KPI Trọng Tâm Trong Quý 3/2026</h6>
-    <button class="btn btn-sm btn-outline-primary" onclick="if(typeof showToast==='function') showToast('Mở form giao nhiệm vụ KPI mới cho nhân viên', 'Giao Nhiệm Vụ', 'info')">
+    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-list-check text-success me-2"></i>Chi Tiết Nhiệm Vụ KPI & Tiêu Chí Trọng Tâm Quý 3/2026</h6>
+    <button class="btn btn-sm btn-primary shadow-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#addTaskModal">
       <i class="fa-solid fa-plus me-1"></i>Thêm Nhiệm Vụ Mới
     </button>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0 text-center small">
+      <table class="table table-hover align-middle mb-0 text-center small" id="taskTable">
         <thead class="table-light">
           <tr>
             <th class="text-start">Mục Tiêu / Nhiệm Vụ Chi Tiết</th>
-            <th>Phân Giao</th>
+            <th>Nhóm Tiêu Chí</th>
             <th>Trọng Số</th>
-            <th>Chỉ Số Kết Quả (KPI Metric)</th>
+            <th>Chỉ Số Đo Lường (KPI Metric)</th>
             <th>Tiến Độ Quý</th>
-            <th>Đánh Giá Quý</th>
+            <th>Điểm Đánh Giá</th>
             <th>Trạng Thái</th>
+            <th style="min-width: 100px;">Thao Tác</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr id="task-row-1">
             <td class="text-start">
-              <div class="fw-bold text-dark">Triển khai & Tối ưu hóa Hạ tầng Server OSHRM SPA</div>
-              <small class="text-muted">Đảm bảo Uptime 99.99% và tốc độ nạp View < 50ms</small>
+              <div class="fw-bold text-dark task-title">Triển khai & Tối ưu hóa Hạ tầng Server OSHRM SPA</div>
+              <small class="text-muted task-desc">Đảm bảo Uptime 99.99% và tốc độ nạp View < 50ms</small>
             </td>
-            <td class="fw-semibold user-dynamic-name">Lê Hải Nam</td>
-            <td><span class="badge bg-secondary-subtle text-dark">30%</span></td>
-            <td><strong class="text-success">99.98% Uptime</strong></td>
-            <td style="width: 150px;">
+            <td><span class="badge bg-info-subtle text-info task-category">Chất Lượng & Uptime</span></td>
+            <td><span class="badge bg-secondary-subtle text-dark task-weight">40%</span></td>
+            <td><strong class="text-success task-metric">99.98% Uptime</strong></td>
+            <td style="width: 120px;">
               <div class="progress" style="height: 8px;">
-                <div class="progress-bar bg-success" style="width: 100%"></div>
+                <div class="progress-bar bg-success task-progress-bar" style="width: 100%"></div>
               </div>
             </td>
-            <td><span class="fw-bold text-success">100 / 100</span></td>
-            <td><span class="badge bg-success-subtle text-success">Hoàn thành</span></td>
+            <td><span class="fw-bold text-success task-score">100 / 100</span></td>
+            <td><span class="badge bg-success-subtle text-success task-status">Hoàn thành</span></td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa nhiệm vụ" onclick="openEditTaskModal('1', 'Triển khai & Tối ưu hóa Hạ tầng Server OSHRM SPA', 'Đảm bảo Uptime 99.99% và tốc độ nạp View < 50ms', 'Chất Lượng & Uptime', '40', '99.98% Uptime', '100')">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa nhiệm vụ" onclick="deleteTask('1')">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </td>
           </tr>
-          <tr>
+          <tr id="task-row-2">
             <td class="text-start">
-              <div class="fw-bold text-dark">Xây dựng Module Chấm Công Matrix & Auth Guard</div>
-              <small class="text-muted">Hoàn thiện 100% tính năng Bảng công tháng & Router Bảo vệ</small>
+              <div class="fw-bold text-dark task-title">Xây dựng Module Chấm Công Matrix & Auth Guard</div>
+              <small class="text-muted task-desc">Hoàn thiện 100% tính năng Bảng công tháng & Router Bảo vệ</small>
             </td>
-            <td class="fw-semibold user-dynamic-name">Lê Hải Nam</td>
-            <td><span class="badge bg-secondary-subtle text-dark">40%</span></td>
-            <td><strong class="text-primary">8 / 8 Module</strong></td>
-            <td style="width: 150px;">
+            <td><span class="badge bg-primary-subtle text-primary task-category">Khối Lượng & Tiến Độ</span></td>
+            <td><span class="badge bg-secondary-subtle text-dark task-weight">40%</span></td>
+            <td><strong class="text-primary task-metric">8 / 8 Module</strong></td>
+            <td style="width: 120px;">
               <div class="progress" style="height: 8px;">
-                <div class="progress-bar bg-primary" style="width: 95%"></div>
+                <div class="progress-bar bg-primary task-progress-bar" style="width: 95%"></div>
               </div>
             </td>
-            <td><span class="fw-bold text-primary">95 / 100</span></td>
-            <td><span class="badge bg-primary-subtle text-primary">Đạt mục tiêu</span></td>
+            <td><span class="fw-bold text-primary task-score">95 / 100</span></td>
+            <td><span class="badge bg-primary-subtle text-primary task-status">Đạt mục tiêu</span></td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa nhiệm vụ" onclick="openEditTaskModal('2', 'Xây dựng Module Chấm Công Matrix & Auth Guard', 'Hoàn thiện 100% tính năng Bảng công tháng & Router Bảo vệ', 'Khối Lượng & Tiến Độ', '40', '8 / 8 Module', '95')">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa nhiệm vụ" onclick="deleteTask('2')">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </td>
           </tr>
-          <tr>
+          <tr id="task-row-3">
             <td class="text-start">
-              <div class="fw-bold text-dark">Tuyển dụng & Onboarding Nhân sự Khối Tech</div>
-              <small class="text-muted">Tuyển bổ sung 5 Senior C# ASP.NET Core Developers</small>
+              <div class="fw-bold text-dark task-title">Tuân thủ Kỷ luật Lao động & Quy trình Vận hành</div>
+              <small class="text-muted task-desc">Đảm bảo ngày công, đúng giờ check-in, viết Document đầy đủ</small>
             </td>
-            <td class="fw-semibold">Nguyễn Văn An</td>
-            <td><span class="badge bg-secondary-subtle text-dark">30%</span></td>
-            <td><strong class="text-warning">4 / 5 NV</strong></td>
-            <td style="width: 150px;">
+            <td><span class="badge bg-warning-subtle text-warning task-category">Kỷ Luật & Thái Độ</span></td>
+            <td><span class="badge bg-secondary-subtle text-dark task-weight">20%</span></td>
+            <td><strong class="text-warning task-metric">22/22 Ngày công</strong></td>
+            <td style="width: 120px;">
               <div class="progress" style="height: 8px;">
-                <div class="progress-bar bg-warning" style="width: 80%"></div>
+                <div class="progress-bar bg-warning task-progress-bar" style="width: 100%"></div>
               </div>
             </td>
-            <td><span class="fw-bold text-warning">80 / 100</span></td>
-            <td><span class="badge bg-warning-subtle text-warning">Đang thực hiện</span></td>
+            <td><span class="fw-bold text-warning task-score">90 / 100</span></td>
+            <td><span class="badge bg-success-subtle text-success task-status">Đạt chuẩn</span></td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa nhiệm vụ" onclick="openEditTaskModal('3', 'Tuân thủ Kỷ luật Lao động & Quy trình Vận hành', 'Đảm bảo ngày công, đúng giờ check-in, viết Document đầy đủ', 'Kỷ Luật & Thái Độ', '20', '22/22 Ngày công', '90')">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa nhiệm vụ" onclick="deleteTask('3')">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -137,72 +162,124 @@
   </div>
 </div>
 
-<!-- Bảng Chi Tiết Xếp Loại KPI -->
-<div class="card border-0 shadow-sm rounded-3">
-  <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-list-check text-primary me-2"></i>Bảng Chi Tiết Xếp Loại KPI Tổng Hợp (Quý 3/2026)</h6>
-    <button class="btn btn-sm btn-outline-secondary" onclick="exportKpiReport()"><i class="fa-solid fa-download me-1"></i>Xuất Excel Báo Cáo</button>
-  </div>
-  <div class="card-body p-0">
-    <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light">
-          <tr>
-            <th>Mã NV</th>
-            <th>Họ và Tên</th>
-            <th>Phòng Ban</th>
-            <th>Chỉ Số Điểm KPI</th>
-            <th>Tiến Độ Hoàn Thành</th>
-            <th>Xếp Loại Quý</th>
-            <th>Thưởng KPI (Ước tính)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>IT-002</strong></td>
-            <td class="fw-semibold user-dynamic-name">Lê Hải Nam</td>
-            <td>Công nghệ Thông tin</td>
-            <td><span class="fw-bold text-success">96.5 / 100</span></td>
-            <td style="width: 200px;">
-              <div class="progress" style="height: 8px;">
-                <div class="progress-bar bg-success" style="width: 96%"></div>
-              </div>
-            </td>
-            <td><span class="badge bg-success-subtle text-success">A (Xuất sắc)</span></td>
-            <td class="fw-bold text-success">+3.500.000 VND</td>
-          </tr>
-          <tr>
-            <td><strong>HR-001</strong></td>
-            <td class="fw-semibold">Nguyễn Văn An</td>
-            <td>Hành chính Nhân sự</td>
-            <td><span class="fw-bold text-primary">85 / 100</span></td>
-            <td style="width: 200px;">
-              <div class="progress" style="height: 8px;">
-                <div class="progress-bar bg-primary" style="width: 85%"></div>
-              </div>
-            </td>
-            <td><span class="badge bg-primary-subtle text-primary">B (Tốt)</span></td>
-            <td class="fw-bold text-primary">+2.000.000 VND</td>
-          </tr>
-        </tbody>
-      </table>
+<!-- Modal Thêm Nhiệm Vụ Mới -->
+<div class="modal fade" id="addTaskModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-primary text-white py-3">
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-plus-circle me-2"></i>Thêm Nhiệm Vụ KPI Mới</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="addTaskForm" onsubmit="saveNewTask(event)">
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Tên Nhiệm Vụ / Mục Tiêu Chi Tiết</label>
+            <input type="text" id="addTitle" class="form-control" required placeholder="Ví dụ: Tối ưu CSDL SQL Server...">
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Mô Tả Yêu Cầu</label>
+            <input type="text" id="addDesc" class="form-control" placeholder="Mô tả chỉ số đo lường...">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label fw-semibold small">Nhóm Tiêu Chí</label>
+              <select id="addCategory" class="form-select">
+                <option>Chất Lượng & Uptime</option>
+                <option>Khối Lượng & Tiến Độ</option>
+                <option>Kỷ Luật & Thái Độ</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-semibold small">Trọng Số (%)</label>
+              <input type="number" id="addWeight" class="form-control" value="20" min="5" max="100">
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label fw-semibold small">Chỉ Số Đo Lường (Metric)</label>
+              <input type="text" id="addMetric" class="form-control" value="100% Hoàn thành">
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-semibold small">Điểm Mục Tiêu (0 - 100)</label>
+              <input type="number" id="addScore" class="form-control" value="90" min="0" max="100">
+            </div>
+          </div>
+          <div class="text-end mt-4">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary fw-semibold"><i class="fa-solid fa-floppy-disk me-1"></i>Tạo Nhiệm Vụ</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Đánh Giá KPI & Nhiệm Vụ Theo Quý -->
+<!-- Modal Sửa Nhiệm Vụ -->
+<div class="modal fade" id="editTaskModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-dark text-white py-3">
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-pen-to-square me-2"></i>Chỉnh Sửa Nhiệm Vụ KPI</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="editTaskForm" onsubmit="saveEditedTask(event)">
+          <input type="hidden" id="editTaskId">
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Tên Nhiệm Vụ / Mục Tiêu</label>
+            <input type="text" id="editTitle" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Mô Tả Yêu Cầu</label>
+            <input type="text" id="editDesc" class="form-control">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label fw-semibold small">Nhóm Tiêu Chí</label>
+              <select id="editCategory" class="form-select">
+                <option>Chất Lượng & Uptime</option>
+                <option>Khối Lượng & Tiến Độ</option>
+                <option>Kỷ Luật & Thái Độ</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-semibold small">Trọng Số (%)</label>
+              <input type="number" id="editWeight" class="form-control" min="5" max="100">
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label fw-semibold small">Chỉ Số Đo Lường</label>
+              <input type="text" id="editMetric" class="form-control">
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-semibold small">Điểm Chấm (0 - 100)</label>
+              <input type="number" id="editScore" class="form-control" min="0" max="100">
+            </div>
+          </div>
+          <div class="text-end mt-4">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary fw-semibold"><i class="fa-solid fa-floppy-disk me-1"></i>Lưu Thay Đổi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Đánh Giá KPI Chuẩn Tiêu Chí SMART -->
 <div class="modal fade" id="kpiModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg">
       <div class="modal-header bg-dark text-white py-3">
-        <h5 class="modal-title fw-bold"><i class="fa-solid fa-award me-2"></i>Đánh Giá & Xếp Loại KPI Nhiệm Vụ Trong Quý</h5>
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-award me-2"></i>Đánh Giá KPI Nhân Viên Theo Tiêu Chí</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body p-4">
         <form id="kpiForm" oninput="evalKpi()">
           <div class="row g-3 mb-3">
             <div class="col-md-6">
-              <label class="form-label fw-semibold">Chọn Nhân Viên Được Đánh Giá</label>
+              <label class="form-label fw-semibold">Nhân Viên Được Đánh Giá</label>
               <select class="form-select" id="kpiUserSelect">
                 <option value="1">Lê Hải Nam (IT-002)</option>
                 <option value="2">Nguyễn Văn An (HR-001)</option>
@@ -217,37 +294,29 @@
             </div>
           </div>
 
-          <h6 class="fw-bold text-dark mt-4 mb-3"><i class="fa-solid fa-tasks text-primary me-2"></i>Đánh Giá Chi Tiết Theo Trọng Số Nhiệm Vụ</h6>
+          <h6 class="fw-bold text-dark mt-4 mb-3"><i class="fa-solid fa-sliders text-primary me-2"></i>Chấm Điểm Theo 3 Nhóm Tiêu Chí Trọng Tâm</h6>
           
-          <div class="p-3 bg-light rounded-3 mb-3 border">
-            <div class="d-flex justify-content-between mb-2">
-              <strong class="text-dark small">Nhiệm vụ 1: Triển khai Hạ tầng Server OSHRM (Trọng số 30%)</strong>
-            </div>
+          <div class="p-3 bg-light rounded-3 mb-3 border border-start border-4 border-primary">
+            <strong class="text-dark small d-block mb-2">1. Tiêu chí Tiến độ & Khối lượng công việc (Trọng số 40%)</strong>
             <div class="row g-2">
-              <div class="col-6">
-                <small class="text-muted">Nhân viên tự chấm</small>
-                <input type="number" class="form-control form-control-sm" id="t1Self" value="98" max="100">
-              </div>
-              <div class="col-6">
-                <small class="text-muted">Quản lý chấm điểm</small>
-                <input type="number" class="form-control form-control-sm" id="t1Mgr" value="100" max="100">
-              </div>
+              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c1Self" value="95" max="100"></div>
+              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c1Mgr" value="98" max="100"></div>
             </div>
           </div>
 
-          <div class="p-3 bg-light rounded-3 mb-3 border">
-            <div class="d-flex justify-content-between mb-2">
-              <strong class="text-dark small">Nhiệm vụ 2: Xây dựng Module Chấm Công & Auth Guard (Trọng số 40%)</strong>
-            </div>
+          <div class="p-3 bg-light rounded-3 mb-3 border border-start border-4 border-info">
+            <strong class="text-dark small d-block mb-2">2. Tiêu chí Chất lượng & Độ ổn định hệ thống (Trọng số 40%)</strong>
             <div class="row g-2">
-              <div class="col-6">
-                <small class="text-muted">Nhân viên tự chấm</small>
-                <input type="number" class="form-control form-control-sm" id="t2Self" value="92" max="100">
-              </div>
-              <div class="col-6">
-                <small class="text-muted">Quản lý chấm điểm</small>
-                <input type="number" class="form-control form-control-sm" id="t2Mgr" value="95" max="100">
-              </div>
+              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c2Self" value="92" max="100"></div>
+              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c2Mgr" value="96" max="100"></div>
+            </div>
+          </div>
+
+          <div class="p-3 bg-light rounded-3 mb-3 border border-start border-4 border-warning">
+            <strong class="text-dark small d-block mb-2">3. Tiêu chí Kỷ luật & Ý thức tuân thủ (Trọng số 20%)</strong>
+            <div class="row g-2">
+              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c3Self" value="90" max="100"></div>
+              <div class="col-6"><input type="number" class="form-control form-control-sm" id="c3Mgr" value="95" max="100"></div>
             </div>
           </div>
 
@@ -255,13 +324,13 @@
           <div class="row g-3 text-center">
             <div class="col-md-6">
               <div class="p-3 bg-white rounded-3 border shadow-sm">
-                <small class="text-muted fw-semibold">ĐIỂM TRUNG BÌNH KPI QUÝ</small>
-                <h3 class="fw-bold text-dark mb-0" id="avgKpiResult">96.5</h3>
+                <small class="text-muted fw-semibold">ĐIỂM TRUNG BÌNH KPI</small>
+                <h3 class="fw-bold text-dark mb-0" id="avgKpiResult">95.6</h3>
               </div>
             </div>
             <div class="col-md-6">
               <div class="p-3 bg-white rounded-3 border shadow-sm">
-                <small class="text-muted fw-semibold">XẾP LOẠI HIỆU SUẤT QUÝ</small>
+                <small class="text-muted fw-semibold">XẾP LOẠI HIỆU SUẤT</small>
                 <h3 class="fw-bold text-success mb-0" id="gradeKpiResult">Loại A (Xuất Sắc)</h3>
               </div>
             </div>
@@ -270,7 +339,7 @@
       </div>
       <div class="modal-footer bg-light">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary fw-semibold" onclick="saveKpiEvaluation()"><i class="fa-solid fa-floppy-disk me-1"></i>Lưu Kết Quả Đánh Giá Quý</button>
+        <button type="button" class="btn btn-primary fw-semibold" onclick="saveKpiEvaluation()"><i class="fa-solid fa-floppy-disk me-1"></i>Lưu Đánh Giá</button>
       </div>
     </div>
   </div>
@@ -297,18 +366,117 @@
     });
   }
 
+  function openEditTaskModal(id, title, desc, category, weight, metric, score) {
+    document.getElementById("editTaskId").value = id;
+    document.getElementById("editTitle").value = title;
+    document.getElementById("editDesc").value = desc;
+    document.getElementById("editCategory").value = category;
+    document.getElementById("editWeight").value = weight;
+    document.getElementById("editMetric").value = metric;
+    document.getElementById("editScore").value = score;
+
+    const modal = new bootstrap.Modal(document.getElementById('editTaskModal'));
+    modal.show();
+  }
+
+  function saveEditedTask(e) {
+    e.preventDefault();
+    const id = document.getElementById("editTaskId").value;
+    const title = document.getElementById("editTitle").value;
+    const desc = document.getElementById("editDesc").value;
+    const category = document.getElementById("editCategory").value;
+    const weight = document.getElementById("editWeight").value;
+    const metric = document.getElementById("editMetric").value;
+    const score = document.getElementById("editScore").value;
+
+    const row = document.getElementById(`task-row-${id}`);
+    if (row) {
+      row.querySelector(".task-title").innerText = title;
+      row.querySelector(".task-desc").innerText = desc;
+      row.querySelector(".task-category").innerText = category;
+      row.querySelector(".task-weight").innerText = weight + "%";
+      row.querySelector(".task-metric").innerText = metric;
+      row.querySelector(".task-score").innerText = score + " / 100";
+      row.querySelector(".task-progress-bar").style.width = score + "%";
+    }
+
+    const modalElem = document.getElementById('editTaskModal');
+    const modal = bootstrap.Modal.getInstance(modalElem);
+    if (modal) modal.hide();
+
+    if (typeof showToast === 'function') {
+      showToast('Cập nhật thông tin nhiệm vụ thành công!', 'Sửa Nhiệm Vụ', 'success');
+    }
+  }
+
+  function deleteTask(id) {
+    if (confirm("Bạn có chắc chắn muốn xóa nhiệm vụ KPI này không?")) {
+      const row = document.getElementById(`task-row-${id}`);
+      if (row) row.remove();
+      if (typeof showToast === 'function') {
+        showToast('Đã xóa nhiệm vụ KPI khỏi danh sách!', 'Xóa Nhiệm Vụ', 'warning');
+      }
+    }
+  }
+
+  function saveNewTask(e) {
+    e.preventDefault();
+    const title = document.getElementById("addTitle").value;
+    const desc = document.getElementById("addDesc").value;
+    const category = document.getElementById("addCategory").value;
+    const weight = document.getElementById("addWeight").value;
+    const metric = document.getElementById("addMetric").value;
+    const score = document.getElementById("addScore").value;
+
+    const newId = Date.now();
+    const tbody = document.querySelector("#taskTable tbody");
+    const tr = document.createElement("tr");
+    tr.id = `task-row-${newId}`;
+    tr.innerHTML = `
+      <td class="text-start">
+        <div class="fw-bold text-dark task-title">${title}</div>
+        <small class="text-muted task-desc">${desc}</small>
+      </td>
+      <td><span class="badge bg-info-subtle text-info task-category">${category}</span></td>
+      <td><span class="badge bg-secondary-subtle text-dark task-weight">${weight}%</span></td>
+      <td><strong class="text-success task-metric">${metric}</strong></td>
+      <td style="width: 120px;">
+        <div class="progress" style="height: 8px;">
+          <div class="progress-bar bg-success task-progress-bar" style="width: ${score}%"></div>
+        </div>
+      </td>
+      <td><span class="fw-bold text-success task-score">${score} / 100</span></td>
+      <td><span class="badge bg-success-subtle text-success task-status">Mới tạo</span></td>
+      <td>
+        <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa nhiệm vụ" onclick="openEditTaskModal('${newId}', '${title}', '${desc}', '${category}', '${weight}', '${metric}', '${score}')">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa nhiệm vụ" onclick="deleteTask('${newId}')">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+
+    document.getElementById("addTaskForm").reset();
+    const modalElem = document.getElementById('addTaskModal');
+    const modal = bootstrap.Modal.getInstance(modalElem);
+    if (modal) modal.hide();
+
+    if (typeof showToast === 'function') {
+      showToast('Đã thêm nhiệm vụ KPI mới thành công!', 'Thêm Mới', 'success');
+    }
+  }
+
   function evalKpi() {
-    const t1Self = parseFloat(document.getElementById('t1Self')?.value) || 0;
-    const t1Mgr = parseFloat(document.getElementById('t1Mgr')?.value) || 0;
-    const t2Self = parseFloat(document.getElementById('t2Self')?.value) || 0;
-    const t2Mgr = parseFloat(document.getElementById('t2Mgr')?.value) || 0;
+    const c1Self = parseFloat(document.getElementById('c1Self')?.value) || 0;
+    const c1Mgr = parseFloat(document.getElementById('c1Mgr')?.value) || 0;
+    const c2Self = parseFloat(document.getElementById('c2Self')?.value) || 0;
+    const c2Mgr = parseFloat(document.getElementById('c2Mgr')?.value) || 0;
+    const c3Self = parseFloat(document.getElementById('c3Self')?.value) || 0;
+    const c3Mgr = parseFloat(document.getElementById('c3Mgr')?.value) || 0;
 
-    const t1Avg = (t1Self + t1Mgr) / 2;
-    const t2Avg = (t2Self + t2Mgr) / 2;
-    
-    // Tính tổng điểm KPI theo trọng số (Task 1: 30%, Task 2: 70%)
-    const finalScore = (t1Avg * 0.3) + (t2Avg * 0.7);
-
+    const finalScore = (((c1Self + c1Mgr) / 2) * 0.4) + (((c2Self + c2Mgr) / 2) * 0.4) + (((c3Self + c3Mgr) / 2) * 0.2);
     document.getElementById('avgKpiResult').innerText = finalScore.toFixed(1);
     
     const gradeElem = document.getElementById('gradeKpiResult');
@@ -331,19 +499,11 @@
     const modalElem = document.getElementById('kpiModal');
     const modal = bootstrap.Modal.getInstance(modalElem);
     if (modal) modal.hide();
-
     if (typeof showToast === 'function') {
-      showToast('Đã lưu kết quả đánh giá Nhiệm vụ & KPI Quý 3/2026 thành công!', 'Đánh Giá KPI Quý', 'success');
+      showToast('Đã lưu kết quả đánh giá KPI theo tiêu chí thành công!', 'Đánh Giá KPI Quý', 'success');
     }
   }
 
-  function exportKpiReport() {
-    if (typeof showToast === 'function') {
-      showToast('Đang kết xuất Báo cáo KPI & Nhiệm vụ Quý 3/2026 ra file Excel...', 'Xuất Báo Cáo', 'warning');
-    }
-  }
-
-  // Tự động đồng bộ tên người dùng từ LocalStorage
   const savedName = localStorage.getItem("OSHRM_UserName") || "Lê Hải Nam";
   document.querySelectorAll(".user-dynamic-name").forEach(el => el.innerText = savedName);
 </script>

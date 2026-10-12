@@ -7,7 +7,7 @@
     <button class="btn btn-outline-primary fw-semibold bg-white shadow-sm" data-bs-toggle="modal" data-bs-target="#otModal">
       <i class="fa-solid fa-clock-plus me-1"></i>Đăng Ký OT / Đi Muộn
     </button>
-    <button class="btn btn-success shadow-sm fw-semibold" onclick="quickCheckIn()">
+    <button class="btn btn-success shadow-sm fw-semibold" id="btnCheckIn" onclick="quickCheckIn()">
       <i class="fa-solid fa-fingerprint me-2"></i>Check-in Hôm Nay
     </button>
   </div>
@@ -166,17 +166,31 @@
 
 <script>
   function quickCheckIn() {
-    // Giờ giả lập hành chính chuẩn ca sáng (8:00 AM) để demo kín kẽ
     const demoTime = "07:58 AM"; 
     
+    // 1. Hiển thị Toast thông báo
     if (typeof showToast === 'function') {
       showToast(`Ghi nhận Check-in ca sáng thành công lúc ${demoTime}! Trạng thái: Đúng giờ.`, 'Chấm Công Thành Công', 'success');
     }
 
+    // 2. Đổi badge trên bảng ma trận sang màu xanh lá
     const badge = document.getElementById('todayBadge');
     if (badge) {
       badge.className = 'badge bg-success text-white shadow-sm';
       badge.innerText = 'X';
+    }
+
+    // 3. Tăng chỉ số điểm danh trên card
+    const countElem = document.getElementById('checkedInCount');
+    if (countElem) {
+      countElem.innerText = '163 / 168';
+    }
+
+    // 4. Đổi trạng thái nút bấm
+    const btn = document.getElementById('btnCheckIn');
+    if (btn) {
+      btn.className = 'btn btn-secondary fw-semibold disabled shadow-sm';
+      btn.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i>Đã Check-in';
     }
   }
 
@@ -196,7 +210,7 @@
     }
   }
 
-  // Tự động đồng bộ tên từ localStorage
+  // Đồng bộ tên người dùng từ LocalStorage
   const savedName = localStorage.getItem("OSHRM_UserName") || "Lê Hải Nam";
   document.querySelectorAll(".user-dynamic-name").forEach(el => el.innerText = savedName);
 </script>

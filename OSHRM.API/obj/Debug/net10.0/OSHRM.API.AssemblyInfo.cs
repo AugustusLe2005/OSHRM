@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OSHRM.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+193e0bd36e24937c98d560807a002caaf91e73e1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78188e94580aa1bc44ed23202c4048de9be895f6")]
 [assembly: System.Reflection.AssemblyProductAttribute("OSHRM.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OSHRM.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

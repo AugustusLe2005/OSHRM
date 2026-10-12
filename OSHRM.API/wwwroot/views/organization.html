@@ -20,8 +20,9 @@
     display: inline-block;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
     transition: all 0.2s ease-in-out;
+    cursor: pointer; /* Đổi icon con chuột thành bàn tay */
   }
-  .node-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: #38bdf8; }
+  .node-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15); border-color: #38bdf8; }
   .node-executive { border-top: 4px solid #ef4444; }
   .node-manager { border-top: 4px solid #f59e0b; }
   .node-staff { border-top: 4px solid #3b82f6; }
@@ -33,8 +34,8 @@
     <p class="text-muted small mb-0">Mô hình phân cấp quản lý trực quan theo Khối, Phòng ban và Cấp bậc nhân sự</p>
   </div>
   <div>
-    <button class="btn btn-outline-secondary me-2"><i class="fa-solid fa-download me-1"></i>Xuất Sơ Đồ (PDF)</button>
-    <button class="btn btn-primary shadow-sm"><i class="fa-solid fa-plus me-1"></i>Thêm Khối / Bộ Phận</button>
+    <button class="btn btn-outline-secondary me-2" onclick="if(typeof showToast==='function') showToast('Đang kết xuất Sơ đồ Tổ chức ra file PDF...', 'Xuất PDF', 'info')"><i class="fa-solid fa-download me-1"></i>Xuất Sơ Đồ (PDF)</button>
+    <button class="btn btn-primary shadow-sm" onclick="if(typeof showToast==='function') showToast('Tính năng thêm Khối/Bộ phận mới đang được xử lý!', 'Thêm Mới', 'primary')"><i class="fa-solid fa-plus me-1"></i>Thêm Khối / Bộ Phận</button>
   </div>
 </div>
 
@@ -94,65 +95,65 @@
     <div class="org-tree">
       <ul>
         <li>
-          <div class="node-card node-executive">
+          <div class="node-card node-executive" onclick="viewDepartmentDetails('Ban Giám Đốc', 'Nguyễn Văn A (CEO)', 168)">
             <div class="fw-bold text-dark">Ban Giám Đốc</div>
             <small class="text-danger fw-semibold">Tổng Giám Đốc (CEO)</small>
-            <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Nguyên Văn A</div>
+            <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Nguyễn Văn A</div>
           </div>
           <ul>
             <li>
-              <div class="node-card node-manager">
+              <div class="node-card node-manager" onclick="viewDepartmentDetails('Khối Công Nghệ', 'Lê Hải Nam (CTO)', 40)">
                 <div class="fw-bold text-dark">Khối Công Nghệ</div>
                 <small class="text-warning fw-semibold">CTO / Director</small>
-                <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Lê Hoàng Nam</div>
+                <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Lê Hải Nam</div>
               </div>
               <ul>
                 <li>
-                  <div class="node-card node-staff">
+                  <div class="node-card node-staff" onclick="viewDepartmentDetails('Phòng System & Infrastructure', 'Lê Hải Nam (Lead)', 12)">
                     <div class="fw-bold text-dark">Phòng System & Infrastructure</div>
-                    <small class="text-primary">12 Nhân sự</small>
+                    <small class="text-primary fw-semibold">12 Nhân sự</small>
                   </div>
                 </li>
                 <li>
-                  <div class="node-card node-staff">
+                  <div class="node-card node-staff" onclick="viewDepartmentDetails('Phòng Software Development', 'Trần Văn Cường (Lead)', 28)">
                     <div class="fw-bold text-dark">Phòng Software Development</div>
-                    <small class="text-primary">28 Nhân sự</small>
+                    <small class="text-primary fw-semibold">28 Nhân sự</small>
                   </div>
                 </li>
               </ul>
             </li>
             <li>
-              <div class="node-card node-manager">
+              <div class="node-card node-manager" onclick="viewDepartmentDetails('Khối Vận Hành & HR', 'Nguyễn Văn An (CHRO)', 10)">
                 <div class="fw-bold text-dark">Khối Vận Hành & HR</div>
                 <small class="text-warning fw-semibold">CHRO / Director</small>
                 <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Nguyễn Văn An</div>
               </div>
               <ul>
                 <li>
-                  <div class="node-card node-staff">
+                  <div class="node-card node-staff" onclick="viewDepartmentDetails('Phòng Hành Chính Nhân Sự', 'Nguyễn Văn An (Lead)', 6)">
                     <div class="fw-bold text-dark">Phòng Hành Chính Nhân Sự</div>
-                    <small class="text-primary">6 Nhân sự</small>
+                    <small class="text-primary fw-semibold">6 Nhân sự</small>
                   </div>
                 </li>
                 <li>
-                  <div class="node-card node-staff">
+                  <div class="node-card node-staff" onclick="viewDepartmentDetails('Phòng C&B & Pháp Chế', 'Phạm Thị D (Lead)', 4)">
                     <div class="fw-bold text-dark">Phòng C&B & Pháp Chế</div>
-                    <small class="text-primary">4 Nhân sự</small>
+                    <small class="text-primary fw-semibold">4 Nhân sự</small>
                   </div>
                 </li>
               </ul>
             </li>
             <li>
-              <div class="node-card node-manager">
+              <div class="node-card node-manager" onclick="viewDepartmentDetails('Khối Kinh Doanh (Sales)', 'Trần Thị B (CCO)', 15)">
                 <div class="fw-bold text-dark">Khối Kinh Doanh (Sales)</div>
                 <small class="text-warning fw-semibold">CCO / Director</small>
                 <div class="small text-muted mt-1"><i class="fa-solid fa-user me-1"></i>Trần Thị B</div>
               </div>
               <ul>
                 <li>
-                  <div class="node-card node-staff">
+                  <div class="node-card node-staff" onclick="viewDepartmentDetails('Phòng Marketing & Growth', 'Trần Thị B (Lead)', 15)">
                     <div class="fw-bold text-dark">Phòng Marketing & Growth</div>
-                    <small class="text-primary">15 Nhân sự</small>
+                    <small class="text-primary fw-semibold">15 Nhân sự</small>
                   </div>
                 </li>
               </ul>
@@ -163,3 +164,97 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Chi Tiết Bộ Phận khi Click Node -->
+<div class="modal fade" id="deptDetailModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-dark text-white py-3">
+        <h5 class="modal-title fw-bold" id="deptModalTitle"><i class="fa-solid fa-sitemap me-2"></i>Chi Tiết Bộ Phận</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4 text-start">
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded-3 border-start border-4 border-primary">
+              <small class="text-muted d-block fw-semibold">Trưởng Bộ Phận / Quản Lý</small>
+              <strong class="text-dark fs-6" id="deptModalLeader">Lê Hải Nam</strong>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded-3 border-start border-4 border-success">
+              <small class="text-muted d-block fw-semibold">Quy Mô Nhân Sự Hiện Tại</small>
+              <strong class="text-success fs-6" id="deptModalCount">12 Nhân sự</strong>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-users text-primary me-2"></i>Danh Sách Nhân Sự Tiêu Biểu Thuộc Bộ Phận</h6>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle small mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Mã NV</th>
+                <th>Họ & Tên</th>
+                <th>Chức Danh</th>
+                <th>Cấp Bậc</th>
+                <th>Trạng Thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>IT-002</strong></td>
+                <td class="fw-semibold user-dynamic-name">Lê Hải Nam</td>
+                <td>Sysadmin / IT Lead</td>
+                <td><span class="badge bg-info-subtle text-info">Level 4</span></td>
+                <td><span class="badge bg-success-subtle text-success">Đang làm việc</span></td>
+              </tr>
+              <tr>
+                <td><strong>IT-005</strong></td>
+                <td class="fw-semibold">Trần Văn Cường</td>
+                <td>DevOps Engineer</td>
+                <td><span class="badge bg-secondary-subtle text-secondary">Level 3</span></td>
+                <td><span class="badge bg-success-subtle text-success">Đang làm việc</span></td>
+              </tr>
+              <tr>
+                <td><strong>IT-009</strong></td>
+                <td class="fw-semibold">Phạm Minh Anh</td>
+                <td>System Administrator</td>
+                <td><span class="badge bg-secondary-subtle text-secondary">Level 2</span></td>
+                <td><span class="badge bg-success-subtle text-success">Đang làm việc</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-outline-primary fw-semibold" onclick="goToDepartmentView()">
+          <i class="fa-solid fa-arrow-right-to-bracket me-1"></i>Chuyển Sang Quản Lý Phòng Ban
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function viewDepartmentDetails(deptName, leaderName, count) {
+    document.getElementById("deptModalTitle").innerHTML = `<i class="fa-solid fa-sitemap me-2"></i>${deptName}`;
+    document.getElementById("deptModalLeader").innerText = leaderName;
+    document.getElementById("deptModalCount").innerText = `${count} Nhân sự`;
+
+    if (typeof showToast === 'function') {
+      showToast(`Đang hiển thị danh sách nhân sự thuộc ${deptName}...`, 'Sơ Đồ Tổ Chức', 'info');
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById('deptDetailModal'));
+    modal.show();
+  }
+
+  function goToDepartmentView() {
+    const modalElem = document.getElementById('deptDetailModal');
+    const modal = bootstrap.Modal.getInstance(modalElem);
+    if (modal) modal.hide();
+    window.location.hash = "#department";
+  }
+</script>

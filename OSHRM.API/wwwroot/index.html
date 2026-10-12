@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OSHRM Enterprise - SPA System</title>
+  <!-- Link Bootstrap 5 CSS bắt buộc để không bị vỡ giao diện -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -95,11 +96,24 @@
     'recruitment': 'views/recruitment.html',
     'benefits': 'views/benefits.html',
     'report': 'views/report.html',
-    'account': 'views/account.html'
+    'account': 'views/account.html',
+    'login': 'views/login.html'
   };
 
   async function loadView() {
-    const hash = location.hash.replace('#', '') || 'overview';
+    let hash = location.hash.replace('#', '') || 'overview';
+    const isLoggedIn = localStorage.getItem("OSHRM_IsLoggedIn") === "true";
+
+    if (!isLoggedIn && hash !== 'login') {
+      location.hash = '#login';
+      return;
+    }
+
+    if (isLoggedIn && hash === 'login') {
+      location.hash = '#overview';
+      return;
+    }
+
     const viewUrl = routes[hash] || routes['overview'];
 
     document.querySelectorAll('#main-nav a').forEach(link => {
@@ -116,7 +130,6 @@
       const html = await response.text();
       document.getElementById('app-workspace').innerHTML = html;
 
-      // Re-exec scripts trong view vừa load
       const scripts = document.getElementById('app-workspace').querySelectorAll("script");
       scripts.forEach(oldScript => {
         const newScript = document.createElement("script");
@@ -150,7 +163,6 @@
     }
   }
 
-  // Hàm Toast dùng chung cho toàn bộ SPA
   function showToast(message, title = "Thông Báo Hệ Thống", type = "success") {
     const toastElem = document.getElementById('appToast');
     const toastHeader = document.getElementById('toastHeader');

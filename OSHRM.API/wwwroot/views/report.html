@@ -1,50 +1,93 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
-    <h3 class="fw-bold text-dark mb-1">Báo Cáo & Thống Kê KPI Nhân Sự</h3>
-    <p class="text-muted small mb-0">Quản lý nhiệm vụ mục tiêu Quý 3/2026, đánh giá hiệu suất và biến động nhân sự toàn công ty</p>
+    <h3 class="fw-bold text-dark mb-1">Báo Cáo KPI & Đánh Giá Năng Lực Nhân Sự</h3>
+    <p class="text-muted small mb-0">Bảng xếp hạng hiệu suất Quý 3/2026, đánh giá 360 độ và theo dõi nhiệm vụ trọng tâm toàn công ty</p>
   </div>
-  <button class="btn btn-primary shadow-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#kpiModal">
-    <i class="fa-solid fa-award me-2"></i>Đánh Giá KPI Mới
-  </button>
+  <div class="d-flex gap-2">
+    <button class="btn btn-outline-success fw-semibold shadow-sm bg-white" data-bs-toggle="modal" data-bs-target="#peerReviewModal">
+      <i class="fa-solid fa-comments me-1"></i>Đánh Giá Đa Chiều (360°)
+    </button>
+    <button class="btn btn-primary shadow-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#kpiModal">
+      <i class="fa-solid fa-award me-1"></i>Đánh Giá KPI Mới
+    </button>
+  </div>
 </div>
 
-<!-- Cards Tỷ Lệ Xếp Loại KPI Quý -->
-<div class="card border-0 shadow-sm rounded-3 mb-4">
+<!-- TOP BẢNG XẾP HẠNG KPI NHÂN SỰ QUÝ (LEADERBOARD - MỚI BỔ SUNG) -->
+<div class="card border-0 shadow-sm rounded-3 mb-4 bg-white">
   <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-chart-pie text-warning me-2"></i>Tỷ Lệ Xếp Loại Hiệu Suất KPI Nhân Sự (Quý 3/2026)</h6>
-    <span class="badge bg-primary-subtle text-primary">Kỳ đánh giá: Q3/2026</span>
+    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-trophy text-warning me-2"></i>Bảng Xếp Hạng Top Hiệu Suất Nhân Sự Quý 3/2026 (KPI Leaderboard)</h6>
+    <span class="badge bg-warning-subtle text-warning fw-bold"><i class="fa-solid fa-star me-1"></i>Vinh Danh Quý 3</span>
   </div>
   <div class="card-body">
-    <div class="row text-center g-3">
-      <div class="col-md-3">
-        <div class="p-3 border rounded-3 bg-success-subtle">
-          <h2 class="fw-bold text-success mb-1">35%</h2>
-          <span class="small fw-semibold text-success-emphasis">Loại A (Xuất sắc >= 90)</span>
+    <div class="row g-3">
+      <!-- Hạng 1 (Gold) -->
+      <div class="col-md-4">
+        <div class="p-3 border border-warning border-2 rounded-3 bg-warning-subtle text-center position-relative">
+          <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-warning text-dark px-3 py-1 shadow-sm">
+            <i class="fa-solid fa-crown me-1"></i>QUÁN QUÂN (TOP 1)
+          </span>
+          <div class="mt-2 mb-2">
+            <div class="bg-dark text-warning rounded-circle d-inline-flex align-items-center justify-content-center shadow" style="width: 60px; height: 60px; font-size: 1.5rem; border: 2px solid #f59e0b;">
+              <i class="fa-solid fa-user-astronaut"></i>
+            </div>
+          </div>
+          <h6 class="fw-bold text-dark mb-0 user-dynamic-name">Lê Hải Nam</h6>
+          <small class="text-muted d-block mb-2">IT-002 | Sysadmin & IT Lead</small>
+          <div class="d-flex justify-content-center align-items-center gap-2">
+            <span class="fs-4 fw-bold text-warning">96.5</span>
+            <span class="badge bg-success text-white">Loại A (Xuất Sắc)</span>
+          </div>
+          <small class="text-success fw-semibold mt-1 d-block"><i class="fa-solid fa-gift me-1"></i>Thưởng: +3.500.000 VNĐ</small>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="p-3 border rounded-3 bg-primary-subtle">
-          <h2 class="fw-bold text-primary mb-1">50%</h2>
-          <span class="small fw-semibold text-primary-emphasis">Loại B (Tốt 75-89)</span>
+
+      <!-- Hạng 2 (Silver) -->
+      <div class="col-md-4">
+        <div class="p-3 border border-secondary border-opacity-50 rounded-3 bg-light text-center position-relative">
+          <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-secondary text-white px-3 py-1 shadow-sm">
+            <i class="fa-solid fa-medal me-1"></i>Á QUÂN (TOP 2)
+          </span>
+          <div class="mt-2 mb-2">
+            <div class="bg-secondary text-white rounded-circle d-inline-flex align-items-center justify-content-center shadow" style="width: 60px; height: 60px; font-size: 1.5rem;">
+              <i class="fa-solid fa-user-tie"></i>
+            </div>
+          </div>
+          <h6 class="fw-bold text-dark mb-0">Nguyễn Văn An</h6>
+          <small class="text-muted d-block mb-2">HR-001 | HR Lead</small>
+          <div class="d-flex justify-content-center align-items-center gap-2">
+            <span class="fs-4 fw-bold text-primary">88.0</span>
+            <span class="badge bg-primary-subtle text-primary">Loại B (Tốt)</span>
+          </div>
+          <small class="text-primary fw-semibold mt-1 d-block"><i class="fa-solid fa-gift me-1"></i>Thưởng: +2.000.000 VNĐ</small>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="p-3 border rounded-3 bg-warning-subtle">
-          <h2 class="fw-bold text-warning mb-1">12%</h2>
-          <span class="small fw-semibold text-warning-emphasis">Loại C (Đạt 50-74)</span>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="p-3 border rounded-3 bg-danger-subtle">
-          <h2 class="fw-bold text-danger mb-1">3%</h2>
-          <span class="small fw-semibold text-danger-emphasis">Loại D (Cần cải thiện < 50)</span>
+
+      <!-- Hạng 3 (Bronze) -->
+      <div class="col-md-4">
+        <div class="p-3 border border-danger border-opacity-25 rounded-3 bg-light text-center position-relative">
+          <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger text-white px-3 py-1 shadow-sm">
+            <i class="fa-solid fa-award me-1"></i>HẠNG BA (TOP 3)
+          </span>
+          <div class="mt-2 mb-2">
+            <div class="bg-dark text-info rounded-circle d-inline-flex align-items-center justify-content-center shadow" style="width: 60px; height: 60px; font-size: 1.5rem;">
+              <i class="fa-solid fa-user-gear"></i>
+            </div>
+          </div>
+          <h6 class="fw-bold text-dark mb-0">Trần Văn Cường</h6>
+          <small class="text-muted d-block mb-2">IT-005 | DevOps Engineer</small>
+          <div class="d-flex justify-content-center align-items-center gap-2">
+            <span class="fs-4 fw-bold text-info">86.5</span>
+            <span class="badge bg-primary-subtle text-primary">Loại B (Tốt)</span>
+          </div>
+          <small class="text-info fw-semibold mt-1 d-block"><i class="fa-solid fa-gift me-1"></i>Thưởng: +1.500.000 VNĐ</small>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Bảng Danh Sách Nhiệm Vụ & Tiêu Chí KPI Trong Quý (CÓ THÊM SỬA / XÓA) -->
+<!-- Bảng Danh Sách Nhiệm Vụ & Tiêu Chí KPI Trong Quý -->
 <div class="card border-0 shadow-sm rounded-3 mb-4">
   <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
     <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-list-check text-success me-2"></i>Chi Tiết Nhiệm Vụ KPI & Tiêu Chí Trọng Tâm Quý 3/2026</h6>
@@ -84,10 +127,10 @@
             <td><span class="fw-bold text-success task-score">100 / 100</span></td>
             <td><span class="badge bg-success-subtle text-success task-status">Hoàn thành</span></td>
             <td>
-              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa nhiệm vụ" onclick="openEditTaskModal('1', 'Triển khai & Tối ưu hóa Hạ tầng Server OSHRM SPA', 'Đảm bảo Uptime 99.99% và tốc độ nạp View < 50ms', 'Chất Lượng & Uptime', '40', '99.98% Uptime', '100')">
+              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa" onclick="openEditTaskModal('1', 'Triển khai & Tối ưu hóa Hạ tầng Server OSHRM SPA', 'Đảm bảo Uptime 99.99% và tốc độ nạp View < 50ms', 'Chất Lượng & Uptime', '40', '99.98% Uptime', '100')">
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
-              <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa nhiệm vụ" onclick="deleteTask('1')">
+              <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa" onclick="deleteTask('1')">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
             </td>
@@ -108,34 +151,10 @@
             <td><span class="fw-bold text-primary task-score">95 / 100</span></td>
             <td><span class="badge bg-primary-subtle text-primary task-status">Đạt mục tiêu</span></td>
             <td>
-              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa nhiệm vụ" onclick="openEditTaskModal('2', 'Xây dựng Module Chấm Công Matrix & Auth Guard', 'Hoàn thiện 100% tính năng Bảng công tháng & Router Bảo vệ', 'Khối Lượng & Tiến Độ', '40', '8 / 8 Module', '95')">
+              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa" onclick="openEditTaskModal('2', 'Xây dựng Module Chấm Công Matrix & Auth Guard', 'Hoàn thiện 100% tính năng Bảng công tháng & Router Bảo vệ', 'Khối Lượng & Tiến Độ', '40', '8 / 8 Module', '95')">
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
-              <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa nhiệm vụ" onclick="deleteTask('2')">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </td>
-          </tr>
-          <tr id="task-row-3">
-            <td class="text-start">
-              <div class="fw-bold text-dark task-title">Tuân thủ Kỷ luật Lao động & Quy trình Vận hành</div>
-              <small class="text-muted task-desc">Đảm bảo ngày công, đúng giờ check-in, viết Document đầy đủ</small>
-            </td>
-            <td><span class="badge bg-warning-subtle text-warning task-category">Kỷ Luật & Thái Độ</span></td>
-            <td><span class="badge bg-secondary-subtle text-dark task-weight">20%</span></td>
-            <td><strong class="text-warning task-metric">22/22 Ngày công</strong></td>
-            <td style="width: 120px;">
-              <div class="progress" style="height: 8px;">
-                <div class="progress-bar bg-warning task-progress-bar" style="width: 100%"></div>
-              </div>
-            </td>
-            <td><span class="fw-bold text-warning task-score">90 / 100</span></td>
-            <td><span class="badge bg-success-subtle text-success task-status">Đạt chuẩn</span></td>
-            <td>
-              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa nhiệm vụ" onclick="openEditTaskModal('3', 'Tuân thủ Kỷ luật Lao động & Quy trình Vận hành', 'Đảm bảo ngày công, đúng giờ check-in, viết Document đầy đủ', 'Kỷ Luật & Thái Độ', '20', '22/22 Ngày công', '90')">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa nhiệm vụ" onclick="deleteTask('3')">
+              <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa" onclick="deleteTask('2')">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
             </td>
@@ -158,6 +177,64 @@
     <div class="card border-0 shadow-sm rounded-3 p-3 bg-white">
       <h6 class="fw-bold text-dark mb-3">Tăng Trưởng Nhân Sự Theo Tháng</h6>
       <canvas id="growthChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Đánh Giá Năng Lực Đa Chiều 360 Độ (MỚI BỔ SUNG) -->
+<div class="modal fade" id="peerReviewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-success text-white py-3">
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-comments me-2"></i>Đánh Giá Năng Lực & Thái Độ Đa Chiều (360° Review)</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form onsubmit="savePeerReview(event)">
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small">Nhân Viên Được Đánh Giá</label>
+              <select class="form-select">
+                <option>Lê Hải Nam (IT-002)</option>
+                <option>Nguyễn Văn An (HR-001)</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small">Người Đánh Giá</label>
+              <input type="text" class="form-control bg-light" value="Trưởng Bộ Phận (Manager)" readonly>
+            </div>
+          </div>
+
+          <h6 class="fw-bold text-dark mt-3 mb-3">Tiêu Chí Khảo Sát Thái Độ & Kỹ Năng Mềm</h6>
+          
+          <div class="mb-3">
+            <label class="form-label small fw-semibold">1. Khả năng làm việc nhóm & Tương tác (Teamwork)</label>
+            <select class="form-select">
+              <option>5/5 - Xuất sắc, luôn chủ động hỗ trợ đồng nghiệp</option>
+              <option>4/5 - Tốt, hợp tác hiệu quả</option>
+              <option>3/5 - Khá, hoàn thành mức cơ bản</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-semibold">2. Tư duy sáng tạo & Giải quyết vấn đề (Problem Solving)</label>
+            <select class="form-select">
+              <option>5/5 - Cải tiến quy trình vượt trội, đưa ra giải pháp SPA tối ưu</option>
+              <option>4/5 - Giải quyết tốt các sự cố kỹ thuật phát sinh</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-semibold">Nhận Xét & Góp Ý Nhận Thức Định Tính</label>
+            <textarea class="form-control" rows="3" placeholder="Nhập nhận xét chi tiết về ưu điểm và điểm cần cải thiện của nhân sự..."></textarea>
+          </div>
+
+          <div class="text-end mt-4">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-success fw-semibold"><i class="fa-solid fa-paper-plane me-1"></i>Gửi Đánh Giá 360°</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -448,10 +525,10 @@
       <td><span class="fw-bold text-success task-score">${score} / 100</span></td>
       <td><span class="badge bg-success-subtle text-success task-status">Mới tạo</span></td>
       <td>
-        <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa nhiệm vụ" onclick="openEditTaskModal('${newId}', '${title}', '${desc}', '${category}', '${weight}', '${metric}', '${score}')">
+        <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" title="Chỉnh sửa" onclick="openEditTaskModal('${newId}', '${title}', '${desc}', '${category}', '${weight}', '${metric}', '${score}')">
           <i class="fa-solid fa-pen-to-square"></i>
         </button>
-        <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa nhiệm vụ" onclick="deleteTask('${newId}')">
+        <button class="btn btn-sm btn-outline-danger p-1 px-2" title="Xóa" onclick="deleteTask('${newId}')">
           <i class="fa-solid fa-trash-can"></i>
         </button>
       </td>
@@ -465,6 +542,17 @@
 
     if (typeof showToast === 'function') {
       showToast('Đã thêm nhiệm vụ KPI mới thành công!', 'Thêm Mới', 'success');
+    }
+  }
+
+  function savePeerReview(e) {
+    e.preventDefault();
+    const modalElem = document.getElementById('peerReviewModal');
+    const modal = bootstrap.Modal.getInstance(modalElem);
+    if (modal) modal.hide();
+
+    if (typeof showToast === 'function') {
+      showToast('Đã lưu kết quả đánh giá năng lực 360 độ thành công!', 'Đánh Giá Đa Chiều', 'success');
     }
   }
 

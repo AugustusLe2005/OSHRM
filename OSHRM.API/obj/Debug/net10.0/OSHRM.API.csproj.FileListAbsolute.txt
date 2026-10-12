@@ -174,7 +174,7 @@ D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\nem8ih1fyk-{0}-a7w2w1wfka-a7w2w1
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\4loibi573b-{0}-5qwgqwnn4g-5qwgqwnn4g.gz
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\7x83rs4q2j-{0}-jvnthk7l7p-jvnthk7l7p.gz
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\f7o1israpl-{0}-ek8tp6xjjw-ek8tp6xjjw.gz
-D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\am8orz4pic-{0}-2iewunng68-2iewunng68.gz
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\fgh2ej26c0-{0}-s45b1azw8h-s45b1azw8h.gz
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\xc615jya42-{0}-dlv1qacs26-dlv1qacs26.gz
 D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\7jqb9a8f3x-{0}-9p7xf41vx6-9p7xf41vx6.gz
+D:\OSHRM\OSHRM.API\obj\Debug\net10.0\compressed\am8orz4pic-{0}-lnfbidbjq9-lnfbidbjq9.gz

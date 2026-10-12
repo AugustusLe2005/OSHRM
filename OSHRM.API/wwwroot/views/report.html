@@ -1,16 +1,18 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
     <h3 class="fw-bold text-dark mb-1">Báo Cáo & Thống Kê KPI Nhân Sự</h3>
-    <p class="text-muted small mb-0">Phân tích hiệu suất KPI, đánh giá xếp loại và biến động nhân sự toàn công ty</p>
+    <p class="text-muted small mb-0">Quản lý nhiệm vụ mục tiêu Quý 3/2026, đánh giá hiệu suất và biến động nhân sự toàn công ty</p>
   </div>
   <button class="btn btn-primary shadow-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#kpiModal">
     <i class="fa-solid fa-award me-2"></i>Đánh Giá KPI Mới
   </button>
 </div>
 
+<!-- Cards Tỷ Lệ Xếp Loại KPI Quý -->
 <div class="card border-0 shadow-sm rounded-3 mb-4">
-  <div class="card-header bg-white py-3">
-    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-award text-warning me-2"></i>Tỷ Lệ Xếp Loại Hiệu Suất KPI Nhân Sự (Quý 3/2026)</h6>
+  <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-chart-pie text-warning me-2"></i>Tỷ Lệ Xếp Loại Hiệu Suất KPI Nhân Sự (Quý 3/2026)</h6>
+    <span class="badge bg-primary-subtle text-primary">Kỳ đánh giá: Q3/2026</span>
   </div>
   <div class="card-body">
     <div class="row text-center g-3">
@@ -42,25 +44,104 @@
   </div>
 </div>
 
+<!-- Bảng Danh Sách Nhiệm Vụ & Mục Tiêu KPI Trong Quý (MỚI BỔ SUNG) -->
+<div class="card border-0 shadow-sm rounded-3 mb-4">
+  <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-list-check text-success me-2"></i>Chi Tiết Nhiệm Vụ KPI Trọng Tâm Trong Quý 3/2026</h6>
+    <button class="btn btn-sm btn-outline-primary" onclick="if(typeof showToast==='function') showToast('Mở form giao nhiệm vụ KPI mới cho nhân viên', 'Giao Nhiệm Vụ', 'info')">
+      <i class="fa-solid fa-plus me-1"></i>Thêm Nhiệm Vụ Mới
+    </button>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0 text-center small">
+        <thead class="table-light">
+          <tr>
+            <th class="text-start">Mục Tiêu / Nhiệm Vụ Chi Tiết</th>
+            <th>Phân Giao</th>
+            <th>Trọng Số</th>
+            <th>Chỉ Số Kết Quả (KPI Metric)</th>
+            <th>Tiến Độ Quý</th>
+            <th>Đánh Giá Quý</th>
+            <th>Trạng Thái</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-start">
+              <div class="fw-bold text-dark">Triển khai & Tối ưu hóa Hạ tầng Server OSHRM SPA</div>
+              <small class="text-muted">Đảm bảo Uptime 99.99% và tốc độ nạp View < 50ms</small>
+            </td>
+            <td class="fw-semibold user-dynamic-name">Lê Hải Nam</td>
+            <td><span class="badge bg-secondary-subtle text-dark">30%</span></td>
+            <td><strong class="text-success">99.98% Uptime</strong></td>
+            <td style="width: 150px;">
+              <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-success" style="width: 100%"></div>
+              </div>
+            </td>
+            <td><span class="fw-bold text-success">100 / 100</span></td>
+            <td><span class="badge bg-success-subtle text-success">Hoàn thành</span></td>
+          </tr>
+          <tr>
+            <td class="text-start">
+              <div class="fw-bold text-dark">Xây dựng Module Chấm Công Matrix & Auth Guard</div>
+              <small class="text-muted">Hoàn thiện 100% tính năng Bảng công tháng & Router Bảo vệ</small>
+            </td>
+            <td class="fw-semibold user-dynamic-name">Lê Hải Nam</td>
+            <td><span class="badge bg-secondary-subtle text-dark">40%</span></td>
+            <td><strong class="text-primary">8 / 8 Module</strong></td>
+            <td style="width: 150px;">
+              <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-primary" style="width: 95%"></div>
+              </div>
+            </td>
+            <td><span class="fw-bold text-primary">95 / 100</span></td>
+            <td><span class="badge bg-primary-subtle text-primary">Đạt mục tiêu</span></td>
+          </tr>
+          <tr>
+            <td class="text-start">
+              <div class="fw-bold text-dark">Tuyển dụng & Onboarding Nhân sự Khối Tech</div>
+              <small class="text-muted">Tuyển bổ sung 5 Senior C# ASP.NET Core Developers</small>
+            </td>
+            <td class="fw-semibold">Nguyễn Văn An</td>
+            <td><span class="badge bg-secondary-subtle text-dark">30%</span></td>
+            <td><strong class="text-warning">4 / 5 NV</strong></td>
+            <td style="width: 150px;">
+              <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-warning" style="width: 80%"></div>
+              </div>
+            </td>
+            <td><span class="fw-bold text-warning">80 / 100</span></td>
+            <td><span class="badge bg-warning-subtle text-warning">Đang thực hiện</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Biểu Đồ Thống Kê -->
 <div class="row g-4 mb-4">
   <div class="col-md-6">
-    <div class="card border-0 shadow-sm rounded-3 p-3">
+    <div class="card border-0 shadow-sm rounded-3 p-3 bg-white">
       <h6 class="fw-bold text-dark mb-3">Tỷ Lệ Nhân Sự Theo Phòng Ban</h6>
       <canvas id="deptChart"></canvas>
     </div>
   </div>
   <div class="col-md-6">
-    <div class="card border-0 shadow-sm rounded-3 p-3">
+    <div class="card border-0 shadow-sm rounded-3 p-3 bg-white">
       <h6 class="fw-bold text-dark mb-3">Tăng Trưởng Nhân Sự Theo Tháng</h6>
       <canvas id="growthChart"></canvas>
     </div>
   </div>
 </div>
 
+<!-- Bảng Chi Tiết Xếp Loại KPI -->
 <div class="card border-0 shadow-sm rounded-3">
   <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-list-check text-primary me-2"></i>Bảng Chi Tiết Xếp Loại KPI Nhân Viên (Quý 3/2026)</h6>
-    <button class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-download me-1"></i>Xuất Excel Báo Cáo</button>
+    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-list-check text-primary me-2"></i>Bảng Chi Tiết Xếp Loại KPI Tổng Hợp (Quý 3/2026)</h6>
+    <button class="btn btn-sm btn-outline-secondary" onclick="exportKpiReport()"><i class="fa-solid fa-download me-1"></i>Xuất Excel Báo Cáo</button>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
@@ -72,16 +153,16 @@
             <th>Phòng Ban</th>
             <th>Chỉ Số Điểm KPI</th>
             <th>Tiến Độ Hoàn Thành</th>
-            <th>Xếp Loại</th>
+            <th>Xếp Loại Quý</th>
             <th>Thưởng KPI (Ước tính)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>IT-002</strong></td>
-            <td class="fw-semibold">Lê Hoàng Nam</td>
+            <td class="fw-semibold user-dynamic-name">Lê Hải Nam</td>
             <td>Công nghệ Thông tin</td>
-            <td><span class="fw-bold text-success">96 / 100</span></td>
+            <td><span class="fw-bold text-success">96.5 / 100</span></td>
             <td style="width: 200px;">
               <div class="progress" style="height: 8px;">
                 <div class="progress-bar bg-success" style="width: 96%"></div>
@@ -109,60 +190,87 @@
   </div>
 </div>
 
-<!-- Modal Đánh Giá KPI Nội Tại -->
+<!-- Modal Đánh Giá KPI & Nhiệm Vụ Theo Quý -->
 <div class="modal fade" id="kpiModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content border-0 shadow">
-      <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title fw-bold"><i class="fa-solid fa-award me-2"></i>Đánh Giá & Xếp Loại KPI Nhân Viên</h5>
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-dark text-white py-3">
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-award me-2"></i>Đánh Giá & Xếp Loại KPI Nhiệm Vụ Trong Quý</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body p-4">
         <form id="kpiForm" oninput="evalKpi()">
-          <div class="row g-3">
+          <div class="row g-3 mb-3">
             <div class="col-md-6">
-              <label class="form-label fw-semibold">Chọn Nhân Viên</label>
-              <select class="form-select">
-                <option value="1">Lê Hoàng Nam (IT-002)</option>
+              <label class="form-label fw-semibold">Chọn Nhân Viên Được Đánh Giá</label>
+              <select class="form-select" id="kpiUserSelect">
+                <option value="1">Lê Hải Nam (IT-002)</option>
                 <option value="2">Nguyễn Văn An (HR-001)</option>
               </select>
             </div>
             <div class="col-md-6">
-              <label class="form-label fw-semibold">Kỳ Đánh Giá</label>
+              <label class="form-label fw-semibold">Kỳ Đánh Giá KPI</label>
               <select class="form-select">
-                <option>Quý 3/2026</option>
-                <option>Quý 4/2026</option>
+                <option>Quý 3/2026 (Tháng 7 - Tháng 9)</option>
+                <option>Quý 4/2026 (Tháng 10 - Tháng 12)</option>
               </select>
             </div>
-            <div class="col-md-6">
-              <label class="form-label fw-semibold">Điểm KPI Tự Đánh Giá (Thang 100)</label>
-              <input type="number" id="selfScore" class="form-control" value="90" max="100" min="0">
+          </div>
+
+          <h6 class="fw-bold text-dark mt-4 mb-3"><i class="fa-solid fa-tasks text-primary me-2"></i>Đánh Giá Chi Tiết Theo Trọng Số Nhiệm Vụ</h6>
+          
+          <div class="p-3 bg-light rounded-3 mb-3 border">
+            <div class="d-flex justify-content-between mb-2">
+              <strong class="text-dark small">Nhiệm vụ 1: Triển khai Hạ tầng Server OSHRM (Trọng số 30%)</strong>
             </div>
-            <div class="col-md-6">
-              <label class="form-label fw-semibold">Điểm Quản Lý Chấm (Thang 100)</label>
-              <input type="number" id="managerScore" class="form-control" value="95" max="100" min="0">
+            <div class="row g-2">
+              <div class="col-6">
+                <small class="text-muted">Nhân viên tự chấm</small>
+                <input type="number" class="form-control form-control-sm" id="t1Self" value="98" max="100">
+              </div>
+              <div class="col-6">
+                <small class="text-muted">Quản lý chấm điểm</small>
+                <input type="number" class="form-control form-control-sm" id="t1Mgr" value="100" max="100">
+              </div>
             </div>
           </div>
+
+          <div class="p-3 bg-light rounded-3 mb-3 border">
+            <div class="d-flex justify-content-between mb-2">
+              <strong class="text-dark small">Nhiệm vụ 2: Xây dựng Module Chấm Công & Auth Guard (Trọng số 40%)</strong>
+            </div>
+            <div class="row g-2">
+              <div class="col-6">
+                <small class="text-muted">Nhân viên tự chấm</small>
+                <input type="number" class="form-control form-control-sm" id="t2Self" value="92" max="100">
+              </div>
+              <div class="col-6">
+                <small class="text-muted">Quản lý chấm điểm</small>
+                <input type="number" class="form-control form-control-sm" id="t2Mgr" value="95" max="100">
+              </div>
+            </div>
+          </div>
+
           <hr class="my-4">
           <div class="row g-3 text-center">
             <div class="col-md-6">
-              <div class="p-3 bg-light rounded-3 border">
-                <small class="text-muted fw-semibold">ĐIỂM TRUNG BÌNH KPI</small>
-                <h3 class="fw-bold text-dark mb-0" id="avgKpiResult">92.5</h3>
+              <div class="p-3 bg-white rounded-3 border shadow-sm">
+                <small class="text-muted fw-semibold">ĐIỂM TRUNG BÌNH KPI QUÝ</small>
+                <h3 class="fw-bold text-dark mb-0" id="avgKpiResult">96.5</h3>
               </div>
             </div>
             <div class="col-md-6">
-              <div class="p-3 bg-light rounded-3 border">
-                <small class="text-muted fw-semibold">XẾP LOẠI HIỆU SUẤT</small>
+              <div class="p-3 bg-white rounded-3 border shadow-sm">
+                <small class="text-muted fw-semibold">XẾP LOẠI HIỆU SUẤT QUÝ</small>
                 <h3 class="fw-bold text-success mb-0" id="gradeKpiResult">Loại A (Xuất Sắc)</h3>
               </div>
             </div>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer bg-light">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="fa-solid fa-floppy-disk me-1"></i>Lưu Đánh Giá KPI</button>
+        <button type="button" class="btn btn-primary fw-semibold" onclick="saveKpiEvaluation()"><i class="fa-solid fa-floppy-disk me-1"></i>Lưu Kết Quả Đánh Giá Quý</button>
       </div>
     </div>
   </div>
@@ -190,20 +298,27 @@
   }
 
   function evalKpi() {
-    const self = parseFloat(document.getElementById('selfScore').value) || 0;
-    const mgr = parseFloat(document.getElementById('managerScore').value) || 0;
-    const avg = (self + mgr) / 2;
+    const t1Self = parseFloat(document.getElementById('t1Self')?.value) || 0;
+    const t1Mgr = parseFloat(document.getElementById('t1Mgr')?.value) || 0;
+    const t2Self = parseFloat(document.getElementById('t2Self')?.value) || 0;
+    const t2Mgr = parseFloat(document.getElementById('t2Mgr')?.value) || 0;
 
-    document.getElementById('avgKpiResult').innerText = avg.toFixed(1);
+    const t1Avg = (t1Self + t1Mgr) / 2;
+    const t2Avg = (t2Self + t2Mgr) / 2;
+    
+    // Tính tổng điểm KPI theo trọng số (Task 1: 30%, Task 2: 70%)
+    const finalScore = (t1Avg * 0.3) + (t2Avg * 0.7);
+
+    document.getElementById('avgKpiResult').innerText = finalScore.toFixed(1);
     
     const gradeElem = document.getElementById('gradeKpiResult');
-    if (avg >= 90) {
+    if (finalScore >= 90) {
       gradeElem.className = 'fw-bold text-success mb-0';
       gradeElem.innerText = 'Loại A (Xuất Sắc)';
-    } else if (avg >= 75) {
+    } else if (finalScore >= 75) {
       gradeElem.className = 'fw-bold text-primary mb-0';
       gradeElem.innerText = 'Loại B (Tốt)';
-    } else if (avg >= 50) {
+    } else if (finalScore >= 50) {
       gradeElem.className = 'fw-bold text-warning mb-0';
       gradeElem.innerText = 'Loại C (Đạt)';
     } else {
@@ -211,4 +326,24 @@
       gradeElem.innerText = 'Loại D (Cần Cải Thiện)';
     }
   }
+
+  function saveKpiEvaluation() {
+    const modalElem = document.getElementById('kpiModal');
+    const modal = bootstrap.Modal.getInstance(modalElem);
+    if (modal) modal.hide();
+
+    if (typeof showToast === 'function') {
+      showToast('Đã lưu kết quả đánh giá Nhiệm vụ & KPI Quý 3/2026 thành công!', 'Đánh Giá KPI Quý', 'success');
+    }
+  }
+
+  function exportKpiReport() {
+    if (typeof showToast === 'function') {
+      showToast('Đang kết xuất Báo cáo KPI & Nhiệm vụ Quý 3/2026 ra file Excel...', 'Xuất Báo Cáo', 'warning');
+    }
+  }
+
+  // Tự động đồng bộ tên người dùng từ LocalStorage
+  const savedName = localStorage.getItem("OSHRM_UserName") || "Lê Hải Nam";
+  document.querySelectorAll(".user-dynamic-name").forEach(el => el.innerText = savedName);
 </script>

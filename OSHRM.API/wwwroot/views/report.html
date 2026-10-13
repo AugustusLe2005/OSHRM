@@ -63,6 +63,7 @@
         <option value="infra">FIS Infrastructure & Cloud</option>
         <option value="software">FIS Software & Solutions</option>
         <option value="security">FIS Cyber Security & SOC</option>
+        <option value="erp">FIS ERP & Banking</option>
       </select>
       <button class="btn btn-sm btn-primary shadow-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#addTaskModal">
         <i class="fa-solid fa-plus me-1"></i>Thêm KPI Dự Án
@@ -150,6 +151,28 @@
               <button class="btn btn-sm btn-outline-danger p-1 px-2" onclick="deleteTask('3')"><i class="fa-solid fa-trash-can"></i></button>
             </td>
           </tr>
+
+          <!-- Mảng ERP & Banking -->
+          <tr id="task-row-4" data-bu="erp">
+            <td class="text-start">
+              <div class="fw-bold text-dark task-title">Triển Khai Core Banking & Tích Hợp Hệ Thống ERP</div>
+              <small class="text-muted task-desc">Nâng cấp mô hình tài chính doanh nghiệp và hệ thống phân quyền</small>
+            </td>
+            <td><span class="badge bg-warning-subtle text-warning task-category">FIS ERP & Banking</span></td>
+            <td><span class="badge bg-secondary-subtle text-dark task-weight">20%</span></td>
+            <td>100% On-time</td>
+            <td><strong class="text-warning task-metric">94.5% Progress</strong></td>
+            <td style="width: 120px;">
+              <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-warning task-progress-bar" style="width: 95%"></div>
+              </div>
+            </td>
+            <td><span class="fw-bold text-warning task-score">94 / 100</span></td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-1 p-1 px-2" onclick="openEditTaskModal('4', 'Triển Khai Core Banking ERP', 'Nâng cấp mô hình tài chính', 'FIS ERP & Banking', '20', '94.5% Progress', '94')"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button class="btn btn-sm btn-outline-danger p-1 px-2" onclick="deleteTask('4')"><i class="fa-solid fa-trash-can"></i></button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -161,13 +184,17 @@
   <div class="col-md-6">
     <div class="card border-0 shadow-sm rounded-3 p-3 bg-white">
       <h6 class="fw-bold text-dark mb-3">Phân Bổ Nhân Sự Theo Trung Tâm FPT IS</h6>
-      <canvas id="deptChart"></canvas>
+      <div style="height: 250px; position: relative;">
+        <canvas id="deptChart"></canvas>
+      </div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="card border-0 shadow-sm rounded-3 p-3 bg-white">
       <h6 class="fw-bold text-dark mb-3">Tăng Trưởng Năng Suất Dự Án FPT IS Qua Các Quý</h6>
-      <canvas id="growthChart"></canvas>
+      <div style="height: 250px; position: relative;">
+        <canvas id="growthChart"></canvas>
+      </div>
     </div>
   </div>
 </div>
@@ -249,25 +276,58 @@
 </div>
 
 <script>
-  if (document.getElementById('deptChart')) {
-    new Chart(document.getElementById('deptChart'), {
-      type: 'doughnut',
-      data: {
-        labels: ['FIS Infrastructure', 'FIS Software Solutions', 'FIS Cyber Security', 'FIS ERP & Banking'],
-        datasets: [{ data: [35, 40, 15, 10], backgroundColor: ['#0d6efd', '#20c997', '#dc3545', '#ffc107'] }]
-      }
-    });
+  function renderFisCharts() {
+    // Destroy chart cũ nếu có để tránh lỗi canvas overlay
+    if (window.fisDeptChartInstance) window.fisDeptChartInstance.destroy();
+    if (window.fisGrowthChartInstance) window.fisGrowthChartInstance.destroy();
+
+    const deptCtx = document.getElementById('deptChart');
+    if (deptCtx) {
+      window.fisDeptChartInstance = new Chart(deptCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['FIS Infrastructure', 'FIS Software Solutions', 'FIS Cyber Security', 'FIS ERP & Banking'],
+          datasets: [{ 
+            data: [35, 40, 15, 10], 
+            backgroundColor: ['#0d6efd', '#20c997', '#dc3545', '#ffc107'],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+    }
+
+    const growthCtx = document.getElementById('growthChart');
+    if (growthCtx) {
+      window.fisGrowthChartInstance = new Chart(growthCtx, {
+        type: 'line',
+        data: {
+          labels: ['Q3/2025', 'Q4/2025', 'Q1/2026', 'Q2/2026', 'Q3/2026'],
+          datasets: [{ 
+            label: 'Tỷ lệ hoàn thành KPI (%)', 
+            data: [89, 92, 94, 96, 98], 
+            borderColor: '#0d6efd', 
+            tension: 0.3,
+            fill: true, 
+            backgroundColor: 'rgba(13,110,253,0.08)' 
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } },
+          scales: { y: { min: 80, max: 100 } }
+        }
+      });
+    }
   }
 
-  if (document.getElementById('growthChart')) {
-    new Chart(document.getElementById('growthChart'), {
-      type: 'line',
-      data: {
-        labels: ['Q3/2025', 'Q4/2025', 'Q1/2026', 'Q2/2026', 'Q3/2026'],
-        datasets: [{ label: 'Tỷ lệ hoàn thành KPI FPT IS (%)', data: [89, 92, 94, 96, 98], borderColor: '#0d6efd', fill: true, backgroundColor: 'rgba(13,110,253,0.08)' }]
-      }
-    });
-  }
+  // Chạy ngay khi view được load
+  setTimeout(renderFisCharts, 100);
 
   function filterBU(buValue) {
     const rows = document.querySelectorAll("#taskTable tbody tr");

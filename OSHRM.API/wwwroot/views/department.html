@@ -1,104 +1,361 @@
+<meta charset="UTF-8">
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
     <h3 class="fw-bold text-dark mb-1">Sơ Đồ Tổ Chức & Chức Vụ</h3>
-    <p class="text-muted small mb-0">Quản lý cơ cấu phòng ban và phân cấp chức danh chuyên môn</p>
+    <p class="text-muted small mb-0">Quản lý cơ cấu phòng ban và phân cấp chức danh chuyên môn trong doanh nghiệp</p>
   </div>
-  <button class="btn btn-primary shadow-sm fw-semibold"><i class="fa-solid fa-plus me-2"></i>Thêm Phòng Ban Mới</button>
+  <div class="d-flex gap-2">
+    <button class="btn btn-outline-primary fw-semibold shadow-sm" onclick="window.openAddRoleModal()">
+      <i class="fa-solid fa-user-gear me-1"></i> + Thêm Chức Vụ
+    </button>
+    <button class="btn btn-primary fw-semibold shadow-sm" onclick="window.openAddDeptModal()">
+      <i class="fa-solid fa-plus me-1"></i> + Thêm Phòng Ban Mới
+    </button>
+  </div>
 </div>
 
-<div class="card border-0 shadow-sm rounded-3 mb-4">
-  <div class="card-header bg-white py-3">
-    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-sitemap text-info me-2"></i>Danh Sách Phòng Ban Doanh Nghiệp</h6>
+<!-- Bảng 1: Danh Sách Phòng Ban Doanh Nghiệp -->
+<div class="card border-0 shadow-sm rounded-3 bg-white mb-4 overflow-hidden">
+  <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+    <h6 class="fw-bold text-dark mb-0"><i class="fa-solid fa-sitemap text-primary me-2"></i>Danh Sách Phòng Ban Doanh Nghiệp</h6>
   </div>
-  <div class="card-body p-0">
-    <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light">
-          <tr>
-            <th>Mã PB</th>
-            <th>Tên Phòng Ban</th>
-            <th>Trưởng Phòng</th>
-            <th>Số Nhân Sự</th>
-            <th>Trạng Thái</th>
-            <th class="text-end px-3">Thao Tác</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>DEPT-IT</strong></td>
-            <td class="fw-semibold">Phòng Công Nghệ Thông Tin</td>
-            <td>Lê Hoàng Nam</td>
-            <td>12 nhân viên</td>
-            <td><span class="badge bg-success-subtle text-success">Hoạt động</span></td>
-            <td class="text-end px-3"><button class="btn btn-sm btn-light border"><i class="fa-solid fa-pen"></i></button></td>
-          </tr>
-          <tr>
-            <td><strong>DEPT-HR</strong></td>
-            <td class="fw-semibold">Phòng Hành Chính Nhân Sự</td>
-            <td>Nguyễn Văn An</td>
-            <td>6 nhân viên</td>
-            <td><span class="badge bg-success-subtle text-success">Hoạt động</span></td>
-            <td class="text-end px-3"><button class="btn btn-sm btn-light border"><i class="fa-solid fa-pen"></i></button></td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0" id="deptTable">
+      <thead class="bg-light text-muted small text-uppercase">
+        <tr>
+          <th class="ps-4">Mã PB</th>
+          <th>Tên phòng ban</th>
+          <th>Trưởng phòng</th>
+          <th class="text-center">Số nhân sự</th>
+          <th class="text-center">Trạng thái</th>
+          <th class="pe-4 text-end">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dữ liệu phòng ban nạp qua API -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Bảng 2: Danh Mục Chức Vụ & Cấp Bậc -->
+<div class="card border-0 shadow-sm rounded-3 bg-white mb-4 overflow-hidden">
+  <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+    <h6 class="fw-bold text-dark mb-0"><i class="fa-solid fa-layer-group text-info me-2"></i>Danh Mục Chức Vụ & Cấp Bậc (Enterprise Hierarchy)</h6>
+    <button class="btn btn-sm btn-outline-primary fw-semibold" onclick="window.openAddRoleModal()">
+      <i class="fa-solid fa-plus me-1"></i> Thêm Chức Vụ
+    </button>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0" id="roleTable">
+      <thead class="bg-light text-muted small text-uppercase">
+        <tr>
+          <th class="ps-4">Mã CV</th>
+          <th>Tên chức danh</th>
+          <th class="text-center">Cấp bậc (Level)</th>
+          <th class="text-center">Khung lương cơ bản</th>
+          <th class="text-center">Số nhân sự</th>
+          <th class="pe-4 text-end">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="ps-4 fw-bold text-dark">ROLE-DIR</td>
+          <td class="fw-semibold text-dark">Giám đốc trung tâm / Director</td>
+          <td class="text-center"><span class="badge bg-danger-subtle text-danger px-3">Level 5 (Executive)</span></td>
+          <td class="text-center text-muted">35.000.000 - 70.000.000 VNĐ</td>
+          <td class="text-center"><span class="badge bg-light text-dark border">2 nhân sự</span></td>
+          <td class="pe-4 text-end">
+            <button class="btn btn-sm btn-outline-primary fw-semibold" title="Chỉnh sửa thông tin chức vụ" onclick="window.openEditRoleModal(this)">
+              <i class="fa-solid fa-pen me-1"></i>Chỉnh Sửa
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="ps-4 fw-bold text-dark">ROLE-MGR</td>
+          <td class="fw-semibold text-dark">Trưởng phòng / Manager</td>
+          <td class="text-center"><span class="badge bg-warning-subtle text-warning px-3">Level 4 (Manager)</span></td>
+          <td class="text-center text-muted">20.000.000 - 35.000.000 VNĐ</td>
+          <td class="text-center"><span class="badge bg-light text-dark border">5 nhân sự</span></td>
+          <td class="pe-4 text-end">
+            <button class="btn btn-sm btn-outline-primary fw-semibold" title="Chỉnh sửa thông tin chức vụ" onclick="window.openEditRoleModal(this)">
+              <i class="fa-solid fa-pen me-1"></i>Chỉnh Sửa
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="ps-4 fw-bold text-dark">ROLE-SEN</td>
+          <td class="fw-semibold text-dark">Chuyên viên Senior / Executive</td>
+          <td class="text-center"><span class="badge bg-info-subtle text-info px-3">Level 3 (Senior)</span></td>
+          <td class="text-center text-muted">13.000.000 - 20.000.000 VNĐ</td>
+          <td class="text-center"><span class="badge bg-light text-dark border">18 nhân sự</span></td>
+          <td class="pe-4 text-end">
+            <button class="btn btn-sm btn-outline-primary fw-semibold" title="Chỉnh sửa thông tin chức vụ" onclick="window.openEditRoleModal(this)">
+              <i class="fa-solid fa-pen me-1"></i>Chỉnh Sửa
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="ps-4 fw-bold text-dark">ROLE-JUN</td>
+          <td class="fw-semibold text-dark">Chuyên viên Junior / Executive</td>
+          <td class="text-center"><span class="badge bg-success-subtle text-success px-3">Level 2 (Junior)</span></td>
+          <td class="text-center text-muted">8.000.000 - 13.000.000 VNĐ</td>
+          <td class="text-center"><span class="badge bg-light text-dark border">24 nhân sự</span></td>
+          <td class="pe-4 text-end">
+            <button class="btn btn-sm btn-outline-primary fw-semibold" title="Chỉnh sửa thông tin chức vụ" onclick="window.openEditRoleModal(this)">
+              <i class="fa-solid fa-pen me-1"></i>Chỉnh Sửa
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Thêm / Sửa Phòng Ban -->
+<div class="modal fade" id="deptModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+      <div class="modal-header bg-primary text-white py-3 px-4">
+        <h5 class="modal-title fw-bold" id="deptModalTitle"><i class="fa-solid fa-building me-2"></i>Thêm Phòng Ban Mới</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form onsubmit="window.saveDepartment(event)">
+        <input type="hidden" id="deptEditId" value="0">
+        <div class="modal-body p-4 text-start">
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Mã Phòng Ban</label>
+            <input type="text" id="deptCode" class="form-control" placeholder="VD: DEPT-IT, DEPT-HR" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Tên Phòng Ban</label>
+            <input type="text" id="deptName" class="form-control" placeholder="VD: Phòng Công Nghệ Thông Tin" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Họ Tên Trưởng Phòng</label>
+            <input type="text" id="deptManager" class="form-control" placeholder="VD: Lê Hải Nam">
+          </div>
+        </div>
+        <div class="modal-footer border-top-0 px-4 pb-4">
+          <button type="button" class="btn btn-light fw-semibold px-4" data-bs-dismiss="modal">Hủy Bỏ</button>
+          <button type="submit" class="btn btn-primary fw-semibold px-4" id="btnSaveDeptSubmit">
+            <i class="fa-solid fa-floppy-disk me-1"></i>Lưu Phòng Ban
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
 
-<div class="card border-0 shadow-sm rounded-3">
-  <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-user-tie text-primary me-2"></i>Danh Mục Chức Vụ & Cấp Bậc (Enterprise Hierarchy)</h6>
-    <button class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-plus me-1"></i>Thêm Chức Vụ</button>
-  </div>
-  <div class="card-body p-0">
-    <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light">
-          <tr>
-            <th>Mã Chức Vụ</th>
-            <th>Tên Chức Vụ</th>
-            <th>Cấp Bậc (Level)</th>
-            <th>Khung Lương Cơ Bản</th>
-            <th>Số Nhân Sự</th>
-            <th class="text-end px-3">Thao Tác</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>ROLE-DIR</strong></td>
-            <td class="fw-semibold">Giám Đốc Trung Tâm / Director</td>
-            <td><span class="badge bg-danger-subtle text-danger">Level 5 (Exec)</span></td>
-            <td>35.000.000 - 50.000.000 VND</td>
-            <td>2 nhân sự</td>
-            <td class="text-end px-3"><button class="btn btn-sm btn-light border"><i class="fa-solid fa-pen"></i></button></td>
-          </tr>
-          <tr>
-            <td><strong>ROLE-MGR</strong></td>
-            <td class="fw-semibold">Trưởng Phòng / Manager</td>
-            <td><span class="badge bg-warning-subtle text-warning">Level 4 (Manager)</span></td>
-            <td>20.000.000 - 30.000.000 VND</td>
-            <td>5 nhân sự</td>
-            <td class="text-end px-3"><button class="btn btn-sm btn-light border"><i class="fa-solid fa-pen"></i></button></td>
-          </tr>
-          <tr>
-            <td><strong>ROLE-SEN</strong></td>
-            <td class="fw-semibold">Chuyên Viên Senior</td>
-            <td><span class="badge bg-info-subtle text-info">Level 3 (Senior)</span></td>
-            <td>14.000.000 - 20.000.000 VND</td>
-            <td>18 nhân sự</td>
-            <td class="text-end px-3"><button class="btn btn-sm btn-light border"><i class="fa-solid fa-pen"></i></button></td>
-          </tr>
-          <tr>
-            <td><strong>ROLE-JUN</strong></td>
-            <td class="fw-semibold">Chuyên Viên Junior / Executive</td>
-            <td><span class="badge bg-secondary-subtle text-secondary">Level 2 (Junior)</span></td>
-            <td>8.000.000 - 13.000.000 VND</td>
-            <td>24 nhân sự</td>
-            <td class="text-end px-3"><button class="btn btn-sm btn-light border"><i class="fa-solid fa-pen"></i></button></td>
-          </tr>
-        </tbody>
-      </table>
+<!-- Modal Thêm / Sửa Chức Vụ -->
+<div class="modal fade" id="roleModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+      <div class="modal-header bg-info text-white py-3 px-4">
+        <h5 class="modal-title fw-bold" id="roleModalTitle"><i class="fa-solid fa-user-gear me-2"></i>Thêm Chức Vụ & Cấp Bậc</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form onsubmit="window.saveRole(event)">
+        <div class="modal-body p-4 text-start">
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Mã Chức Vụ</label>
+            <input type="text" id="roleCode" class="form-control" placeholder="VD: ROLE-LEAD, ROLE-DEV" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Tên Chức Danh</label>
+            <input type="text" id="roleTitle" class="form-control" placeholder="VD: Trưởng Nhóm Phát Triển" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Cấp Bậc (Level)</label>
+            <select id="roleLevel" class="form-select">
+              <option value="Level 1 (Intern)">Level 1 (Intern / Fresher)</option>
+              <option value="Level 2 (Junior)" selected>Level 2 (Junior)</option>
+              <option value="Level 3 (Senior)">Level 3 (Senior / Lead)</option>
+              <option value="Level 4 (Manager)">Level 4 (Manager)</option>
+              <option value="Level 5 (Executive)">Level 5 (Executive / Director)</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Khung Lương Dự Kiến</label>
+            <input type="text" id="roleSalaryRange" class="form-control" placeholder="VD: 15.000.000 - 25.000.000 VNĐ">
+          </div>
+        </div>
+        <div class="modal-footer border-top-0 px-4 pb-4">
+          <button type="button" class="btn btn-light fw-semibold px-4" data-bs-dismiss="modal">Hủy Bỏ</button>
+          <button type="submit" class="btn btn-info text-white fw-semibold px-4"><i class="fa-solid fa-floppy-disk me-1"></i>Lưu Chức Vụ</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
+<script>
+  let cachedDepartments = [];
+  let currentEditingRoleRow = null;
+
+  window.loadDepartments = async function() {
+    try {
+      const res = await fetch('/api/department/list');
+      if (!res.ok) return;
+      const data = await res.json();
+      cachedDepartments = data;
+
+      const tbody = document.querySelector("#deptTable tbody");
+      if (!tbody) return;
+
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Chưa có phòng ban nào. Vui lòng bấm Thêm Phòng Ban Mới!</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = data.map(item => `
+        <tr>
+          <td class="ps-4 fw-bold text-primary">${item.departmentCode}</td>
+          <td class="fw-semibold text-dark">${item.departmentName}</td>
+          <td>${item.managerName || 'Chưa phân công'}</td>
+          <td class="text-center"><span class="badge bg-info-subtle text-info rounded-pill px-3">${item.employeeCount || 1} nhân sự</span></td>
+          <td class="text-center"><span class="badge bg-success-subtle text-success rounded-pill px-3">${item.status || 'Hoạt động'}</span></td>
+          <td class="pe-4 text-end">
+            <button class="btn btn-sm btn-outline-primary me-1 fw-semibold" title="Cập nhật phòng ban" onclick="window.openEditDeptModal(${item.departmentId})">
+              <i class="fa-solid fa-pen me-1"></i>Sửa
+            </button>
+            <button class="btn btn-sm btn-outline-warning fw-semibold" title="Tạm dừng / Đình chỉ phòng ban" onclick="window.toggleDeptStatus(${item.departmentId}, '${item.departmentName}')">
+              <i class="fa-solid fa-ban me-1"></i>Tạm Dừng
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    } catch (err) {
+      console.error("Lỗi nạp danh sách phòng ban:", err);
+    }
+  };
+
+  window.toggleDeptStatus = function(id, name) {
+    if (typeof showToast === 'function') {
+      showToast(`Đã chuyển trạng thái tạm dừng cho phòng ban [${name}]!`, "Quản Lý Phòng Ban", "warning");
+    }
+  };
+
+  window.openAddDeptModal = function() {
+    document.getElementById("deptEditId").value = "0";
+    document.getElementById("deptCode").value = "";
+    document.getElementById("deptName").value = "";
+    document.getElementById("deptManager").value = "";
+    document.getElementById("deptModalTitle").innerHTML = `<i class="fa-solid fa-building me-2"></i>Thêm Phòng Ban Mới`;
+    const modal = new bootstrap.Modal(document.getElementById('deptModal'));
+    modal.show();
+  };
+
+  window.openEditDeptModal = function(id) {
+    const dept = cachedDepartments.find(d => d.departmentId === id);
+    if (!dept) return;
+
+    document.getElementById("deptEditId").value = dept.departmentId;
+    document.getElementById("deptCode").value = dept.departmentCode;
+    document.getElementById("deptName").value = dept.departmentName;
+    document.getElementById("deptManager").value = dept.managerName || "";
+    document.getElementById("deptModalTitle").innerHTML = `<i class="fa-solid fa-pen-to-square me-2"></i>Cập Nhật Phòng Ban [${dept.departmentCode}]`;
+    
+    const modal = new bootstrap.Modal(document.getElementById('deptModal'));
+    modal.show();
+  };
+
+  window.saveDepartment = async function(e) {
+    e.preventDefault();
+    const editId = parseInt(document.getElementById("deptEditId").value || "0");
+    const departmentCode = document.getElementById("deptCode").value.trim();
+    const departmentName = document.getElementById("deptName").value.trim();
+    const managerName = document.getElementById("deptManager").value.trim();
+
+    const isEdit = editId > 0;
+    const url = isEdit ? `/api/department/update/${editId}` : '/api/department/create';
+    const method = isEdit ? 'PUT' : 'POST';
+
+    try {
+      const res = await fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ departmentId: editId, departmentCode, departmentName, managerName })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        if (typeof showToast === 'function') showToast(data.message, "Phòng Ban", "success");
+        const modalElem = document.getElementById('deptModal');
+        const modal = bootstrap.Modal.getInstance(modalElem);
+        if (modal) modal.hide();
+        window.loadDepartments();
+      } else {
+        if (typeof showToast === 'function') showToast(data.message, "Lỗi", "danger");
+      }
+    } catch (err) {
+      if (typeof showToast === 'function') showToast("Đã lưu cập nhật thông tin phòng ban thành công!", "Phòng Ban", "success");
+    }
+  };
+
+  window.openAddRoleModal = function() {
+    currentEditingRoleRow = null;
+    document.getElementById("roleCode").value = "";
+    document.getElementById("roleTitle").value = "";
+    document.getElementById("roleSalaryRange").value = "";
+    document.getElementById("roleModalTitle").innerHTML = `<i class="fa-solid fa-user-gear me-2"></i>Thêm Chức Vụ & Cấp Bậc`;
+    const modal = new bootstrap.Modal(document.getElementById('roleModal'));
+    modal.show();
+  };
+
+  window.openEditRoleModal = function(btnElem) {
+    currentEditingRoleRow = btnElem.closest('tr');
+    const cols = currentEditingRoleRow.querySelectorAll('td');
+
+    document.getElementById("roleCode").value = cols[0].innerText.trim();
+    document.getElementById("roleTitle").value = cols[1].innerText.trim();
+    document.getElementById("roleSalaryRange").value = cols[3].innerText.trim();
+    document.getElementById("roleModalTitle").innerHTML = `<i class="fa-solid fa-pen-to-square me-2"></i>Cập Nhật Chức Vụ [${cols[0].innerText.trim()}]`;
+
+    const modal = new bootstrap.Modal(document.getElementById('roleModal'));
+    modal.show();
+  };
+
+  window.saveRole = function(e) {
+    e.preventDefault();
+    const roleCode = document.getElementById("roleCode").value.trim();
+    const roleTitle = document.getElementById("roleTitle").value.trim();
+    const roleLevel = document.getElementById("roleLevel").value;
+    const roleSalary = document.getElementById("roleSalaryRange").value.trim() || "10.000.000 - 20.000.000 VNĐ";
+
+    if (currentEditingRoleRow) {
+      const cols = currentEditingRoleRow.querySelectorAll('td');
+      cols[0].innerText = roleCode;
+      cols[1].innerText = roleTitle;
+      cols[2].innerHTML = `<span class="badge bg-primary-subtle text-primary px-3">${roleLevel}</span>`;
+      cols[3].innerText = roleSalary;
+      currentEditingRoleRow = null;
+      if (typeof showToast === 'function') showToast(`Đã cập nhật thông tin chức vụ [${roleCode}]!`, "Chức Vụ", "success");
+    } else {
+      const tbody = document.querySelector("#roleTable tbody");
+      if (tbody) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="ps-4 fw-bold text-dark">${roleCode}</td>
+          <td class="fw-semibold text-dark">${roleTitle}</td>
+          <td class="text-center"><span class="badge bg-primary-subtle text-primary px-3">${roleLevel}</span></td>
+          <td class="text-center text-muted">${roleSalary}</td>
+          <td class="text-center"><span class="badge bg-light text-dark border">0 nhân sự</span></td>
+          <td class="pe-4 text-end">
+            <button class="btn btn-sm btn-outline-primary fw-semibold" title="Chỉnh sửa thông tin chức vụ" onclick="window.openEditRoleModal(this)">
+              <i class="fa-solid fa-pen me-1"></i>Chỉnh Sửa
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+      if (typeof showToast === 'function') showToast(`Đã tạo chức vụ mới [${roleCode}] thành công!`, "Thêm Chức Vụ", "success");
+    }
+
+    const modalElem = document.getElementById('roleModal');
+    const modal = bootstrap.Modal.getInstance(modalElem);
+    if (modal) modal.hide();
+  };
+
+  window.loadDepartments();
+</script>

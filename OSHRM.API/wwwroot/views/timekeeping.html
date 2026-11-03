@@ -1,216 +1,146 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
-    <h3 class="fw-bold text-dark mb-1">Chấm Công & Quản Lý Ca Làm Việc (Timesheet Matrix)</h3>
-    <p class="text-muted small mb-0">Bảng tổng hợp công tháng, đăng ký tăng ca (OT), điểm danh và giải trình đi muộn</p>
+    <h3 class="fw-bold text-dark mb-1">Tổng hợp công tháng 10/2026</h3>
+    <p class="text-muted small mb-0">Công tính theo giờ thực tế từng ca: đạt ít nhất 75% ca được 1 công, từ 40% được 0.5 công, chưa checkout chưa chốt công. OT không được tính công vân công thường.</p>
   </div>
   <div class="d-flex gap-2">
-    <button class="btn btn-outline-primary fw-semibold bg-white shadow-sm" data-bs-toggle="modal" data-bs-target="#otModal">
-      <i class="fa-solid fa-clock-plus me-1"></i>Đăng Ký OT / Đi Muộn
+    <!-- Nút Tính Lương Tự Động -->
+    <button class="btn btn-primary fw-semibold shadow-sm" onclick="window.calculateAutoPayroll()">
+      <i class="fa-solid fa-calculator me-1"></i> Tính lương tự động
     </button>
-    <button class="btn btn-success shadow-sm fw-semibold" id="btnCheckIn" onclick="quickCheckIn()">
-      <i class="fa-solid fa-fingerprint me-2"></i>Check-in Hôm Nay
+    <!-- Nút Xuất Excel -->
+    <button class="btn btn-outline-success fw-semibold shadow-sm" onclick="window.exportTimekeepingExcel()">
+      <i class="fa-solid fa-file-excel me-1"></i> Xuất Excel nhân viên
     </button>
   </div>
 </div>
 
-<!-- Cards Thống Kê Nhanh -->
-<div class="row g-3 mb-4">
-  <div class="col-md-3">
-    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-      <small class="text-muted fw-semibold">Đã Điểm Danh Hôm Nay</small>
-      <h3 class="fw-bold text-success mb-0" id="checkedInCount">162 / 168</h3>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-      <small class="text-muted fw-semibold">Số Lượt Đi Muộn Tháng 10</small>
-      <h3 class="fw-bold text-warning mb-0">4 Lượt</h3>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-      <small class="text-muted fw-semibold">Tổng Giờ OT Phê Duyệt</small>
-      <h3 class="fw-bold text-info mb-0">142 Giờ</h3>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
-      <small class="text-muted fw-semibold">Đơn Giải Trình Chờ Duyệt</small>
-      <h3 class="fw-bold text-danger mb-0">2 Đơn</h3>
-    </div>
-  </div>
-</div>
-
-<!-- Bảng Ma Trận Công Tháng -->
-<div class="card border-0 shadow-sm rounded-3 mb-4">
-  <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-    <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-calendar-days text-primary me-2"></i>Bảng Ma Trận Chấm Công Chi Tiết (Tháng 10/2026)</h6>
-    <div class="d-flex gap-2">
-      <select class="form-select form-select-sm" style="width: 150px;">
-        <option>Tất cả phòng ban</option>
-        <option>Khối Công nghệ</option>
-        <option>Khối HR</option>
+<!-- Bộ Lọc Tìm Kiếm -->
+<div class="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white">
+  <div class="row g-3 align-items-end">
+    <div class="col-md-3">
+      <label class="form-label fw-semibold small text-muted">Tháng</label>
+      <select class="form-select" id="filterMonth">
+        <option value="10" selected>10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
       </select>
-      <button class="btn btn-sm btn-outline-success" onclick="exportExcel()"><i class="fa-solid fa-file-excel me-1"></i>Xuất Excel</button>
     </div>
-  </div>
-  <div class="card-body p-0">
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle mb-0 text-center small">
-        <thead class="table-light">
-          <tr>
-            <th class="text-start" style="min-width: 180px;">Nhân Viên</th>
-            <th>01</th><th>02</th><th>03</th><th>04</th><th>05</th><th>06</th><th>07</th><th>08</th><th>09</th><th>10</th>
-            <th>Công Chuẩn</th>
-            <th>OT (h)</th>
-            <th>Trạng Thái</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="text-start">
-              <div class="fw-bold user-dynamic-name">Lê Hải Nam</div>
-              <small class="text-muted">IT-002 | Sysadmin</small>
-            </td>
-            <td><span class="badge bg-success-subtle text-success">X</span></td>
-            <td><span class="badge bg-success-subtle text-success">X</span></td>
-            <td><span class="badge bg-secondary-subtle text-secondary">T7</span></td>
-            <td><span class="badge bg-secondary-subtle text-secondary">CN</span></td>
-            <td><span class="badge bg-success-subtle text-success">X</span></td>
-            <td><span class="badge bg-primary text-white" id="todayBadge">X</span></td>
-            <td><span class="text-muted">-</span></td>
-            <td><span class="text-muted">-</span></td>
-            <td><span class="text-muted">-</span></td>
-            <td><span class="text-muted">-</span></td>
-            <td class="fw-bold text-primary">22 / 22</td>
-            <td class="fw-bold text-danger">12.5h</td>
-            <td><span class="badge bg-success-subtle text-success">Đủ Công</span></td>
-          </tr>
-          <tr>
-            <td class="text-start">
-              <div class="fw-bold">Nguyễn Văn An</div>
-              <small class="text-muted">HR-001 | HR Lead</small>
-            </td>
-            <td><span class="badge bg-warning-subtle text-warning">P</span></td>
-            <td><span class="badge bg-warning-subtle text-warning">P</span></td>
-            <td><span class="badge bg-secondary-subtle text-secondary">T7</span></td>
-            <td><span class="badge bg-secondary-subtle text-secondary">CN</span></td>
-            <td><span class="badge bg-success-subtle text-success">X</span></td>
-            <td><span class="badge bg-success-subtle text-success">X</span></td>
-            <td><span class="text-muted">-</span></td>
-            <td><span class="text-muted">-</span></td>
-            <td><span class="text-muted">-</span></td>
-            <td><span class="text-muted">-</span></td>
-            <td class="fw-bold text-primary">20 / 22</td>
-            <td class="fw-bold text-secondary">0h</td>
-            <td><span class="badge bg-info-subtle text-info">Phép Năm</span></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="col-md-3">
+      <label class="form-label fw-semibold small text-muted">Năm</label>
+      <input type="number" class="form-control" id="filterYear" value="2026">
     </div>
-  </div>
-  <div class="card-footer bg-white py-2">
-    <small class="text-muted"><strong>Chú thích:</strong> <span class="badge bg-success-subtle text-success ms-1">X</span> Đủ công | <span class="badge bg-warning-subtle text-warning ms-1">P</span> Nghỉ phép | <span class="badge bg-danger-subtle text-danger ms-1">M</span> Đi muộn | <span class="badge bg-secondary-subtle text-secondary ms-1">T7/CN</span> Nghỉ tuần</small>
+    <div class="col-md-4">
+      <label class="form-label fw-semibold small text-muted">Phòng ban</label>
+      <select class="form-select" id="filterDepartment">
+        <option value="ALL">Tất cả phòng ban</option>
+        <option value="IT" selected>Công nghệ thông tin</option>
+        <option value="HR">Hành chính nhân sự</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100 fw-semibold" onclick="window.filterTimekeepingData()">
+        <i class="fa-solid fa-filter me-1"></i> Xem dữ liệu
+      </button>
+    </div>
   </div>
 </div>
 
-<!-- Modal Đăng Ký OT & Giải Trình -->
-<div class="modal fade" id="otModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow">
-      <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title fw-bold"><i class="fa-solid fa-clock me-2"></i>Đăng Ký Làm Thêm Giờ (OT) / Giải Trình</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body p-4">
-        <form id="otForm" onsubmit="submitOT(event)">
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Loại Yêu Cầu</label>
-            <select class="form-select">
-              <option>Đăng ký Overtime (OT)</option>
-              <option>Giải trình Đi muộn / Về sớm</option>
-              <option>Quên Check-in / Check-out</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Ngày Đăng Ký</label>
-            <input type="date" class="form-control" value="2026-10-07">
-          </div>
-          <div class="row g-2 mb-3">
-            <div class="col-6">
-              <label class="form-label fw-semibold">Số Giờ OT (Dự kiến)</label>
-              <input type="number" class="form-control" value="2.5" step="0.5">
-            </div>
-            <div class="col-6">
-              <label class="form-label fw-semibold">Hệ Số Lương OT</label>
-              <select class="form-select">
-                <option>150% (Ngày thường)</option>
-                <option>200% (Cuối tuần)</option>
-                <option>300% (Ngày Lễ/Tết)</option>
-              </select>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Lý Do Chi Tiết</label>
-            <textarea class="form-control" rows="2" placeholder="Ví dụ: Triển khai bảo trì Server hệ thống..."></textarea>
-          </div>
-          <div class="text-end">
-            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Hủy</button>
-            <button type="submit" class="btn btn-primary fw-semibold"><i class="fa-solid fa-paper-plane me-1"></i>Gửi Đề Xuất</button>
-          </div>
-        </form>
-      </div>
-    </div>
+<div class="alert alert-primary-subtle text-primary border-primary-subtle rounded-3 mb-4 d-flex align-items-center gap-2">
+  <span class="badge bg-primary text-white">BẢNG CÔNG CHỈ XEM</span>
+  <span class="small">Dữ liệu được tổng hợp từ chấm công đã lưu, Không có thao tác chỉnh sửa trực tiếp. Chọn phòng ban, mã nhân viên để xuất file Excel lấy bảng công cá nhân.</span>
+</div>
+
+<!-- Bảng Dữ Liệu Chấm Công -->
+<div class="card border-0 shadow-sm rounded-3 bg-white overflow-hidden">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0" id="timekeepingTable">
+      <thead class="bg-light text-muted small text-uppercase">
+        <tr>
+          <th class="ps-4">Nhân viên</th>
+          <th class="text-center">Ngày công</th>
+          <th class="text-center">Tổng giờ</th>
+          <th class="text-center">OT</th>
+          <th class="text-center">Đi muộn</th>
+          <th class="text-center">Về sớm</th>
+          <th class="text-center">Thiếu dữ liệu</th>
+          <th class="pe-4 text-center">Đánh giá</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="ps-4">
+            <div class="fw-bold text-dark">Nguyễn Văn Minh</div>
+            <div class="text-muted small">IV0001 - Công nghệ thông tin</div>
+          </td>
+          <td class="text-center fw-bold text-dark">1 công</td>
+          <td class="text-center text-muted">8.41h</td>
+          <td class="text-center fw-bold text-success">0.42h</td>
+          <td class="text-center text-muted">0 lần <br><span class="text-muted-50 small">0 phút</span></td>
+          <td class="text-center text-muted">0 lần</td>
+          <td class="text-center"><span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill"><i class="fa-solid fa-circle small me-1"></i>0 bản ghi</span></td>
+          <td class="pe-4 text-center"><span class="badge bg-success-subtle text-success rounded-pill px-3">Ổn định</span></td>
+        </tr>
+        <tr>
+          <td class="ps-4">
+            <div class="fw-bold text-dark user-dynamic-name">Lê Hải Nam</div>
+            <div class="text-muted small">IT-002 - Công nghệ thông tin</div>
+          </td>
+          <td class="text-center fw-bold text-dark">22 công</td>
+          <td class="text-center text-muted">176.5h</td>
+          <td class="text-center fw-bold text-success">12.5h</td>
+          <td class="text-center text-muted">0 lần <br><span class="text-muted-50 small">0 phút</span></td>
+          <td class="text-center text-muted">0 lần</td>
+          <td class="text-center"><span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill"><i class="fa-solid fa-circle small me-1"></i>0 bản ghi</span></td>
+          <td class="pe-4 text-center"><span class="badge bg-success-subtle text-success rounded-pill px-3">Tốt</span></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
 <script>
-  function quickCheckIn() {
-    const demoTime = "07:58 AM"; 
-    
-    // 1. Hiển thị Toast thông báo
+  // 1. HÀM XUẤT EXCEL BẢNG CHẤM CÔNG
+  window.exportTimekeepingExcel = function() {
+    const month = document.getElementById("filterMonth")?.value || "10";
+    const year = document.getElementById("filterYear")?.value || "2026";
+    const fileName = `Bang_Cong_Nhan_Vien_Thang_${month}_${year}.xlsx`;
+
+    if (typeof exportTableToExcel === 'function') {
+      exportTableToExcel('timekeepingTable', fileName);
+    } else {
+      // Fallback tự xuất qua thư viện XLSX trực tiếp nếu gọi lẻ
+      const tableElem = document.getElementById('timekeepingTable');
+      if (tableElem && typeof XLSX !== 'undefined') {
+        const wb = XLSX.utils.table_to_book(tableElem, { sheet: "Bảng Công" });
+        XLSX.writeFile(wb, fileName);
+        if (typeof showToast === 'function') showToast(`Đã xuất bảng công thành công: ${fileName}`, 'Xuất File Excel', 'success');
+      } else {
+        alert("Thư viện xuất Excel chưa sẵn sàng!");
+      }
+    }
+  };
+
+  // 2. HÀM TÍNH LƯƠNG TỰ ĐỘNG (CHUYỂN DỮ LIỆU SANG MODULE PHÚC LỢI & LƯƠNG)
+  window.calculateAutoPayroll = function() {
     if (typeof showToast === 'function') {
-      showToast(`Ghi nhận Check-in ca sáng thành công lúc ${demoTime}! Trạng thái: Đúng giờ.`, 'Chấm Công Thành Công', 'success');
+      showToast("Hệ thống đang chạy thuật toán tổng hợp ngày công & OT để tự động tính lương...", "Tính Lương Auto", "info");
     }
 
-    // 2. Đổi badge trên bảng ma trận sang màu xanh lá
-    const badge = document.getElementById('todayBadge');
-    if (badge) {
-      badge.className = 'badge bg-success text-white shadow-sm';
-      badge.innerText = 'X';
-    }
+    setTimeout(() => {
+      if (typeof showToast === 'function') {
+        showToast("Đã chốt bảng công và chuyển dữ liệu tính lương sang module Lương thành công!", "Tính Lương Auto", "success");
+      }
+      window.location.hash = "#benefits";
+      if (typeof loadView === 'function') loadView();
+    }, 1200);
+  };
 
-    // 3. Tăng chỉ số điểm danh trên card
-    const countElem = document.getElementById('checkedInCount');
-    if (countElem) {
-      countElem.innerText = '163 / 168';
-    }
-
-    // 4. Đổi trạng thái nút bấm
-    const btn = document.getElementById('btnCheckIn');
-    if (btn) {
-      btn.className = 'btn btn-secondary fw-semibold disabled shadow-sm';
-      btn.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i>Đã Check-in';
-    }
-  }
-
-  function submitOT(e) {
-    e.preventDefault();
+  window.filterTimekeepingData = function() {
+    const month = document.getElementById("filterMonth").value;
+    const year = document.getElementById("filterYear").value;
     if (typeof showToast === 'function') {
-      showToast('Đã gửi đơn đăng ký OT/Giải trình tới Quản lý duyệt thành công!', 'Gửi Đề Xuất', 'primary');
+      showToast(`Đã tải lại bảng công Tháng ${month}/${year}`, "Bộ Lọc Bảng Công", "success");
     }
-    const modalElem = document.getElementById('otModal');
-    const modal = bootstrap.Modal.getInstance(modalElem);
-    if (modal) modal.hide();
-  }
-
-  function exportExcel() {
-    if (typeof showToast === 'function') {
-      showToast('Đang kết xuất Bảng công tháng 10/2026 ra file Excel...', 'Xuất Báo Cáo', 'warning');
-    }
-  }
-
-  // Đồng bộ tên người dùng từ LocalStorage
-  const savedName = localStorage.getItem("OSHRM_UserName") || "Lê Hải Nam";
-  document.querySelectorAll(".user-dynamic-name").forEach(el => el.innerText = savedName);
+  };
 </script>

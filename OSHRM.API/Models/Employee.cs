@@ -49,6 +49,16 @@ public partial class Employee
 
     public bool? IsActive { get; set; }
 
+    // --- BỔ SUNG CÁC TRƯỜNG DÀNH CHO NGHIỆP VỤ ĐÌNH CHỈ & DTO MAPPER ---
+    [StringLength(50)]
+    public string? Status { get; set; } = "Đang làm việc";
+
+    [NotMapped]
+    public string Phone => PhoneNumber ?? string.Empty;
+
+    [NotMapped]
+    public string Position => Role?.RoleName ?? "Chuyên viên";
+
     [ForeignKey("DepartmentId")]
     [InverseProperty("Employees")]
     public virtual Department? Department { get; set; }

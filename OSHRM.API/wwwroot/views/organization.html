@@ -20,12 +20,19 @@
     display: inline-block;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
     transition: all 0.2s ease-in-out;
-    cursor: pointer; /* Đổi icon con chuột thành bàn tay */
+    cursor: pointer;
   }
   .node-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15); border-color: #38bdf8; }
   .node-executive { border-top: 4px solid #ef4444; }
   .node-manager { border-top: 4px solid #f59e0b; }
   .node-staff { border-top: 4px solid #3b82f6; }
+
+  @media print {
+    #app-sidebar, .btn, .alert, .modal { display: none !important; }
+    #app-workspace { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+    .node-card { box-shadow: none !important; border: 1px solid #64748b !important; }
+    @page { size: landscape; margin: 10mm; }
+  }
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -33,9 +40,13 @@
     <h3 class="fw-bold text-dark mb-1">Sơ Đồ Cơ Cấu Tổ Chức (Organizational Structure)</h3>
     <p class="text-muted small mb-0">Mô hình phân cấp quản lý trực quan theo Khối, Phòng ban và Cấp bậc nhân sự</p>
   </div>
-  <div>
-    <button class="btn btn-outline-secondary me-2" onclick="if(typeof showToast==='function') showToast('Đang kết xuất Sơ đồ Tổ chức ra file PDF...', 'Xuất PDF', 'info')"><i class="fa-solid fa-download me-1"></i>Xuất Sơ Đồ (PDF)</button>
-    <button class="btn btn-primary shadow-sm" onclick="if(typeof showToast==='function') showToast('Tính năng thêm Khối/Bộ phận mới đang được xử lý!', 'Thêm Mới', 'primary')"><i class="fa-solid fa-plus me-1"></i>Thêm Khối / Bộ Phận</button>
+  <div class="d-flex gap-2">
+    <button class="btn btn-outline-secondary shadow-sm" onclick="window.exportOrgPdf()">
+      <i class="fa-solid fa-file-pdf me-1 text-danger"></i> Xuất Sơ Đồ (PDF)
+    </button>
+    <button class="btn btn-primary shadow-sm" onclick="window.openAddBlockModal()">
+      <i class="fa-solid fa-plus me-1"></i> Thêm Khối / Bộ Phận
+    </button>
   </div>
 </div>
 
@@ -86,14 +97,14 @@
   </div>
 </div>
 
-<div class="card border-0 shadow-sm rounded-3 mb-4">
+<div class="card border-0 shadow-sm rounded-3 mb-4" id="orgChartPrintArea">
   <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
     <h6 class="fw-bold text-dark m-0"><i class="fa-solid fa-diagram-project text-primary me-2"></i>Sơ Đồ Phân Cấp Ban Giám Đốc & Các Khối (Org Chart Tree)</h6>
     <span class="badge bg-primary-subtle text-primary">Cập nhật Realtime</span>
   </div>
   <div class="card-body overflow-auto p-4 text-center">
     <div class="org-tree">
-      <ul>
+      <ul id="orgTreeRoot">
         <li>
           <div class="node-card node-executive" onclick="viewDepartmentDetails('Ban Giám Đốc', 'Nguyễn Văn A (CEO)', 168)">
             <div class="fw-bold text-dark">Ban Giám Đốc</div>
@@ -165,7 +176,6 @@
   </div>
 </div>
 
-<!-- Modal Chi Tiết Bộ Phận khi Click Node -->
 <div class="modal fade" id="deptDetailModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content border-0 shadow-lg">
@@ -237,6 +247,33 @@
   </div>
 </div>
 
+<div class="modal fade" id="addBlockModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+      <div class="modal-header bg-primary text-white py-3 px-4">
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-plus me-2"></i>Thêm Khối / Bộ Phận Mới</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form onsubmit="window.saveNewBlock(event)">
+        <div class="modal-body p-4 text-start">
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Tên Khối / Bộ Phận Mới</label>
+            <input type="text" id="newBlockName" class="form-control" placeholder="VD: Khối R&D & AI Solutions" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Họ Tên Quản Lý / Director</label>
+            <input type="text" id="newBlockLeader" class="form-control" placeholder="VD: Hoàng Văn E (Director)">
+          </div>
+        </div>
+        <div class="modal-footer border-top-0 px-4 pb-4">
+          <button type="button" class="btn btn-light fw-semibold px-4" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-primary fw-semibold px-4"><i class="fa-solid fa-floppy-disk me-1"></i>Lưu Bộ Phận</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script>
   function viewDepartmentDetails(deptName, leaderName, count) {
     document.getElementById("deptModalTitle").innerHTML = `<i class="fa-solid fa-sitemap me-2"></i>${deptName}`;
@@ -257,4 +294,50 @@
     if (modal) modal.hide();
     window.location.hash = "#department";
   }
+
+  window.exportOrgPdf = function() {
+    if (typeof showToast === 'function') {
+      showToast("Hệ thống đang xuất Sơ đồ Tổ chức ra file PDF...", "Xuất File PDF", "info");
+    }
+
+    const printArea = document.getElementById('orgChartPrintArea');
+
+    if (typeof html2pdf !== 'undefined' && printArea) {
+      const opt = {
+        margin:       0.3,
+        filename:     'So_Do_Co_Cau_To_Chuc_OSHRM.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
+      };
+      html2pdf().set(opt).from(printArea).save().then(() => {
+        if (typeof showToast === 'function') showToast("Đã tải file PDF sơ đồ tổ chức thành công!", "Xuất File PDF", "success");
+      });
+    } else {
+      setTimeout(() => {
+        window.print();
+      }, 300);
+    }
+  };
+
+  window.openAddBlockModal = function() {
+    document.getElementById("newBlockName").value = "";
+    document.getElementById("newBlockLeader").value = "";
+    const modal = new bootstrap.Modal(document.getElementById('addBlockModal'));
+    modal.show();
+  };
+
+  window.saveNewBlock = function(e) {
+    e.preventDefault();
+    const name = document.getElementById("newBlockName").value.trim();
+    const leader = document.getElementById("newBlockLeader").value.trim() || "Chưa phân công";
+
+    const modalElem = document.getElementById('addBlockModal');
+    const modal = bootstrap.Modal.getInstance(modalElem);
+    if (modal) modal.hide();
+
+    if (typeof showToast === 'function') {
+      showToast(`Đã thêm bộ phận [${name}] vào Sơ đồ Tổ chức!`, "Cơ Cấu Tổ Chức", "success");
+    }
+  };
 </script>

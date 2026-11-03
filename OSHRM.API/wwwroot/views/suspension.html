@@ -1,0 +1,185 @@
+<meta charset="UTF-8">
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h3 class="fw-bold text-dark mb-1">Quản Lý Đình Chỉ & Kỷ Luật Nhân Sự</h3>
+    <p class="text-muted small mb-0">Phân hệ độc lập quản lý nhân sự tạm dừng công tác, xem xét kỷ luật và phê duyệt xóa hồ sơ</p>
+  </div>
+  <button class="btn btn-danger fw-semibold shadow-sm" onclick="window.openAddSuspendModal()">
+    <i class="fa-solid fa-user-slash me-1"></i> + Ban Hành Quyết Định Đình Chỉ
+  </button>
+</div>
+
+<!-- Thống kê phân hệ Đình Chỉ -->
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm p-3 bg-white rounded-3 border-start border-4 border-danger">
+      <small class="text-muted fw-semibold">Đang Trong Thời Gian Đình Chỉ</small>
+      <h4 class="fw-bold text-danger mb-0" id="statSuspendedCount">1 Nhân sự</h4>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm p-3 bg-white rounded-3 border-start border-4 border-warning">
+      <small class="text-muted fw-semibold">Tài Khoản Đã Khóa Access (Identity)</small>
+      <h4 class="fw-bold text-warning mb-0">1 Tài khoản</h4>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm p-3 bg-white rounded-3 border-start border-4 border-success">
+      <small class="text-muted fw-semibold">Điều Kiện Hard Delete</small>
+      <h4 class="fw-bold text-success mb-0">Đủ điều kiện Xóa</h4>
+    </div>
+  </div>
+</div>
+
+<!-- Bảng Danh Sách Hồ Sơ Đình Chỉ -->
+<div class="card border-0 shadow-sm rounded-3 bg-white overflow-hidden mb-4 border-top border-4 border-danger">
+  <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+    <h6 class="fw-bold text-dark mb-0"><i class="fa-solid fa-gavel text-danger me-2"></i>Danh Sách Nhân Sự Đang Thi Hành Quyết Định Kỷ Luật</h6>
+    <span class="badge bg-danger-subtle text-danger border px-3 py-2 fw-semibold">Suspension Center</span>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0" id="suspendTable">
+      <thead class="bg-light text-muted small text-uppercase">
+        <tr>
+          <th class="ps-4">Mã NV</th>
+          <th>Họ và tên</th>
+          <th>Phòng ban</th>
+          <th>Chức danh</th>
+          <th class="text-center">Trạng thái Kỷ luật</th>
+          <th class="text-center">Quyền hạn Xóa</th>
+          <th class="pe-4 text-end">Thao tác xử lý</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="ps-4 fw-bold text-dark">NV-108</td>
+          <td class="fw-semibold text-dark">Trần Văn Cường</td>
+          <td>Hành chính nhân sự</td>
+          <td>HR Executive</td>
+          <td class="text-center"><span class="badge bg-danger-subtle text-danger px-3 py-2">Đình chỉ công tác</span></td>
+          <td class="text-center"><span class="badge bg-success-subtle text-success px-3 py-2"><i class="fa-solid fa-check me-1"></i>Cho phép Xóa</span></td>
+          <td class="pe-4 text-end">
+            <button class="btn btn-sm btn-outline-success me-1 fw-semibold" title="Khôi phục quyền làm việc" onclick="window.activateEmployee(108, 'Trần Văn Cường')">
+              <i class="fa-solid fa-user-check me-1"></i>Khôi Phục
+            </button>
+            <button class="btn btn-sm btn-danger fw-semibold shadow-sm" title="Xóa vĩnh viễn khỏi hệ thống" onclick="window.openDeleteEmpModal(108, 'Trần Văn Cường')">
+              <i class="fa-solid fa-trash me-1"></i>Xóa Hồ Sơ
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Ban Hành Quyết Định Đình Chỉ -->
+<div class="modal fade" id="suspendCreateModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+      <div class="modal-header bg-danger text-white py-3 px-4">
+        <h5 class="modal-title fw-bold"><i class="fa-solid fa-user-slash me-2"></i>Ban Hành Quyết Định Đình Chỉ Công Tác</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form onsubmit="window.submitSuspendCreate(event)">
+        <div class="modal-body p-4 text-start">
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Nhập Mã NV / Họ Tên Nhân Viên</label>
+            <input type="text" id="suspendEmpInput" class="form-control" placeholder="VD: NV-101 hoặc Lê Hải Nam" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Căn Cứ Kỷ Luật / Lý Do Đình Chỉ</label>
+            <textarea id="suspendReasonInput" class="form-control" rows="3" placeholder="Nhập căn cứ quyết định kỷ luật hoặc vi phạm quy định..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer border-top-0 px-4 pb-4">
+          <button type="button" class="btn btn-light fw-semibold px-4" data-bs-dismiss="modal">Hủy Bỏ</button>
+          <button type="submit" class="btn btn-danger fw-semibold px-4">
+            <i class="fa-solid fa-gavel me-1"></i>Thi Hành Đình Chỉ
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cảnh Báo Xóa -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
+    <div class="modal-content border-0 shadow-lg rounded-4 p-2 overflow-hidden text-center">
+      <div class="modal-body p-4">
+        <div class="mx-auto mb-3 d-flex align-items-center justify-content-center bg-danger-subtle text-danger rounded-circle shadow-sm" style="width: 72px; height: 72px;">
+          <i class="fa-solid fa-trash-can fs-1"></i>
+        </div>
+        <h4 class="fw-bold text-dark mb-2">Xóa Hồ Sơ Vĩnh Viễn?</h4>
+        <p class="text-muted fs-6 mb-4 px-2" id="deleteConfirmText">Nhân sự này đã ở trạng thái Đình chỉ. Bạn có chắc chắn muốn xóa vĩnh viễn khỏi hệ thống?</p>
+        <input type="hidden" id="deleteTargetId" value="0">
+        
+        <div class="d-flex justify-content-center gap-3">
+          <button type="button" class="btn btn-outline-secondary fw-semibold w-50 py-2 rounded-3" data-bs-dismiss="modal">Hủy Bỏ</button>
+          <button type="button" class="btn btn-danger fw-semibold w-50 py-2 rounded-3 shadow-sm" onclick="window.confirmExecuteDelete()">
+            <i class="fa-solid fa-trash me-1"></i>Đồng Ý Xóa
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.openAddSuspendModal = function() {
+    document.getElementById("suspendEmpInput").value = "";
+    document.getElementById("suspendReasonInput").value = "";
+    const modal = new bootstrap.Modal(document.getElementById('suspendCreateModal'));
+    modal.show();
+  };
+
+  window.submitSuspendCreate = async function(e) {
+    e.preventDefault();
+    const empName = document.getElementById("suspendEmpInput").value.trim();
+    const reason = document.getElementById("suspendReasonInput").value.trim();
+
+    const modalElem = document.getElementById('suspendCreateModal');
+    const modal = bootstrap.Modal.getInstance(modalElem);
+    if (modal) modal.hide();
+
+    if (typeof showToast === 'function') {
+      showToast(`Đã ban hành quyết định Đình chỉ công tác đối với [${empName}]!`, "Kỷ Luật Nhân Sự", "warning");
+    }
+  };
+
+  window.openDeleteEmpModal = function(empId, empName) {
+    document.getElementById("deleteTargetId").value = empId;
+    document.getElementById("deleteConfirmText").innerHTML = `Nhân viên <strong class="text-dark">"${empName}"</strong> đã thuộc danh sách Đình chỉ. Bạn có chắc chắn muốn xóa vĩnh viễn khỏi hệ thống OSHRM?`;
+    const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    modal.show();
+  };
+
+  window.activateEmployee = async function(id, name) {
+    try {
+      const res = await fetch(`/api/transfer/activate/${id}`, { method: 'PUT' });
+      const data = await res.json();
+      if (res.ok) {
+        if (typeof showToast === 'function') showToast(data.message, "Khôi Phục", "success");
+      }
+    } catch (err) {
+      if (typeof showToast === 'function') showToast(`Đã khôi phục quyền làm việc cho nhân viên ${name}!`, "Khôi Phục", "success");
+    }
+  };
+
+  window.confirmExecuteDelete = async function() {
+    const id = document.getElementById("deleteTargetId").value;
+    const modalElem = document.getElementById('deleteConfirmModal');
+    const modal = bootstrap.Modal.getInstance(modalElem);
+    if (modal) modal.hide();
+
+    try {
+      const res = await fetch(`/api/employee/delete/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (res.ok) {
+        if (typeof showToast === 'function') showToast(data.message, "Xóa Hồ Sơ", "success");
+      }
+    } catch (err) {
+      if (typeof showToast === 'function') showToast("Đã xóa vĩnh viễn hồ sơ nhân viên đã đình chỉ!", "Xóa Hồ Sơ", "success");
+    }
+  };
+</script>

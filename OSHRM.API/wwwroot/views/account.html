@@ -1,144 +1,103 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <div>
-    <h3 class="fw-bold text-dark mb-1">Quản Lý Tài Khoản & Thiết Lập Cá Nhân</h3>
-    <p class="text-muted small mb-0">Cập nhật thông tin hồ sơ, mật khẩu và quản lý phiên đăng nhập OSHRM</p>
-  </div>
-  <div class="d-flex align-items-center gap-2">
-    <span class="badge bg-primary-subtle text-primary px-3 py-2 fw-bold fs-6">
-      <i class="fa-solid fa-shield-halved me-1"></i> <span id="authRoleBadge">Role: Sysadmin / IT Lead</span>
-    </span>
-    <!-- Nút Sign In / Sign Out Động -->
-    <button id="btnAuthAction" class="btn btn-outline-danger fw-semibold shadow-sm" onclick="handleAuthAction()">
-      <i class="fa-solid fa-right-from-bracket me-1"></i> Đăng Xuất (Sign Out)
-    </button>
-  </div>
-</div>
-
-<div class="row g-4">
-  <!-- Card Cột Tóm Tắt Profile Dynamic -->
-  <div class="col-md-4">
-    <div class="card border-0 shadow-sm rounded-3 p-4 bg-white text-center">
-      <div class="position-relative d-inline-block mx-auto mb-3">
-        <div class="bg-dark text-info rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 100px; height: 100px; font-size: 2.5rem; border: 3px solid #38bdf8;">
-          <i class="fa-solid fa-user-astronaut"></i>
-        </div>
-        <button class="btn btn-sm btn-primary rounded-circle position-absolute bottom-0 end-0 p-1" style="width: 30px; height: 30px;" title="Đổi ảnh đại diện">
-          <i class="fa-solid fa-camera small"></i>
-        </button>
-      </div>
-      <h5 class="fw-bold text-dark mb-1 user-dynamic-name">Lê Hải Nam</h5>
-      <p class="text-muted small mb-2">Mã NV: <strong>IT-002</strong> | Khối Công Nghệ</p>
-      <div class="d-flex justify-content-center gap-1 mb-3">
-        <span class="badge bg-success-subtle text-success" id="loginStatusBadge">Đang hoạt động</span>
-        <span class="badge bg-info-subtle text-info">Level 4 (Manager)</span>
-      </div>
-      <hr>
-      <div class="text-start small text-muted">
-        <p class="mb-2"><i class="fa-solid fa-envelope me-2 text-primary"></i><span class="user-dynamic-email">nam.lh@luxious.vn</span></p>
-        <p class="mb-2"><i class="fa-solid fa-phone me-2 text-primary"></i><span class="user-dynamic-phone">0987654321</span></p>
-        <p class="mb-2"><i class="fa-solid fa-building-user me-2 text-primary"></i>Phòng System & Infrastructure</p>
-        <p class="mb-0"><i class="fa-solid fa-calendar-check me-2 text-primary"></i>Ngày tham gia: 15/01/2024</p>
-      </div>
+<!-- NỘI DUNG CHÍNH TRANG TÀI KHOẢN -->
+<div id="authenticatedAccountContent">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="fw-bold text-dark mb-1">Quản Lý Tài Khoản & Thiết Lập Cá Nhân</h3>
+      <p class="text-muted small mb-0">Cập nhật thông tin hồ sơ, mật khẩu và quản lý phiên đăng nhập OSHRM</p>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <span class="badge bg-primary-subtle text-primary px-3 py-2 fw-bold fs-6">
+        <i class="fa-solid fa-shield-halved me-1"></i> <span id="authRoleBadge">Role: Sysadmin / IT Lead</span>
+      </span>
+      <button id="btnAuthAction" class="btn btn-outline-danger fw-semibold shadow-sm" onclick="window.handleAuthAction()">
+        <i class="fa-solid fa-right-from-bracket me-1"></i> Đăng Xuất (Sign Out)
+      </button>
     </div>
   </div>
 
-  <!-- Form Chi Tiết Cập Nhật -->
-  <div class="col-md-8">
-    <div class="card border-0 shadow-sm rounded-3 p-4 bg-white mb-4">
-      <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-id-card text-primary me-2"></i>Thông Tin Tài Khoản & Lý Lịch</h6>
-      <form id="profileForm" onsubmit="saveUserProfile(event)">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label fw-semibold small">Họ và Tên</label>
-            <input type="text" class="form-control" id="accFullName" required>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-3 p-4 bg-white text-center">
+        <div class="position-relative d-inline-block mx-auto mb-3">
+          <div class="bg-dark text-info rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 100px; height: 100px; font-size: 2.5rem; border: 3px solid #38bdf8;">
+            <i class="fa-solid fa-user-astronaut"></i>
           </div>
-          <div class="col-md-6">
-            <label class="form-label fw-semibold small">Email Doanh Nghiệp</label>
-            <input type="email" class="form-control" id="accEmail" required>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label fw-semibold small">Số Điện Thoại</label>
-            <input type="text" class="form-control" id="accPhone" required>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label fw-semibold small">Chức Danh Hợp Đồng</label>
-            <input type="text" class="form-control bg-light" value="Sysadmin / IT Lead" readonly>
-          </div>
-          <div class="col-md-12">
-            <label class="form-label fw-semibold small">Địa Chỉ Thường Trú</label>
-            <input type="text" class="form-control" id="accAddress">
-          </div>
-        </div>
-        <div class="mt-4 text-end">
-          <button type="submit" class="btn btn-primary fw-semibold shadow-sm" id="btnSaveProfile">
-            <i class="fa-solid fa-floppy-disk me-1"></i>Lưu Thay Đổi Thông Tin
+          <button class="btn btn-sm btn-primary rounded-circle position-absolute bottom-0 end-0 p-1" style="width: 30px; height: 30px;" title="Đổi ảnh đại diện">
+            <i class="fa-solid fa-camera small"></i>
           </button>
         </div>
-      </form>
-    </div>
-
-    <!-- Card Đổi Mật Khẩu -->
-    <div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
-      <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-lock text-warning me-2"></i>Đổi Mật Khẩu Bảo Mật</h6>
-      <form id="passwordForm" onsubmit="changePassword(event)">
-        <div class="row g-3">
-          <div class="col-md-4">
-            <label class="form-label fw-semibold small">Mật Khẩu Hiện Tại</label>
-            <input type="password" class="form-control" placeholder="••••••••" required>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label fw-semibold small">Mật Khẩu Mới</label>
-            <input type="password" class="form-control" id="newPassword" placeholder="Tối thiểu 8 ký tự" required>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label fw-semibold small">Xác Nhận Mật Khẩu</label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="Nhập lại mật khẩu" required>
-          </div>
+        <h5 class="fw-bold text-dark mb-1 user-dynamic-name">Lê Hải Nam</h5>
+        <p class="text-muted small mb-2">Mã NV: <strong>IT-002</strong> | Khối Công Nghệ</p>
+        <div class="d-flex justify-content-center gap-1 mb-3">
+          <span class="badge bg-success-subtle text-success" id="loginStatusBadge">Đang hoạt động</span>
+          <span class="badge bg-info-subtle text-info">Level 4 (Manager)</span>
         </div>
-        <div class="mt-4 text-end">
-          <button type="submit" class="btn btn-warning text-dark fw-semibold shadow-sm" id="btnChangePass">
-            <i class="fa-solid fa-key me-1"></i>Cập Nhật Mật Khẩu
-          </button>
+        <hr>
+        <div class="text-start small text-muted">
+          <p class="mb-2"><i class="fa-solid fa-envelope me-2 text-primary"></i><span class="user-dynamic-email">nam.lh@luxious.vn</span></p>
+          <p class="mb-2"><i class="fa-solid fa-phone me-2 text-primary"></i><span class="user-dynamic-phone">0941526231</span></p>
+          <p class="mb-2"><i class="fa-solid fa-building-user me-2 text-primary"></i>Phòng System & Infrastructure</p>
+          <p class="mb-0"><i class="fa-solid fa-calendar-check me-2 text-primary"></i>Ngày tham gia: 15/01/2024</p>
         </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Đăng Nhập (Sign In) -->
-<div class="modal fade" id="signInModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow-lg">
-      <div class="modal-header bg-primary text-white py-3">
-        <h5 class="modal-title fw-bold"><i class="fa-solid fa-right-to-bracket me-2"></i>Đăng Nhập OSHRM Enterprise</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body p-4">
-        <form id="signInForm" onsubmit="processSignIn(event)">
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Tài Khoản / Email Doanh Nghiệp</label>
-            <div class="input-group">
-              <span class="input-group-text bg-light"><i class="fa-solid fa-envelope text-muted"></i></span>
-              <input type="email" id="signInEmail" class="form-control" value="nam.lh@luxious.vn" required placeholder="Nhập email doanh nghiệp">
+    </div>
+
+    <div class="col-md-8">
+      <div class="card border-0 shadow-sm rounded-3 p-4 bg-white mb-4">
+        <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-id-card text-primary me-2"></i>Thông Tin Tài Khoản & Lý Lịch</h6>
+        <form id="profileForm" onsubmit="window.saveUserProfile(event)">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small">Họ và Tên</label>
+              <input type="text" class="form-control" id="accFullName" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small">Email Doanh Nghiệp</label>
+              <input type="email" class="form-control" id="accEmail" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small">Số Điện Thoại</label>
+              <input type="text" class="form-control" id="accPhone" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small">Chức Danh Hợp Đồng</label>
+              <input type="text" class="form-control bg-light" value="Sysadmin / IT Lead" readonly>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label fw-semibold small">Địa Chỉ Thường Trú</label>
+              <input type="text" class="form-control" id="accAddress">
             </div>
           </div>
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Mật Khẩu</label>
-            <div class="input-group">
-              <span class="input-group-text bg-light"><i class="fa-solid fa-lock text-muted"></i></span>
-              <input type="password" id="signInPassword" class="form-control" value="12345678" required placeholder="••••••••">
+          <div class="mt-4 text-end">
+            <button type="submit" class="btn btn-primary fw-semibold shadow-sm" id="btnSaveProfile">
+              <i class="fa-solid fa-floppy-disk me-1"></i>Lưu Thay Đổi Thông Tin
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
+        <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-lock text-warning me-2"></i>Đổi Mật Khẩu Bảo Mật</h6>
+        <form id="passwordForm" onsubmit="window.changePassword(event)">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label fw-semibold small">Mật Khẩu Hiện Tại</label>
+              <input type="password" class="form-control" placeholder="••••••••" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold small">Mật Khẩu Mới</label>
+              <input type="password" class="form-control" id="newPassword" placeholder="Tối thiểu 8 ký tự" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold small">Xác Nhận Mật Khẩu</label>
+              <input type="password" class="form-control" id="confirmPassword" placeholder="Nhập lại mật khẩu" required>
             </div>
           </div>
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="rememberMe" checked>
-              <label class="form-check-label small" for="rememberMe">Ghi nhớ đăng nhập</label>
-            </div>
-            <a href="#" class="small text-decoration-none" onclick="alert('Vui lòng liên hệ Admin IT (IT-002) để cấp lại mật khẩu!')">Quên mật khẩu?</a>
+          <div class="mt-4 text-end">
+            <button type="submit" class="btn btn-warning text-dark fw-semibold shadow-sm" id="btnChangePass">
+              <i class="fa-solid fa-key me-1"></i>Cập Nhật Mật Khẩu
+            </button>
           </div>
-          <button type="submit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm">
-            <i class="fa-solid fa-right-to-bracket me-2"></i>Đăng Nhập
-          </button>
         </form>
       </div>
     </div>
@@ -146,90 +105,48 @@
 </div>
 
 <script>
-  function loadUserProfile() {
-    const isLoggedIn = localStorage.getItem("OSHRM_IsLoggedIn") !== "false";
+  window.handleAuthAction = function() {
+    // CHỈ XÓA PHIÊN ĐĂNG NHẬP, GIỮ LẠI PROFILE CÁ NHÂN TRÁNH BỊ TRANH CHẤP DỮ LIỆU
+    localStorage.removeItem("OSHRM_IsLoggedIn");
+    localStorage.removeItem("OSHRM_Token");
+    sessionStorage.clear();
+
+    if (typeof showToast === 'function') {
+      showToast("Đã đăng xuất khỏi hệ thống an toàn!", "Đăng Xuất", "warning");
+    }
+
+    window.location.hash = "#login";
+    if (typeof loadView === 'function') {
+      loadView();
+    }
+  };
+
+  window.loadUserProfile = function() {
+    const isLoggedIn = localStorage.getItem("OSHRM_IsLoggedIn") === "true";
+
+    if (!isLoggedIn) {
+      window.location.hash = "#login";
+      if (typeof loadView === 'function') loadView();
+      return;
+    }
+
     const name = localStorage.getItem("OSHRM_UserName") || "Lê Hải Nam";
     const email = localStorage.getItem("OSHRM_UserEmail") || "nam.lh@luxious.vn";
-    const phone = localStorage.getItem("OSHRM_UserPhone") || "0987654321";
+    const phone = localStorage.getItem("OSHRM_UserPhone") || "0941526231";
     const address = localStorage.getItem("OSHRM_UserAddress") || "Cầu Giấy, Hà Nội, Việt Nam";
 
-    // Dynamic Text Update
-    document.querySelectorAll(".user-dynamic-name").forEach(el => el.innerText = isLoggedIn ? name : "Khách (Chưa đăng nhập)");
-    document.querySelectorAll(".user-dynamic-email").forEach(el => el.innerText = isLoggedIn ? email : "N/A");
-    document.querySelectorAll(".user-dynamic-phone").forEach(el => el.innerText = isLoggedIn ? phone : "N/A");
+    document.querySelectorAll(".user-dynamic-name").forEach(el => el.innerText = name);
+    document.querySelectorAll(".user-dynamic-email").forEach(el => el.innerText = email);
+    document.querySelectorAll(".user-dynamic-phone").forEach(el => el.innerText = phone);
 
     if (document.getElementById("accFullName")) document.getElementById("accFullName").value = name;
     if (document.getElementById("accEmail")) document.getElementById("accEmail").value = email;
     if (document.getElementById("accPhone")) document.getElementById("accPhone").value = phone;
     if (document.getElementById("accAddress")) document.getElementById("accAddress").value = address;
+  };
 
-    // UI Auth State Update
-    const btnAuth = document.getElementById("btnAuthAction");
-    const loginStatus = document.getElementById("loginStatusBadge");
-    const roleBadge = document.getElementById("authRoleBadge");
-
-    if (isLoggedIn) {
-      if (btnAuth) {
-        btnAuth.className = "btn btn-outline-danger fw-semibold shadow-sm";
-        btnAuth.innerHTML = '<i class="fa-solid fa-right-from-bracket me-1"></i> Đăng Xuất (Sign Out)';
-      }
-      if (loginStatus) {
-        loginStatus.className = "badge bg-success-subtle text-success";
-        loginStatus.innerText = "Đang hoạt động";
-      }
-      if (roleBadge) roleBadge.innerText = "Role: Sysadmin / IT Lead";
-    } else {
-      if (btnAuth) {
-        btnAuth.className = "btn btn-success fw-semibold shadow-sm";
-        btnAuth.innerHTML = '<i class="fa-solid fa-right-to-bracket me-1"></i> Đăng Nhập (Sign In)';
-      }
-      if (loginStatus) {
-        loginStatus.className = "badge bg-secondary-subtle text-secondary";
-        loginStatus.innerText = "Đã đăng xuất";
-      }
-      if (roleBadge) roleBadge.innerText = "Role: Guest";
-    }
-  }
-
-  function handleAuthAction() {
-    const isLoggedIn = localStorage.getItem("OSHRM_IsLoggedIn") !== "false";
-    if (isLoggedIn) {
-      // Thực hiện Sign Out
-      localStorage.setItem("OSHRM_IsLoggedIn", "false");
-      if (typeof showToast === 'function') {
-        showToast("Đã đăng xuất khỏi tài khoản thành công!", "Đăng Xuất", "warning");
-      }
-      loadUserProfile();
-    } else {
-      // Mở Modal Sign In
-      const modal = new bootstrap.Modal(document.getElementById('signInModal'));
-      modal.show();
-    }
-  }
-
-  function processSignIn(e) {
+  window.saveUserProfile = function(e) {
     e.preventDefault();
-    const email = document.getElementById("signInEmail").value.trim();
-    localStorage.setItem("OSHRM_IsLoggedIn", "true");
-    if (email) localStorage.setItem("OSHRM_UserEmail", email);
-
-    const modalElem = document.getElementById('signInModal');
-    const modal = bootstrap.Modal.getInstance(modalElem);
-    if (modal) modal.hide();
-
-    if (typeof showToast === 'function') {
-      showToast("Đăng nhập thành công vào OSHRM Enterprise!", "Xin Chào", "success");
-    }
-    loadUserProfile();
-  }
-
-  function saveUserProfile(e) {
-    e.preventDefault();
-    const isLoggedIn = localStorage.getItem("OSHRM_IsLoggedIn") !== "false";
-    if (!isLoggedIn) {
-      if (typeof showToast === 'function') showToast("Vui lòng Đăng nhập để thực hiện thay đổi!", "Cảnh Báo", "danger");
-      return;
-    }
     const newName = document.getElementById("accFullName").value.trim();
     const newEmail = document.getElementById("accEmail").value.trim();
     const newPhone = document.getElementById("accPhone").value.trim();
@@ -241,18 +158,13 @@
       localStorage.setItem("OSHRM_UserPhone", newPhone);
       localStorage.setItem("OSHRM_UserAddress", newAddress);
 
-      loadUserProfile();
+      window.loadUserProfile();
       if (typeof showToast === 'function') showToast("Đã cập nhật hồ sơ cá nhân thành công!", "Cập Nhật Hồ Sơ", "success");
     }
-  }
+  };
 
-  function changePassword(e) {
+  window.changePassword = function(e) {
     e.preventDefault();
-    const isLoggedIn = localStorage.getItem("OSHRM_IsLoggedIn") !== "false";
-    if (!isLoggedIn) {
-      if (typeof showToast === 'function') showToast("Vui lòng Đăng nhập để đổi mật khẩu!", "Cảnh Báo", "danger");
-      return;
-    }
     const newPass = document.getElementById('newPassword').value;
     const confirmPass = document.getElementById('confirmPassword').value;
 
@@ -262,7 +174,7 @@
     }
     if (typeof showToast === 'function') showToast("Cập nhật mật khẩu mới thành công!", "Đổi Mật Khẩu", "success");
     document.getElementById('passwordForm').reset();
-  }
+  };
 
-  loadUserProfile();
+  window.loadUserProfile();
 </script>

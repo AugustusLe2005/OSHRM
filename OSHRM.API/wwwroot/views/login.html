@@ -1,66 +1,166 @@
-<div class="d-flex align-items-center justify-content-center" style="min-height: 75vh;">
-  <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5 bg-white" style="max-width: 450px; width: 100%;">
-    <div class="text-center mb-4">
-      <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
-        <i class="fa-solid fa-shield-halved fs-2"></i>
+<div class="container py-5">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+      <!-- Card Đăng Nhập Chuẩn Enterprise -->
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+        <!-- Header Banner -->
+        <div class="bg-primary bg-gradient p-4 text-white text-center position-relative">
+          <div class="d-inline-flex align-items-center justify-content-center bg-white text-primary rounded-circle mb-3 shadow" style="width: 70px; height: 70px; font-size: 2rem;">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h4 class="fw-bold mb-1">Đăng Nhập OSHRM Enterprise</h4>
+          <p class="small text-white-50 mb-0">Hệ Thống Quản Trị Nhân Sự & Điều Hành Tác Nghiệp FPT IS</p>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+          <!-- Banner Cảnh Báo Khóa Tài Khoản (Lockout Alert Box) -->
+          <div id="lockoutAlertContainer" class="p-3 mb-4 bg-danger-subtle border border-danger rounded-3 text-center" style="display: none;">
+            <div class="text-danger fw-bold small mb-1">
+              <i class="fa-solid fa-lock me-1"></i> TÀI KHOẢN TẠM THỜI BỊ KHÓA BẢO MẬT
+            </div>
+            <p class="text-dark small mb-2">
+              Do nhập sai mật khẩu quá 5 lần liên tiếp. Vui lòng chờ hết thời gian đếm ngược hoặc liên hệ **Sysadmin IT (IT-002)** để hỗ trợ.
+            </p>
+            <div class="fs-3 fw-bold text-danger font-monospace" id="lockoutCountdownTimer">05:00</div>
+          </div>
+
+          <!-- Form Đăng Nhập Chính -->
+          <form id="loginPageForm" onsubmit="handleLoginPageSubmit(event)">
+            <div class="mb-3">
+              <label class="form-label fw-semibold text-dark small">Email Doanh Nghiệp / Tài Khoản</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light text-muted border-end-0"><i class="fa-solid fa-envelope"></i></span>
+                <input type="email" id="loginEmail" class="form-control border-start-0 bg-light" value="nam.lh@luxious.vn" required placeholder="nam.lh@luxious.vn">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold text-dark small">Mật Khẩu Access</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light text-muted border-end-0"><i class="fa-solid fa-key"></i></span>
+                <input type="password" id="loginPassword" class="form-control border-start-0 bg-light" value="12345678" required placeholder="••••••••">
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="rememberLogin" checked>
+                <label class="form-check-label small text-muted" for="rememberLogin">Ghi nhớ phiên làm việc</label>
+              </div>
+              <a href="javascript:void(0)" class="small text-primary text-decoration-none fw-semibold" onclick="handleForgotPassword()">Quên mật khẩu?</a>
+            </div>
+
+            <button type="submit" id="btnLoginSubmit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm fs-6">
+              <i class="fa-solid fa-right-to-bracket me-2"></i>Đăng Nhập Hệ Thống
+            </button>
+          </form>
+        </div>
+
+        <!-- Footer Card -->
+        <div class="card-footer bg-light py-3 text-center border-0">
+          <small class="text-muted"><i class="fa-solid fa-building me-1"></i>FPT Information System &copy; 2026. Internal Security Enforcement.</small>
+        </div>
       </div>
-      <h4 class="fw-bold text-dark mb-1">Đăng Nhập OSHRM</h4>
-      <p class="text-muted small">Hệ thống Quản trị Nhân sự Doanh nghiệp</p>
     </div>
-
-    <form id="standaloneLoginForm" onsubmit="executeLogin(event)">
-      <div class="mb-3">
-        <label class="form-label fw-semibold small">Email Doanh Nghiệp</label>
-        <div class="input-group">
-          <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-envelope text-muted"></i></span>
-          <input type="email" id="loginEmailInput" class="form-control border-start-0 ps-0" value="nam.lh@luxious.vn" required placeholder="name@luxious.vn">
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label fw-semibold small">Mật Khẩu</label>
-        <div class="input-group">
-          <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-lock text-muted"></i></span>
-          <input type="password" id="loginPassInput" class="form-control border-start-0 ps-0" value="12345678" required placeholder="••••••••">
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="rememberCheck" checked>
-          <label class="form-check-label small text-muted" for="rememberCheck">Ghi nhớ phiên</label>
-        </div>
-        <a href="javascript:void(0)" class="small text-decoration-none text-primary fw-semibold" onclick="showToast('Liên hệ Admin IT (IT-002) để khôi phục mật khẩu!', 'Quên Mật Khẩu', 'warning')">Quên mật khẩu?</a>
-      </div>
-
-      <button type="submit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm mb-3">
-        <i class="fa-solid fa-right-to-bracket me-2"></i>Đăng Nhập Hệ Thống
-      </button>
-
-      <div class="text-center">
-        <span class="text-muted small">Chưa có tài khoản nhân sự? </span>
-        <a href="javascript:void(0)" class="small fw-bold text-primary text-decoration-none" onclick="showToast('Vui lòng liên hệ phòng HR để tạo hồ sơ nhân viên mới!', 'Đăng Ký', 'info')">Yêu cầu cấp tài khoản</a>
-      </div>
-    </form>
   </div>
 </div>
 
 <script>
-  function executeLogin(e) {
-    e.preventDefault();
-    const email = document.getElementById("loginEmailInput").value.trim();
-    
-    // Lưu trạng thái đã đăng nhập
-    localStorage.setItem("OSHRM_IsLoggedIn", "true");
-    if (email) localStorage.setItem("OSHRM_UserEmail", email);
-    
-    if (typeof showToast === 'function') {
-      showToast("Đăng nhập thành công! Đang chuyển hướng...", "Xin Chào", "success");
-    }
+  let lockoutTimerInterval = null;
 
-    // Tự động chuyển hướng về trang Overview
-    setTimeout(() => {
-      window.location.hash = "#overview";
-    }, 500);
+  function triggerLockoutUI(secondsRemaining) {
+    const lockAlertBox = document.getElementById("lockoutAlertContainer");
+    const emailInput = document.getElementById("loginEmail");
+    const passInput = document.getElementById("loginPassword");
+    const btnSubmit = document.getElementById("btnLoginSubmit");
+
+    if (emailInput) emailInput.disabled = true;
+    if (passInput) passInput.disabled = true;
+    if (btnSubmit) btnSubmit.disabled = true;
+
+    if (lockAlertBox) lockAlertBox.style.display = "block";
+
+    let timer = secondsRemaining;
+    if (lockoutTimerInterval) clearInterval(lockoutTimerInterval);
+
+    lockoutTimerInterval = setInterval(() => {
+      const minutes = Math.floor(timer / 60);
+      const seconds = timer % 60;
+      const timeFormatted = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+      const timerElem = document.getElementById("lockoutCountdownTimer");
+      if (timerElem) timerElem.innerText = timeFormatted;
+
+      timer--;
+
+      if (timer < 0) {
+        clearInterval(lockoutTimerInterval);
+        if (emailInput) emailInput.disabled = false;
+        if (passInput) passInput.disabled = false;
+        if (btnSubmit) btnSubmit.disabled = false;
+        if (lockAlertBox) lockAlertBox.style.display = "none";
+
+        if (typeof showToast === 'function') {
+          showToast("Tài khoản đã được mở khóa! Vui lòng thử lại.", "Mở Khóa", "info");
+        }
+      }
+    }, 1000);
+  }
+
+  async function handleLoginPageSubmit(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail")?.value.trim();
+    const password = document.getElementById("loginPassword")?.value;
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("OSHRM_IsLoggedIn", "true");
+        localStorage.setItem("OSHRM_Token", data.token);
+        localStorage.setItem("OSHRM_UserEmail", data.user.email);
+        localStorage.setItem("OSHRM_UserName", data.user.fullName);
+
+        if (typeof showToast === 'function') {
+          showToast(`Xin chào ${data.user.fullName}!`, "Đăng Nhập Thành Công", "success");
+        }
+
+        setTimeout(() => {
+          location.hash = "#overview";
+          if (typeof loadView === 'function') loadView();
+        }, 300);
+
+      } else if (response.status === 423) {
+        triggerLockoutUI(data.remainingSeconds);
+        if (typeof showToast === 'function') {
+          showToast(data.message, "Cảnh Báo Security", "danger");
+        }
+      } else {
+        if (typeof showToast === 'function') {
+          showToast(data.message, "Xác Thực Thất Bại", "warning");
+        } else {
+          alert(data.message);
+        }
+      }
+    } catch (err) {
+      if (typeof showToast === 'function') {
+        showToast("Không thể kết nối tới SQL Server API Backend!", "Lỗi Kết Nối", "danger");
+      }
+    }
+  }
+
+  function handleForgotPassword() {
+    if (typeof showToast === 'function') {
+      showToast("Chức năng bảo mật nội bộ: Vui lòng liên hệ Sysadmin IT (IT-002) hoặc HR Lead để cấp lại Mật khẩu!", "Hỗ Trợ Mật Khẩu", "info");
+    } else {
+      alert("Vui lòng liên hệ Sysadmin IT (IT-002) để cấp lại mật khẩu!");
+    }
   }
 </script>

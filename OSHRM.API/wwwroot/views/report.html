@@ -4,8 +4,8 @@
     <p class="text-muted small mb-0">Quản lý mục tiêu KPI theo Trung tâm Giải pháp & Khối Dự án FPT Information System (FPT IS)</p>
   </div>
   <div class="d-flex gap-2">
-    <button class="btn btn-outline-primary fw-semibold shadow-sm bg-white" data-bs-toggle="modal" data-bs-target="#buFilterModal">
-      <i class="fa-solid fa-building-flag me-1"></i>Phân Loại Khối FIS
+    <button class="btn btn-outline-success fw-semibold shadow-sm bg-white" onclick="exportKpiReport()">
+      <i class="fa-solid fa-file-excel me-1 text-success"></i>Xuất Excel Báo Cáo
     </button>
     <button class="btn btn-primary shadow-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#kpiModal">
       <i class="fa-solid fa-award me-1"></i>Đánh Giá KPI Mới
@@ -184,7 +184,7 @@
   <div class="col-md-6">
     <div class="card border-0 shadow-sm rounded-3 p-3 bg-white">
       <h6 class="fw-bold text-dark mb-3">Phân Bổ Nhân Sự Theo Trung Tâm FPT IS</h6>
-      <div style="height: 250px; position: relative;">
+      <div style="height: 260px; position: relative;">
         <canvas id="deptChart"></canvas>
       </div>
     </div>
@@ -192,7 +192,7 @@
   <div class="col-md-6">
     <div class="card border-0 shadow-sm rounded-3 p-3 bg-white">
       <h6 class="fw-bold text-dark mb-3">Tăng Trưởng Năng Suất Dự Án FPT IS Qua Các Quý</h6>
-      <div style="height: 250px; position: relative;">
+      <div style="height: 260px; position: relative;">
         <canvas id="growthChart"></canvas>
       </div>
     </div>
@@ -277,57 +277,76 @@
 
 <script>
   function renderFisCharts() {
-    // Destroy chart cũ nếu có để tránh lỗi canvas overlay
+    const deptCtx = document.getElementById('deptChart');
+    const growthCtx = document.getElementById('growthChart');
+
+    if (!deptCtx || !growthCtx) return;
+
     if (window.fisDeptChartInstance) window.fisDeptChartInstance.destroy();
     if (window.fisGrowthChartInstance) window.fisGrowthChartInstance.destroy();
 
-    const deptCtx = document.getElementById('deptChart');
-    if (deptCtx) {
-      window.fisDeptChartInstance = new Chart(deptCtx, {
-        type: 'doughnut',
-        data: {
-          labels: ['FIS Infrastructure', 'FIS Software Solutions', 'FIS Cyber Security', 'FIS ERP & Banking'],
-          datasets: [{ 
-            data: [35, 40, 15, 10], 
-            backgroundColor: ['#0d6efd', '#20c997', '#dc3545', '#ffc107'],
-            borderWidth: 2
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom' } }
-        }
-      });
-    }
+    window.fisDeptChartInstance = new Chart(deptCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['FIS Infrastructure', 'FIS Software Solutions', 'FIS Cyber Security', 'FIS ERP & Banking'],
+        datasets: [{ 
+          data: [35, 40, 15, 10], 
+          backgroundColor: ['#0d6efd', '#20c997', '#dc3545', '#ffc107'],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
 
-    const growthCtx = document.getElementById('growthChart');
-    if (growthCtx) {
-      window.fisGrowthChartInstance = new Chart(growthCtx, {
-        type: 'line',
-        data: {
-          labels: ['Q3/2025', 'Q4/2025', 'Q1/2026', 'Q2/2026', 'Q3/2026'],
-          datasets: [{ 
-            label: 'Tỷ lệ hoàn thành KPI (%)', 
-            data: [89, 92, 94, 96, 98], 
-            borderColor: '#0d6efd', 
-            tension: 0.3,
-            fill: true, 
-            backgroundColor: 'rgba(13,110,253,0.08)' 
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom' } },
-          scales: { y: { min: 80, max: 100 } }
-        }
-      });
-    }
+    window.fisGrowthChartInstance = new Chart(growthCtx, {
+      type: 'line',
+      data: {
+        labels: ['Q3/2025', 'Q4/2025', 'Q1/2026', 'Q2/2026', 'Q3/2026'],
+        datasets: [{ 
+          label: 'Tỷ lệ hoàn thành KPI (%)', 
+          data: [89, 92, 94, 96, 98], 
+          borderColor: '#0d6efd', 
+          tension: 0.3,
+          fill: true, 
+          backgroundColor: 'rgba(13,110,253,0.08)' 
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom' } },
+        scales: { y: { min: 80, max: 100 } }
+      }
+    });
   }
 
-  // Chạy ngay khi view được load
-  setTimeout(renderFisCharts, 100);
+  // Tự động kích hoạt render lại 2 lần để đảm bảo layout SPA đã tính xong chiều rộng canvas
+  function initChartsWithFallback() {
+    renderFisCharts();
+    setTimeout(renderFisCharts, 200);
+    setTimeout(renderFisCharts, 500);
+  }
+
+  if (document.readyState === 'complete') {
+    initChartsWithFallback();
+  } else {
+    window.addEventListener('load', initChartsWithFallback);
+  }
+
+  // Kích hoạt ngay lập tức trong luồng Router SPA
+  initChartsWithFallback();
+
+  function exportKpiReport() {
+    if (typeof exportTableToExcel === 'function') {
+      exportTableToExcel('taskTable', 'FPT_IS_KPI_Report_Q3_2026.xlsx');
+    } else if (typeof showToast === 'function') {
+      showToast('Đang kết xuất file Báo cáo KPI...', 'Xuất Báo Cáo', 'info');
+    }
+  }
 
   function filterBU(buValue) {
     const rows = document.querySelectorAll("#taskTable tbody tr");

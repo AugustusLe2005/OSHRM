@@ -1,0 +1,6 @@
+{
+  "name": "PeopleCore HRM - Hệ thống Quản trị Nhân sự Doanh nghiệp",
+  "description": "Nền tảng quản trị nhân sự toàn diện HRM Enterprise: Cơ cấu tổ chức, Hồ sơ nhân sự, Tuyển dụng ATS, Chấm công & Nghỉ phép, Tính lương tự động và Đánh giá KPI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --brand-primary: #2563eb;
+  --brand-hover: #1d4ed8;
+  --brand-soft: #eff6ff;
+  --brand-border: #bfdbfe;
+  --brand-text: #1d4ed8;
+  --brand-on-primary: #ffffff;
+}
+
+@theme inline {
+  --font-display: "Plus Jakarta Sans", "Be Vietnam Pro", system-ui, sans-serif;
+  --font-sans: "Be Vietnam Pro", "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-brand: var(--brand-primary);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-border: var(--brand-border);
+  --color-brand-text: var(--brand-text);
+  --color-brand-on: var(--brand-on-primary);
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.font-legal,
+.font-legal h1,
+.font-legal h2,
+.font-legal h3,
+.font-legal h4 {
+  font-family: "Times New Roman", Times, Georgia, serif;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-payslip,
+  #printable-payslip *,
+  #printable-contract,
+  #printable-contract * {
+    visibility: visible;
+  }
+  #printable-payslip,
+  #printable-contract {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 20px !important;
+    overflow: visible !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

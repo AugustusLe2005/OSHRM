@@ -11,7 +11,9 @@ import type {
   LeaveOtRequest,
   LogoIconKey,
   NavSection,
+  PayrollAdjustment,
   PayslipBreakdown,
+  PitBracketDetail,
   RequestStatus,
   SystemSettings,
   UserRole,
@@ -23,38 +25,83 @@ export const INSURANCE_RATE = 0.105; // 10.5% (8% BHXH + 1.5% BHYT + 1% BHTN)
 export const PERSONAL_TAX_DEDUCTION = 11_000_000;
 export const DEPENDENT_TAX_DEDUCTION = 4_400_000;
 
+export const PIT_BRACKETS: Array<{
+  level: number;
+  label: string;
+  limit: number;
+  rate: number;
+}> = [
+  { level: 1, label: 'Đến 5 triệu (5%)', limit: 5_000_000, rate: 0.05 },
+  { level: 2, label: 'Trên 5 - 10 triệu (10%)', limit: 10_000_000, rate: 0.1 },
+  { level: 3, label: 'Trên 10 - 18 triệu (15%)', limit: 18_000_000, rate: 0.15 },
+  { level: 4, label: 'Trên 18 - 32 triệu (20%)', limit: 32_000_000, rate: 0.2 },
+  { level: 5, label: 'Trên 32 - 52 triệu (25%)', limit: 52_000_000, rate: 0.25 },
+  { level: 6, label: 'Trên 52 - 80 triệu (30%)', limit: 80_000_000, rate: 0.3 },
+  { level: 7, label: 'Trên 80 triệu (35%)', limit: Infinity, rate: 0.35 },
+];
+
+/**
+ * Computes progressive Vietnamese Personal Income Tax (Thuế TNCN - 7 bậc)
+ * with step-by-step bracket breakdown for formula verification.
+ */
+export function calculateProgressivePITDetailed(taxableIncome: number): {
+  totalTax: number;
+  brackets: PitBracketDetail[];
+} {
+  if (taxableIncome <= 0) {
+    return { totalTax: 0, brackets: [] };
+  }
+
+  let tax = 0;
+  let prevLimit = 0;
+  const details: PitBracketDetail[] = [];
+
+  for (const bracket of PIT_BRACKETS) {
+    if (taxableIncome <= prevLimit) break;
+    const chunk = Math.min(taxableIncome, bracket.limit) - prevLimit;
+    const bracketTax = chunk * bracket.rate;
+    tax += bracketTax;
+    details.push({
+      level: bracket.level,
+      label: bracket.label,
+      rate: bracket.rate,
+      taxableAmount: Math.round(chunk),
+      taxAmount: Math.round(bracketTax),
+    });
+    prevLimit = bracket.limit;
+  }
+
+  return {
+    totalTax: Math.round(tax),
+    brackets: details,
+  };
+}
+
 /**
  * Progressive Vietnamese Personal Income Tax (Thuế TNCN - 7 bậc)
  */
 export function calculateProgressivePIT(taxableIncome: number): number {
-  if (taxableIncome <= 0) return 0;
+  return calculateProgressivePITDetailed(taxableIncome).totalTax;
+}
 
-  const brackets: Array<{ limit: number; rate: number }> = [
-    { limit: 5_000_000, rate: 0.05 },
-    { limit: 10_000_000, rate: 0.1 },
-    { limit: 18_000_000, rate: 0.15 },
-    { limit: 32_000_000, rate: 0.2 },
-    { limit: 52_000_000, rate: 0.25 },
-    { limit: 80_000_000, rate: 0.3 },
-    { limit: Infinity, rate: 0.35 },
-  ];
-
-  let tax = 0;
-  let prevLimit = 0;
-
-  for (const bracket of brackets) {
-    if (taxableIncome <= prevLimit) break;
-    const chunk = Math.min(taxableIncome, bracket.limit) - prevLimit;
-    tax += chunk * bracket.rate;
-    prevLimit = bracket.limit;
-  }
-
-  return Math.round(tax);
+export function getPayrollAdjustmentForEmployee(
+  adjustments: PayrollAdjustment[] | undefined,
+  employeeId: string,
+  month: string
+): Pick<PayrollAdjustment, 'bonus' | 'deduction' | 'adjustmentNote'> {
+  const found = adjustments?.find((a) => a.employeeId === employeeId && a.month === month);
+  return {
+    bonus: Math.max(0, Math.round(found?.bonus ?? 0)),
+    deduction: Math.max(0, Math.round(found?.deduction ?? 0)),
+    adjustmentNote: found?.adjustmentNote ?? '',
+  };
 }
 
 /**
  * Computes full monthly Payslip breakdown:
- * Net = (Base Salary + Allowance + OT Pay) - 10.5% Insurance - Personal Income Tax
+ * Gross = Prorated Base Salary + Allowance + OT Pay + Manual Bonus
+ * Taxable Income = max(0, Gross - 10.5% Insurance - 11M Personal - Dependents * 4.4M)
+ * Net = max(0, Gross - 10.5% Insurance - Personal Income Tax - Manual Deduction)
  */
 export function calculatePayslip(params: {
   employee: Employee;
@@ -63,13 +110,22 @@ export function calculatePayslip(params: {
   month: string;
   approvedOtHours: number;
   actualWorkDays?: number;
+  adjustment?: Partial<Pick<PayrollAdjustment, 'bonus' | 'deduction' | 'adjustmentNote'>>;
 }): PayslipBreakdown {
   const { employee, departmentName, positionTitle, month, approvedOtHours } = params;
   const actualWorkDays = params.actualWorkDays ?? STANDARD_WORK_DAYS;
+  const proratedBaseSalary =
+    actualWorkDays === STANDARD_WORK_DAYS
+      ? employee.baseSalary
+      : Math.round((employee.baseSalary * actualWorkDays) / STANDARD_WORK_DAYS);
+
+  const bonus = Math.max(0, Math.round(params.adjustment?.bonus ?? 0));
+  const deduction = Math.max(0, Math.round(params.adjustment?.deduction ?? 0));
+  const adjustmentNote = (params.adjustment?.adjustmentNote ?? '').trim();
 
   const hourlyRate = employee.baseSalary / (STANDARD_WORK_DAYS * STANDARD_HOURS_PER_DAY);
   const otPay = Math.round(approvedOtHours * hourlyRate * 1.5);
-  const grossSalary = employee.baseSalary + employee.allowance + otPay;
+  const grossSalary = proratedBaseSalary + employee.allowance + otPay + bonus;
 
   const insuranceDeduction = Math.round(employee.baseSalary * INSURANCE_RATE);
   const personalDeduction = PERSONAL_TAX_DEDUCTION;
@@ -79,8 +135,12 @@ export function calculatePayslip(params: {
     0,
     grossSalary - insuranceDeduction - personalDeduction - dependentDeduction
   );
-  const personalIncomeTax = calculateProgressivePIT(taxableIncome);
-  const netSalary = Math.max(0, grossSalary - insuranceDeduction - personalIncomeTax);
+  const pitResult = calculateProgressivePITDetailed(taxableIncome);
+  const personalIncomeTax = pitResult.totalTax;
+  const netSalary = Math.max(
+    0,
+    grossSalary - insuranceDeduction - personalIncomeTax - deduction
+  );
 
   return {
     employeeId: employee.id,
@@ -91,16 +151,23 @@ export function calculatePayslip(params: {
     month,
     standardWorkDays: STANDARD_WORK_DAYS,
     actualWorkDays,
+    proratedBaseSalary,
     baseSalary: employee.baseSalary,
     allowance: employee.allowance,
     approvedOtHours,
+    hourlyRate,
     otPay,
+    bonus,
+    deduction,
+    adjustmentNote,
     grossSalary,
     insuranceDeduction,
+    dependentsCount: employee.dependents,
     personalDeduction,
     dependentDeduction,
     taxableIncome,
     personalIncomeTax,
+    pitBrackets: pitResult.brackets,
     netSalary,
   };
 }

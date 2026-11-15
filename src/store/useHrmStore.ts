@@ -14,6 +14,7 @@ import type {
   LaborContractKind,
   LeaveOtRequest,
   NavSection,
+  PayrollAdjustment,
   Position,
   RequestStatus,
   SystemSettings,
@@ -124,6 +125,9 @@ function loadInitialState(): HrmState {
           attendance: parsed.attendance ?? seed.attendance,
           requests: parsed.requests ?? seed.requests,
           kpis: parsed.kpis ?? seed.kpis,
+          payrollAdjustments: Array.isArray(parsed.payrollAdjustments)
+            ? parsed.payrollAdjustments
+            : seed.payrollAdjustments,
           settings: parsed.settings
             ? { ...DEFAULT_SYSTEM_SETTINGS, ...parsed.settings }
             : seed.settings,
@@ -552,6 +556,7 @@ export function useHrmStore() {
         attendance: prev.attendance.filter((a) => a.employeeId !== employeeId),
         requests: prev.requests.filter((r) => r.employeeId !== employeeId),
         kpis: prev.kpis.filter((k) => k.employeeId !== employeeId),
+        payrollAdjustments: prev.payrollAdjustments.filter((p) => p.employeeId !== employeeId),
       }));
       pushToast('success', 'Đã xóa hồ sơ nhân viên khỏi hệ thống.');
       return true;
@@ -873,6 +878,58 @@ export function useHrmStore() {
     [pushToast]
   );
 
+  const savePayrollAdjustment = useCallback(
+    (payload: {
+      employeeId: string;
+      month: string;
+      bonus: number;
+      deduction: number;
+      adjustmentNote: string;
+    }) => {
+      const cleanBonus = Math.max(0, Math.round(Number.isFinite(payload.bonus) ? payload.bonus : 0));
+      const cleanDeduction = Math.max(
+        0,
+        Math.round(Number.isFinite(payload.deduction) ? payload.deduction : 0)
+      );
+      const cleanNote = payload.adjustmentNote.trim();
+      const adjustmentId = `${payload.employeeId}__${payload.month}`;
+      const emp = state.employees.find((e) => e.id === payload.employeeId);
+
+      setState((prev) => {
+        const filtered = prev.payrollAdjustments.filter(
+          (a) => !(a.employeeId === payload.employeeId && a.month === payload.month)
+        );
+        if (cleanBonus === 0 && cleanDeduction === 0 && !cleanNote) {
+          return { ...prev, payrollAdjustments: filtered };
+        }
+        const entry: PayrollAdjustment = {
+          id: adjustmentId,
+          employeeId: payload.employeeId,
+          month: payload.month,
+          bonus: cleanBonus,
+          deduction: cleanDeduction,
+          adjustmentNote: cleanNote,
+          updatedAt: getTodayIsoLocal(),
+        };
+        return {
+          ...prev,
+          payrollAdjustments: [entry, ...filtered],
+        };
+      });
+
+      const empLabel = emp ? `${emp.fullName} (${emp.code})` : 'nhân viên';
+      if (cleanBonus === 0 && cleanDeduction === 0 && !cleanNote) {
+        pushToast('info', `Đã đặt lại điều chỉnh lương kỳ ${payload.month} cho ${empLabel}.`);
+      } else {
+        pushToast(
+          'success',
+          `Đã lưu điều chỉnh lương kỳ ${payload.month} cho ${empLabel} và tính lại Thực nhận.`
+        );
+      }
+    },
+    [pushToast, state.employees]
+  );
+
   const updateSettings = useCallback(
     (nextSettings: SystemSettings, message?: string) => {
       setState((prev) => ({
@@ -922,6 +979,7 @@ export function useHrmStore() {
     addKpi,
     updateKpiProgress,
     deleteKpi,
+    savePayrollAdjustment,
     updateSettings,
   };
 }

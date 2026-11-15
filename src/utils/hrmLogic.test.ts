@@ -6,12 +6,14 @@ import {
   calculateKpiOverallScore,
   calculatePayslip,
   calculateProgressivePIT,
+  calculateProgressivePITDetailed,
   computeContractStatus,
   convertCandidateToEmployee,
   DEFAULT_DEMO_PASSWORD,
   DEFAULT_SYSTEM_SETTINGS,
   generateNextContractNumber,
   getDefaultNavForRole,
+  getPayrollAdjustmentForEmployee,
   isNavAllowedForRole,
   parseSystemSettingsJson,
   recordAttendanceAction,
@@ -85,6 +87,56 @@ test('calculatePayslip computes OT, 10.5% insurance, PIT and Net salary accurate
   // PIT = 250k + 500k + (5,495,455 * 0.15 = 824,318.25) = 1,574,318
   assert.equal(slip.personalIncomeTax, 1_574_318);
   assert.equal(slip.netSalary, 34_045_455 - 3_150_000 - 1_574_318);
+  assert.equal(slip.pitBrackets.length, 3);
+  assert.equal(
+    slip.pitBrackets.reduce((s, b) => s + b.taxAmount, 0),
+    slip.personalIncomeTax
+  );
+});
+
+test('calculatePayslip supports manual bonus, deduction, adjustmentNote and recalculates PIT and Net', () => {
+  const detailedPit = calculateProgressivePITDetailed(12_000_000);
+  assert.equal(detailedPit.totalTax, 1_050_000);
+  assert.deepEqual(
+    detailedPit.brackets.map((b) => b.taxAmount),
+    [250_000, 500_000, 300_000]
+  );
+
+  const adj = getPayrollAdjustmentForEmployee(
+    [
+      {
+        id: 'emp-1__2026-11',
+        employeeId: 'emp-1',
+        month: '2026-11',
+        bonus: 3_000_000,
+        deduction: 500_000,
+        adjustmentNote: 'Thưởng hoàn thành dự án, đi muộn 1 buổi',
+      },
+    ],
+    'emp-1',
+    '2026-11'
+  );
+
+  const slip = calculatePayslip({
+    employee: mockEmployee,
+    departmentName: 'Khối Công nghệ',
+    positionTitle: 'Kỹ sư Phần mềm',
+    month: '2026-11',
+    approvedOtHours: 0,
+    adjustment: adj,
+  });
+
+  // Base 30M + Allowance 2M + Bonus 3M = 35M Gross
+  assert.equal(slip.bonus, 3_000_000);
+  assert.equal(slip.deduction, 500_000);
+  assert.equal(slip.adjustmentNote, 'Thưởng hoàn thành dự án, đi muộn 1 buổi');
+  assert.equal(slip.grossSalary, 35_000_000);
+  // Taxable = 35M - 3.15M - 11M - 4.4M = 16,450,000
+  assert.equal(slip.taxableIncome, 16_450_000);
+  // PIT = 250k + 500k + (6,450,000 * 15% = 967,500) = 1,717,500
+  assert.equal(slip.personalIncomeTax, 1_717_500);
+  // Net = 35M - 3,150,000 - 1,717,500 - 500,000 = 29,632,500
+  assert.equal(slip.netSalary, 29_632_500);
 });
 
 test('applyRequestDecision deducts annual leave when approved and preserves when rejected', () => {
@@ -449,16 +501,22 @@ test('CSV export builders include UTF-8 BOM, exact Vietnamese headers, and escap
     positionTitle: 'Kỹ sư Phần mềm',
     month: '2026-11',
     approvedOtHours: 4,
+    adjustment: {
+      bonus: 1_500_000,
+      deduction: 200_000,
+      adjustmentNote: 'Thưởng sprint, đi muộn',
+    },
   });
 
   const payrollCsv = buildPayrollCsv({ payslips: [slip], employees: [mockEmployee] });
   assert.ok(payrollCsv.startsWith(UTF8_BOM));
   assert.ok(
     payrollCsv.includes(
-      'Mã NV,Họ và tên,Phòng ban,Lương cơ bản,Phụ cấp,Tiền tăng ca,Khấu trừ BHXH (10.5%),Thuế TNCN,Lương thực nhận (Net),Trạng thái'
+      'Mã NV,Họ và tên,Phòng ban,Lương cơ bản,Phụ cấp,Tiền tăng ca,Thưởng / Điều chỉnh,Khấu trừ / Phạt,Ghi chú điều chỉnh,Khấu trừ BHXH (10.5%),Thuế TNCN,Lương thực nhận (Net),Trạng thái'
     )
   );
   assert.ok(payrollCsv.includes('NV-001,Trần Quốc Bảo,Công nghệ & Sản phẩm'));
+  assert.ok(payrollCsv.includes('1500000,200000,"Thưởng sprint, đi muộn"'));
   assert.ok(payrollCsv.includes('Đang làm việc'));
 
   const empCsv = buildEmployeesCsv({

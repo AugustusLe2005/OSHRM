@@ -214,6 +214,24 @@ export interface KpiItem {
   evaluatorNote: string;
 }
 
+export interface PayrollAdjustment {
+  id: string; // `${employeeId}__${month}`
+  employeeId: string;
+  month: string; // YYYY-MM
+  bonus: number;
+  deduction: number;
+  adjustmentNote: string;
+  updatedAt?: string;
+}
+
+export interface PitBracketDetail {
+  level: number;
+  label: string;
+  rate: number;
+  taxableAmount: number;
+  taxAmount: number;
+}
+
 export interface PayslipBreakdown {
   employeeId: string;
   employeeCode: string;
@@ -223,16 +241,23 @@ export interface PayslipBreakdown {
   month: string; // YYYY-MM
   standardWorkDays: number;
   actualWorkDays: number;
+  proratedBaseSalary: number;
   baseSalary: number;
   allowance: number;
   approvedOtHours: number;
+  hourlyRate: number;
   otPay: number;
+  bonus: number;
+  deduction: number;
+  adjustmentNote: string;
   grossSalary: number;
   insuranceDeduction: number; // 10.5% BHXH + BHYT + BHTN
+  dependentsCount: number;
   personalDeduction: number; // 11,000,000
   dependentDeduction: number; // dependents * 4,400,000
   taxableIncome: number;
   personalIncomeTax: number;
+  pitBrackets: PitBracketDetail[];
   netSalary: number;
 }
 
@@ -247,5 +272,6 @@ export interface HrmState {
   attendance: AttendanceRecord[];
   requests: LeaveOtRequest[];
   kpis: KpiItem[];
+  payrollAdjustments: PayrollAdjustment[];
   settings: SystemSettings;
 }

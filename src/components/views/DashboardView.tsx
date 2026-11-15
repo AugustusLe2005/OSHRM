@@ -15,6 +15,7 @@ import {
   formatDateVN,
   formatVND,
   getApprovedOtHoursForMonth,
+  getPayrollAdjustmentForEmployee,
   getTodayIsoLocal,
 } from '../../utils/hrmLogic';
 
@@ -43,12 +44,18 @@ export function DashboardView({ state, onNavigate, onReviewRequest }: DashboardV
     const dept = state.departments.find((d) => d.id === emp.departmentId)?.name ?? '';
     const pos = state.positions.find((p) => p.id === emp.positionId)?.title ?? '';
     const otHours = getApprovedOtHoursForMonth(state.requests, emp.id, currentMonth);
+    const adjustment = getPayrollAdjustmentForEmployee(
+      state.payrollAdjustments,
+      emp.id,
+      currentMonth
+    );
     const slip = calculatePayslip({
       employee: emp,
       departmentName: dept,
       positionTitle: pos,
       month: currentMonth,
       approvedOtHours: otHours,
+      adjustment,
     });
     return sum + slip.netSalary;
   }, 0);

@@ -312,7 +312,7 @@ export function createSeedData(): HrmState {
         fullName: 'Lê Hải Nam',
         email: 'nam.le@oshrm.vn',
         phone: '0918 773 606',
-        gender: 'Nam',
+        gender: 'Nữ',
         dateOfBirth: '1991-03-22',
         nationalId: '001191008812',
         nationalIdIssueDate: '2021-07-14',
@@ -1019,5 +1019,7 @@ export function createSeedData(): HrmState {
         evaluatorNote: 'Tốc độ chuyển đổi khách hàng đang cải thiện tốt.',
       },
     ],
+    payrollAdjustments: [],
   };
 }
+

@@ -233,6 +233,7 @@ export default function App() {
               currentUser={store.currentUser}
               state={store.state}
               settings={store.state.settings}
+              onSaveAdjustment={store.savePayrollAdjustment}
               onExportSuccess={(message) => store.pushToast('success', message)}
             />
           )}

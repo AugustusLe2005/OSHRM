@@ -32,6 +32,7 @@ import {
   mapEmployeeContractTypeToLaborKind,
   mapLaborKindToEmployeeContractType,
   recordAttendanceAction,
+  resolveEmployeeRole,
   resolveThemePalette,
 } from '../utils/hrmLogic';
 
@@ -285,20 +286,61 @@ export function useHrmStore() {
   );
 
   const submitLogin = useCallback(
-    (params: { identifier: string; password: string; rememberMe: boolean }) => {
-      const auth = authenticateUser({
-        identifier: params.identifier,
-        password: params.password,
-        employees: state.employees,
-      });
+    (params: {
+      identifier: string;
+      password: string;
+      rememberMe: boolean;
+      externalAuth?: {
+        employeeId?: string;
+        role?: UserRole;
+        fullName?: string;
+        employeeCode?: string;
+        email?: string;
+      };
+    }) => {
+      let resolvedRole: UserRole;
+      let resolvedEmployeeId: string;
+      let displayName: string;
 
-      if (!auth.success) {
-        return { success: false, error: auth.error };
+      if (params.externalAuth) {
+        const ext = params.externalAuth;
+        const cleanId = params.identifier.trim().toLowerCase();
+        const matchedEmp = state.employees.find(
+          (emp) =>
+            (ext.employeeId && emp.id === ext.employeeId) ||
+            (ext.employeeCode && emp.code.toLowerCase() === ext.employeeCode.toLowerCase()) ||
+            (ext.email && emp.email.toLowerCase() === ext.email.toLowerCase()) ||
+            emp.email.toLowerCase() === cleanId ||
+            emp.code.toLowerCase() === cleanId
+        );
+
+        resolvedRole =
+          ext.role === 'admin' || ext.role === 'ess'
+            ? ext.role
+            : matchedEmp
+              ? resolveEmployeeRole(matchedEmp)
+              : 'ess';
+        resolvedEmployeeId = matchedEmp?.id ?? ext.employeeId ?? 'emp-2';
+        displayName = matchedEmp?.fullName ?? ext.fullName ?? params.identifier.trim();
+      } else {
+        const auth = authenticateUser({
+          identifier: params.identifier,
+          password: params.password,
+          employees: state.employees,
+        });
+
+        if (!auth.success) {
+          return { success: false, error: auth.error };
+        }
+
+        resolvedRole = auth.role;
+        resolvedEmployeeId = auth.employee.id;
+        displayName = auth.employee.fullName;
       }
 
       const nextSession: AuthSession = {
-        role: auth.role,
-        employeeId: auth.employee.id,
+        role: resolvedRole,
+        employeeId: resolvedEmployeeId,
       };
 
       try {
@@ -317,7 +359,7 @@ export function useHrmStore() {
         // Ignore storage errors
       }
 
-      const defaultNav = getDefaultNavForRole(auth.role);
+      const defaultNav = getDefaultNavForRole(resolvedRole);
       setSession(nextSession);
       setActiveNavState(defaultNav);
       if (typeof window !== 'undefined' && window.location.hash) {
@@ -326,7 +368,7 @@ export function useHrmStore() {
 
       pushToast(
         'success',
-        `Đăng nhập thành công (${auth.role === 'admin' ? 'Quản trị viên HR' : 'Nhân viên ESS'}) — ${auth.employee.fullName}`
+        `Đăng nhập thành công (${resolvedRole === 'admin' ? 'Quản trị viên HR' : 'Nhân viên ESS'}) — ${displayName}`
       );
       return { success: true };
     },

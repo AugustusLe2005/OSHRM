@@ -7,6 +7,7 @@ import {
   RefreshCw,
   FileX2,
   Eye,
+  FileSpreadsheet,
 } from 'lucide-react';
 import type {
   Employee,
@@ -26,6 +27,7 @@ import {
   generateNextContractNumber,
   getTodayIsoLocal,
 } from '../../utils/hrmLogic';
+import { buildContractsCsv, downloadCsvFile } from '../../utils/csvExport';
 import { Modal } from '../Modal';
 
 interface ContractsViewProps {
@@ -47,6 +49,7 @@ interface ContractsViewProps {
     }
   ) => void;
   onTerminateContract: (contractId: string, terminatedDate: string, reason: string) => void;
+  onExportSuccess?: (message: string) => void;
 }
 
 const CONTRACT_KINDS: LaborContractKind[] = [
@@ -64,6 +67,7 @@ export function ContractsView({
   onCreateContract,
   onExtendContract,
   onTerminateContract,
+  onExportSuccess,
 }: ContractsViewProps) {
   const today = getTodayIsoLocal();
 
@@ -378,14 +382,36 @@ export function ContractsView({
         </div>
 
         {role === 'admin' && (
-          <button
-            type="button"
-            onClick={openCreateModal}
-            className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-brand-on transition-colors hover:bg-brand-hover whitespace-nowrap shrink-0"
-          >
-            <Plus className="h-4 w-4" />
-            <span>Tạo hợp đồng mới</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2.5 max-w-full">
+            <button
+              type="button"
+              onClick={() => {
+                const csv = buildContractsCsv({
+                  items: filteredRows,
+                  departments: state.departments,
+                });
+                const filename = `OSHRM_DanhSachHopDong_${today}.csv`;
+                downloadCsvFile(filename, csv);
+                onExportSuccess?.(
+                  `Đã xuất danh sách ${filteredRows.length} hợp đồng lao động ra file ${filename}.`
+                );
+              }}
+              disabled={filteredRows.length === 0}
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 disabled:opacity-50 whitespace-nowrap shrink-0"
+            >
+              <FileSpreadsheet className="h-4 w-4 text-emerald-700" />
+              <span>Xuất Danh sách Hợp đồng</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={openCreateModal}
+              className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-brand-on transition-colors hover:bg-brand-hover whitespace-nowrap shrink-0"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Tạo hợp đồng mới</span>
+            </button>
+          </div>
         )}
       </div>
 

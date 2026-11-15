@@ -19,6 +19,13 @@ import {
   resolveThemePalette,
   serializeSystemSettingsJson,
 } from './hrmLogic';
+import {
+  buildContractsCsv,
+  buildEmployeesCsv,
+  buildPayrollCsv,
+  escapeCsvCell,
+  UTF8_BOM,
+} from './csvExport';
 import type { Candidate, Employee, KpiItem, LaborContract, LeaveOtRequest } from '../types/hrm';
 
 const mockEmployee: Employee = {
@@ -431,4 +438,89 @@ test('RBAC helpers enforce strict separation between Admin and ESS modules', () 
   assert.equal(isNavAllowedForRole('payroll', 'ess'), true);
   assert.equal(isNavAllowedForRole('kpi', 'ess'), true);
 });
+
+test('CSV export builders include UTF-8 BOM, exact Vietnamese headers, and escape special characters', () => {
+  assert.equal(escapeCsvCell('Nguyễn, Minh Anh'), '"Nguyễn, Minh Anh"');
+  assert.equal(escapeCsvCell('Ghi chú "quan trọng"'), '"Ghi chú ""quan trọng"""');
+
+  const slip = calculatePayslip({
+    employee: mockEmployee,
+    departmentName: 'Công nghệ & Sản phẩm',
+    positionTitle: 'Kỹ sư Phần mềm',
+    month: '2026-11',
+    approvedOtHours: 4,
+  });
+
+  const payrollCsv = buildPayrollCsv({ payslips: [slip], employees: [mockEmployee] });
+  assert.ok(payrollCsv.startsWith(UTF8_BOM));
+  assert.ok(
+    payrollCsv.includes(
+      'Mã NV,Họ và tên,Phòng ban,Lương cơ bản,Phụ cấp,Tiền tăng ca,Khấu trừ BHXH (10.5%),Thuế TNCN,Lương thực nhận (Net),Trạng thái'
+    )
+  );
+  assert.ok(payrollCsv.includes('NV-001,Trần Quốc Bảo,Công nghệ & Sản phẩm'));
+  assert.ok(payrollCsv.includes('Đang làm việc'));
+
+  const empCsv = buildEmployeesCsv({
+    employees: [mockEmployee],
+    departments: [
+      {
+        id: 'dept-tech',
+        code: 'PB-CNTT',
+        name: 'Công nghệ & Sản phẩm',
+        branchId: 'br-hn',
+        managerName: 'Đặng Hoàng Long',
+        description: '',
+      },
+    ],
+    positions: [
+      {
+        id: 'pos-dev',
+        code: 'CD-02',
+        title: 'Kỹ sư Phần mềm',
+        departmentId: 'dept-tech',
+        level: 'Senior',
+        salaryRange: '',
+      },
+    ],
+  });
+  assert.ok(empCsv.startsWith(UTF8_BOM));
+  assert.ok(
+    empCsv.includes('Mã NV,Họ tên,Giới tính,Ngày sinh,Số CCCD,Phòng ban,Chức vụ,Email,SĐT,Ngày vào làm')
+  );
+  assert.ok(empCsv.includes('12/04/1995'));
+  assert.ok(empCsv.includes('001095012345'));
+
+  const contract: LaborContract = {
+    id: 'ctr-1',
+    contractNumber: '2508/HĐLĐ',
+    employeeId: 'emp-1',
+    contractType: 'Xác định thời hạn 24 tháng',
+    startDate: '2025-04-10',
+    endDate: '2027-04-10',
+    baseSalary: 30_000_000,
+    allowance: 2_000_000,
+    paymentMethod: 'Chuyển khoản ngân hàng',
+    payDay: 10,
+    workLocation: 'Hà Nội',
+    signedDate: '2025-04-10',
+  };
+  const contractCsv = buildContractsCsv({
+    items: [{ contract, status: 'Đang hiệu lực', employee: mockEmployee }],
+    departments: [
+      {
+        id: 'dept-tech',
+        code: 'PB-CNTT',
+        name: 'Công nghệ & Sản phẩm',
+        branchId: 'br-hn',
+        managerName: 'Đặng Hoàng Long',
+        description: '',
+      },
+    ],
+  });
+  assert.ok(contractCsv.startsWith(UTF8_BOM));
+  assert.ok(contractCsv.includes('2508/HĐLĐ,NV-001,Trần Quốc Bảo'));
+  assert.ok(contractCsv.includes('Đang hiệu lực'));
+});
+
 

@@ -188,6 +188,7 @@ export default function App() {
               state={store.state}
               onSaveEmployee={store.saveEmployee}
               onDeleteEmployee={store.deleteEmployee}
+              onExportSuccess={(message) => store.pushToast('success', message)}
             />
           )}
 
@@ -200,6 +201,7 @@ export default function App() {
               onCreateContract={store.createContract}
               onExtendContract={store.extendContract}
               onTerminateContract={store.terminateContract}
+              onExportSuccess={(message) => store.pushToast('success', message)}
             />
           )}
 
@@ -231,6 +233,7 @@ export default function App() {
               currentUser={store.currentUser}
               state={store.state}
               settings={store.state.settings}
+              onExportSuccess={(message) => store.pushToast('success', message)}
             />
           )}
 

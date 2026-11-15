@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Printer, FileText, Calculator } from 'lucide-react';
+import { Printer, FileText, Calculator, FileSpreadsheet } from 'lucide-react';
 import type {
   Employee,
   HrmState,
@@ -13,6 +13,7 @@ import {
   getApprovedOtHoursForMonth,
   getTodayIsoLocal,
 } from '../../utils/hrmLogic';
+import { buildPayrollCsv, downloadCsvFile } from '../../utils/csvExport';
 import { BrandMark } from '../BrandMark';
 import { Modal } from '../Modal';
 
@@ -21,9 +22,16 @@ interface PayrollViewProps {
   currentUser: Employee | null;
   state: HrmState;
   settings: SystemSettings;
+  onExportSuccess?: (message: string) => void;
 }
 
-export function PayrollView({ role, currentUser, state, settings }: PayrollViewProps) {
+export function PayrollView({
+  role,
+  currentUser,
+  state,
+  settings,
+  onExportSuccess,
+}: PayrollViewProps) {
   const defaultMonth = getTodayIsoLocal().slice(0, 7);
   const [selectedMonth, setSelectedMonth] = useState(defaultMonth);
   const [selectedPayslip, setSelectedPayslip] = useState<PayslipBreakdown | null>(null);
@@ -76,6 +84,13 @@ export function PayrollView({ role, currentUser, state, settings }: PayrollViewP
     );
   }, [payslips]);
 
+  const handleExportPayroll = () => {
+    const csv = buildPayrollCsv({ payslips, employees: state.employees });
+    const filename = `OSHRM_BangLuong_${selectedMonth}.csv`;
+    downloadCsvFile(filename, csv);
+    onExportSuccess?.(`Đã xuất bảng lương kỳ ${selectedMonth} (${payslips.length} nhân sự) ra file ${filename}.`);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header Controls & Formula Summary */}
@@ -95,7 +110,7 @@ export function PayrollView({ role, currentUser, state, settings }: PayrollViewP
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex flex-wrap items-center gap-2.5 max-w-full">
           <label htmlFor="payroll-month" className="text-xs font-semibold text-slate-600">
             Kỳ lương:
           </label>
@@ -111,6 +126,16 @@ export function PayrollView({ role, currentUser, state, settings }: PayrollViewP
               </option>
             ))}
           </select>
+
+          <button
+            type="button"
+            onClick={handleExportPayroll}
+            disabled={payslips.length === 0}
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 disabled:opacity-50 whitespace-nowrap shrink-0"
+          >
+            <FileSpreadsheet className="h-4 w-4 text-emerald-700" />
+            <span>Xuất Bảng lương Excel</span>
+          </button>
         </div>
       </div>
 

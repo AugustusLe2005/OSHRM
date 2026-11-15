@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import { Search, Plus, Eye, Pencil, Trash2, FileText } from 'lucide-react';
+import { Search, Plus, Eye, Pencil, Trash2, FileText, FileSpreadsheet } from 'lucide-react';
 import type { ContractType, Employee, EmployeeStatus, HrmState, UserRole } from '../../types/hrm';
 import { formatDateVN, formatVND, generateNextEmployeeCode, getTodayIsoLocal } from '../../utils/hrmLogic';
+import { buildEmployeesCsv, downloadCsvFile } from '../../utils/csvExport';
 import { Modal } from '../Modal';
 
 interface EmployeesViewProps {
@@ -10,6 +11,7 @@ interface EmployeesViewProps {
   state: HrmState;
   onSaveEmployee: (emp: Omit<Employee, 'id'> & { id?: string }) => void;
   onDeleteEmployee: (id: string) => boolean;
+  onExportSuccess?: (message: string) => void;
 }
 
 export function EmployeesView({
@@ -18,6 +20,7 @@ export function EmployeesView({
   state,
   onSaveEmployee,
   onDeleteEmployee,
+  onExportSuccess,
 }: EmployeesViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [deptFilter, setDeptFilter] = useState<string>('all');
@@ -277,14 +280,37 @@ export function EmployeesView({
           </select>
         </div>
 
-        <button
-          type="button"
-          onClick={openCreateModal}
-          className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-brand-on transition-colors hover:bg-brand-hover whitespace-nowrap"
-        >
-          <Plus className="h-4 w-4" />
-          <span>Thêm nhân viên</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2.5 max-w-full">
+          <button
+            type="button"
+            onClick={() => {
+              const csv = buildEmployeesCsv({
+                employees: filteredEmployees,
+                departments: state.departments,
+                positions: state.positions,
+              });
+              const filename = `OSHRM_DanhSachNhanVien_${getTodayIsoLocal()}.csv`;
+              downloadCsvFile(filename, csv);
+              onExportSuccess?.(
+                `Đã xuất danh sách ${filteredEmployees.length} nhân sự ra file ${filename}.`
+              );
+            }}
+            disabled={filteredEmployees.length === 0}
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 disabled:opacity-50 whitespace-nowrap shrink-0"
+          >
+            <FileSpreadsheet className="h-4 w-4 text-emerald-700" />
+            <span>Xuất Danh sách Nhân viên</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={openCreateModal}
+            className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-brand-on transition-colors hover:bg-brand-hover whitespace-nowrap shrink-0"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Thêm nhân viên</span>
+          </button>
+        </div>
       </div>
 
       {/* Employee Data Grid */}
